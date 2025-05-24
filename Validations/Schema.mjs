@@ -29,6 +29,12 @@ export const schemaLogin = zod.object({
         invalid_type_error: 'La contraseña debe ser una cadena de texto'
     }).min(8, 'La contraseña debe tener al menos 8 caracteres')
 })
+
+
 export function validateUser(user){
     return schemaUser.safeParse(user);
+}
+
+export function validateLogin(user){
+    return schemaLogin.safeParse(user);
 }

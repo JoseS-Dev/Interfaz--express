@@ -1,4 +1,4 @@
-import { validateUser } from "../Validations/Schema.mjs";
+import { validateLogin, validateUser } from "../Validations/Schema.mjs";
 
 export class UsersControllers{
     constructor({ModelsUsers}){
@@ -8,7 +8,8 @@ export class UsersControllers{
     // Logear un usuario
     getLogin = async (req , res) => {
         try{
-            const user = await this.ModelsUsers.getLogin({user: req.body});
+            const result = validateLogin(req.body);
+            const user = await this.ModelsUsers.getLogin({user: result.data});
             if(user){
                 return res.status(200).json({
                     message: 'Usuario logueado',

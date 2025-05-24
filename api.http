@@ -3,7 +3,8 @@ POST http://localhost:3000/Users/login
 Content-Type: application/json
 
 {
-  "id_user": 1
+  "email_user": "joseasantana05@gmail.com",
+  "password_user": "JSa06..."
 }
 
 ### Crear usuario
