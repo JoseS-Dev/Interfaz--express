@@ -10,3 +10,5 @@ export const RoutesUsers = router;
 RoutesUsers.post('/login', userController.getLogin);
 // Registrar un usuario
 RoutesUsers.post('/register', userController.getRegister);
+// Cerrar sesión
+RoutesUsers.post('/logout', userController.getLogout);

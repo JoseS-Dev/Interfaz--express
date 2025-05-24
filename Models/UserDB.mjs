@@ -2,7 +2,7 @@ import { connection } from "./Connection.mjs";
 import bcrypt from 'bcrypt';
 
 export class ModelsUsers{
-    static async getLogin({user}){
+    static async Login({user}){
         const {email_user, password_user} = user;
         if(!email_user || !password_user) return null;
         // Se verifica si existe un usuario con ese email y contraseña
@@ -21,7 +21,7 @@ export class ModelsUsers{
             }
         }
     }
-    static async getRegister({user}){
+    static async Register({user}){
         const {name_user, email_user, password_user, username} = user;
         if(!name_user || !email_user || !password_user || !username) return null;
         // Se verifica si ya existe un usuario con ese email

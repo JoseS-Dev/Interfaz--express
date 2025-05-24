@@ -1,5 +1,6 @@
 import { validateLogin, validateUser } from "../Validations/Schema.mjs";
-
+import jwt from 'jsonwebtoken';
+import { CONFIG_SERVER } from "../config.mjs";
 export class UsersControllers{
     constructor({ModelsUsers}){
         this.ModelsUsers = ModelsUsers;
@@ -9,12 +10,21 @@ export class UsersControllers{
     getLogin = async (req , res) => {
         try{
             const result = validateLogin(req.body);
-            const user = await this.ModelsUsers.getLogin({user: result.data});
+            const user = await this.ModelsUsers.Login({user: result.data});
             if(user){
-                return res.status(200).json({
-                    message: 'Usuario logueado',
-                    user
-                });
+                const token = jwt.sign(
+                    {id: user.id_user, email: user.email_user},
+                    CONFIG_SERVER.JWT_SECRET,
+                    {expiresIn: '1h'}
+                )
+                return res
+                .cookie('Access--Token', token, {
+                    httpOnly: true
+                })
+                .status(200).json({
+                    message: 'Usuario Logueado',
+                    user,token
+                })
             }
             else{
                 return res.status(400).json({
@@ -40,7 +50,7 @@ export class UsersControllers{
                     error: result.error
                 });
             }
-            const Register = await this.ModelsUsers.getRegister({user: result.data});
+            const Register = await this.ModelsUsers.Register({user: result.data});
             if(Register){
                 return res.status(201).json({
                     message: 'Usuario registrado',
@@ -61,4 +71,21 @@ export class UsersControllers{
             });
         }
     }
+    /// Cerrar sesion
+    getLogout = async (req, res) => {
+        try{
+            return res
+            .clearCookie('Access--Token')
+            .status(200).json({
+                message: 'Sesión cerrada'
+            });
+        }catch(error){
+            console.log(error);
+            return res.status(500).json({
+                message: 'Error en el servidor',
+                error
+            });
+        }
+    }
+
 }

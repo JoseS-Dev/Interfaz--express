@@ -17,3 +17,12 @@ Content-Type: application/json
     "password_user": "JSa06...",
     "username": "SenkuJS"
 }
+
+### Cerrar sesion
+POST http://localhost:3000/Users/logout
+Content-Type: application/json
+
+{
+  "email_user": "joseasantana05@gmail.com",
+  "password_user": "JSa06..."
+}
