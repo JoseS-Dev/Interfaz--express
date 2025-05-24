@@ -1,29 +1,27 @@
 import { validateUser } from "../Validations/Schema.mjs";
 
 export class UsersControllers{
-    constructor({UserModels}){
-        this.UserModels = UserModels;
+    constructor({ModelsUsers}){
+        this.ModelsUsers = ModelsUsers;
     }
 
     // Logear un usuario
     getLogin = async (req , res) => {
         try{
-            const {id_user} = req.params;
-            if(id_user){
-                const user = await this.UserModels.getLogin({id_user});
-                if(user){
-                    return res.status(200).json({
-                        message: 'Usuario logueado',
-                        user
-                    });
-                }
-                else{
-                    return res.status(400).json({
-                        message: 'Error al loguear el usuario'
-                    });
-                }
+            const user = await this.ModelsUsers.getLogin({user: req.body});
+            if(user){
+                return res.status(200).json({
+                    message: 'Usuario logueado',
+                    user
+                });
+            }
+            else{
+                return res.status(400).json({
+                    message: 'Error al loguear el usuario'
+                });
             }
         }catch(error){
+            console.log(error);
             return res.status(500).json({
                 message: 'Error en el servidor',
                 error
@@ -41,7 +39,7 @@ export class UsersControllers{
                     error: result.error
                 });
             }
-            const Register = await this.UserModels.getRegister({user: result.data});
+            const Register = await this.ModelsUsers.getRegister({user: result.data});
             if(Register){
                 return res.status(201).json({
                     message: 'Usuario registrado',
@@ -55,6 +53,7 @@ export class UsersControllers{
             }
         }
         catch(error){
+            console.log(error);
             return res.status(500).json({
                 message: 'Error en el servidor',
                 error

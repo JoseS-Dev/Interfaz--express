@@ -1,5 +1,5 @@
 ### Logear usuario
-POST http://localhost:3000/Users/Login
+POST http://localhost:3000/Users/login
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### Crear usuario
-POST http://localhost:3000/Users/Register
+POST http://localhost:3000/Users/register
 Content-Type: application/json
 
 {

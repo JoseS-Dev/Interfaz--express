@@ -3,10 +3,10 @@ import { UsersControllers } from "../Controller/Users.mjs";
 import { ModelsUsers } from "../Models/UserDB.mjs";
 
 const router = Router();
-const userController = new UsersControllers({UserModels: ModelsUsers});
+const userController = new UsersControllers({ModelsUsers: ModelsUsers});
 export const RoutesUsers = router;
 
 // Logear un usuario
-router.post('/login', userController.getLogin);
+RoutesUsers.post('/login', userController.getLogin);
 // Registrar un usuario
-router.post('/register', userController.getRegister);
+RoutesUsers.post('/register', userController.getRegister);

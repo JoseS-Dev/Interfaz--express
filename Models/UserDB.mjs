@@ -1,12 +1,13 @@
 import { connection } from "./Connection.mjs";
 
 export class ModelsUsers{
-    static async getLogin({id_user}){
+    static async getLogin({user}){
         // Se verifica si existen tal usuario en la DB
-        const [user] = await connection.query('SELECT * FROM login_users WHERE id_user = ?', [id_user]);
-        if(user.affectedRows > 0){
+        const {id_user} = user;
+        const [userDB] = await connection.query('SELECT * FROM login_users WHERE id_user = ?', [id_user]);
+        if(userDB.length > 0){
             console.log('Usuario encontrado');
-            return user[0];
+            return userDB[0];
         }
         else{
             console.log('Usuario no encontrado');
@@ -17,7 +18,7 @@ export class ModelsUsers{
         const {name_user, email_user, password_user, username} = user;
         if(!name_user || !email_user || !password_user || !username) return null;
         // Se verifica si ya existe un usuario con ese email
-        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email]);
+        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email_user]);
         if(existingUser.length > 0){
             console.log('El email ya está registrado');
             return null;
