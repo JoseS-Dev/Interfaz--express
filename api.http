@@ -1,0 +1,18 @@
+### Logear usuario
+POST http://localhost:3000/Users/Login
+Content-Type: application/json
+
+{
+  "id_user": 1
+}
+
+### Crear usuario
+POST http://localhost:3000/Users/Register
+Content-Type: application/json
+
+{
+    "name_user": "Jose Santana",
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06...",
+    "username": "SenkuJS"
+}

@@ -4,6 +4,6 @@ export const connection = createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password',
-    database: 'Users',
+    database: 'users',
     port: 3306
 })

@@ -1,10 +1,9 @@
 import { connection } from "./Connection.mjs";
 
 export class ModelsUsers{
-    static async getLogin({id}){
-        if(!email || !password) return null;
+    static async getLogin({id_user}){
         // Se verifica si existen tal usuario en la DB
-        const [user] = await connection.query('SELECT * FROM Login_user WHERE id_user = ?', [id]);
+        const [user] = await connection.query('SELECT * FROM login_users WHERE id_user = ?', [id_user]);
         if(user.affectedRows > 0){
             console.log('Usuario encontrado');
             return user[0];
@@ -15,16 +14,16 @@ export class ModelsUsers{
         }
     }
     static async getRegister({user}){
-        const {name, email, password, username} = user;
-        if(!name || !email || !password || !username) return null;
+        const {name_user, email_user, password_user, username} = user;
+        if(!name_user || !email_user || !password_user || !username) return null;
         // Se verifica si ya existe un usuario con ese email
-        const [existingUser] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
+        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email]);
         if(existingUser.length > 0){
             console.log('El email ya está registrado');
             return null;
         }
         else{
-            const [createUser] = await connection.query('INSERT INTO users (name, email, password, username) VALUES (?, ?, ?, ?)', [name, email, password, username]);
+            const [createUser] = await connection.query('INSERT INTO user_register (name_user, email_user, password_user, username) VALUES (?, ?, ?, ?)', [name_user, email_user, password_user, username]);
             if(createUser.affectedRows > 0){
                 console.log('Usuario creado');
                 return createUser;

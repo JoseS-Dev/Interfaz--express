@@ -7,6 +7,6 @@ const userController = new UsersControllers({UserModels: ModelsUsers});
 export const RoutesUsers = router;
 
 // Logear un usuario
-router.post('/login/:id', userController.getLogin);
+router.post('/login', userController.getLogin);
 // Registrar un usuario
 router.post('/register', userController.getRegister);

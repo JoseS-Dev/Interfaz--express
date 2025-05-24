@@ -8,9 +8,9 @@ export class UsersControllers{
     // Logear un usuario
     getLogin = async (req , res) => {
         try{
-            const {id} = req.params;
-            if(id){
-                const user = await this.UserModels.getLogin({id});
+            const {id_user} = req.params;
+            if(id_user){
+                const user = await this.UserModels.getLogin({id_user});
                 if(user){
                     return res.status(200).json({
                         message: 'Usuario logueado',

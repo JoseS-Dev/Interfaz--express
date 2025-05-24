@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(json());
 
-app.get('/', RoutesUsers)
+app.get('/Users', RoutesUsers)
 
 
 app.listen(CONFIG_SERVER.PORT, () => {
