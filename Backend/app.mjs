@@ -1,9 +1,10 @@
 import express, {json} from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { CONFIG_SERVER } from './config.mjs';
+import dotenv from 'dotenv';
 import { RoutesUsers } from './Routes/User.mjs';
 
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -15,7 +16,7 @@ app.use(cookieParser());
 app.use('/Users', RoutesUsers)
 
 
-app.listen(CONFIG_SERVER.PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${CONFIG_SERVER.PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor escuchando en http://localhost:${process.env.PORT}`);
 })
 

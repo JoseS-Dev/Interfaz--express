@@ -1,7 +1,5 @@
 import { validateLogin, validateUser } from "../Validations/Schema.mjs";
-import jwt from 'jsonwebtoken';
 import { Auth } from "../Middlewares/Auth.mjs";
-import { CONFIG_SERVER } from "../config.mjs";
 export class UsersControllers{
     constructor({ModelsUsers}){
         this.ModelsUsers = ModelsUsers;
