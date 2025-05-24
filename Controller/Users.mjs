@@ -1,5 +1,6 @@
 import { validateLogin, validateUser } from "../Validations/Schema.mjs";
 import jwt from 'jsonwebtoken';
+import { Auth } from "../Middlewares/Auth.mjs";
 import { CONFIG_SERVER } from "../config.mjs";
 export class UsersControllers{
     constructor({ModelsUsers}){
@@ -12,18 +13,14 @@ export class UsersControllers{
             const result = validateLogin(req.body);
             const user = await this.ModelsUsers.Login({user: result.data});
             if(user){
-                const token = jwt.sign(
-                    {id: user.id_user, email: user.email_user},
-                    CONFIG_SERVER.JWT_SECRET,
-                    {expiresIn: '1h'}
-                )
                 return res
-                .cookie('Access--Token', token, {
+                .cookie('Access--Token', Auth(user), {
                     httpOnly: true
                 })
                 .status(200).json({
                     message: 'Usuario Logueado',
-                    user,token
+                    user,
+                    token: Auth(user)
                 })
             }
             else{
