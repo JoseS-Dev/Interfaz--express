@@ -1,4 +1,4 @@
-import { connection } from "./Connection.mjs";
+import { connection } from "./db/Connection.mjs";
 import bcrypt from 'bcrypt';
 
 export class ModelsUsers{
