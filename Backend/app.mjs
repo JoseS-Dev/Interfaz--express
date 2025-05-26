@@ -13,7 +13,9 @@ app.use(cookieParser());
 
 
 
-app.use('/Users', RoutesUsers)
+app.use('/Users', RoutesUsers);
+app.use('/Colors', RoutesColors);
+app.use('/Tipography', RoutesTipography);
 
 
 app.listen(process.env.PORT, () => {

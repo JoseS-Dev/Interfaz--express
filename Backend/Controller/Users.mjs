@@ -1,4 +1,4 @@
-import { validateLogin, validateUser } from "../Validations/Schema.mjs";
+import { validateLogin, validateUser } from "../Validations/SchemaUser.mjs";
 import { Auth } from "../Middlewares/Auth.mjs";
 export class UsersControllers{
     constructor({ModelsUsers}){
