@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { RoutesUsers } from './Routes/User.mjs';
+import { RoutesColors } from './Routes/Color.mjs';
 import { RoutesTipography } from './Routes/Typography.mjs';
 
 dotenv.config();
