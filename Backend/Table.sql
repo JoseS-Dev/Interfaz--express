@@ -26,7 +26,9 @@ CREATE TABLE colors(
 CREATE TABLE colors_relationship(
     id_relation INT PRIMARY KEY AUTO_INCREMENT,
     id_colors INT,
-    FOREIGN KEY(id_colors) REFERENCES colors(id_colors)
+    id_user INT,
+    FOREIGN KEY(id_colors) REFERENCES colors(id_colors),
+    FOREIGN KEY(id_user) REFERENCES user_register(id_user)
 );
 
 CREATE TABLE typography(
@@ -36,11 +38,14 @@ CREATE TABLE typography(
     tam_font INT NOT NULL,
     tam_paragraph INT NOT NULL,
     tam_title INT NOT NULL,
-    tam_subtitle INT NOT NULL
+    tam_subtitle INT NOT NULL,
+    archive_font VARCHAR(255) NOT NULL,
 );
 
 CREATE TABLE typography_relationship(
     id_relation INT PRIMARY KEY AUTO_INCREMENT,
     id_tipography INT,
-    FOREIGN KEY(id_tipography) REFERENCES typography(id_tipography)
+    id_user INT
+    FOREIGN KEY(id_tipography) REFERENCES typography(id_tipography),
+    FOREIGN KEY(id_user) REFERENCES user_register(id_user)
 );
