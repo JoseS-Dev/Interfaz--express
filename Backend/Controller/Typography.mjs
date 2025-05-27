@@ -1,6 +1,8 @@
-import { validateTipography, 
+import { 
+    validateTipography, 
     validateTipographyMain, 
-    validateTipographySecondary } 
+    validateTipographySecondary,
+    validateTipographyUpdate } 
     from "../Validations/SchemaTipography";
 
 export class TypographyController {
@@ -22,6 +24,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener las tipografías' });
         }
     }
+    
     // Obtener una tipografia por su ID
     getByID = async ( req, res ) => {
         try{
@@ -42,6 +45,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía por ID' });
         }
     }
+    
     // Obtener una tipografia por su tipografía principal
     getByMainName = async ( req , res ) => {
         try{
@@ -62,6 +66,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía principal por nombre' });
         }
     }
+    
     // Obtener una tipografia por su tipografia secundaria
     getBySecondaryName = async ( req, res ) => {
         try{
@@ -82,6 +87,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía secundaria por nombre' });
         }
     }
+    
     // Obtener una tipografia por su tamaño de font
     getByFontSize = async ( req, res ) => {
         try{
@@ -102,6 +108,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de fuente' });
         }
     }
+    
     // Obtener una tipografia por su tamaño en los parrafos
     getByFontParagraph = async ( req, res ) => {
         try{
@@ -122,6 +129,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de párrafo' });
         }
     }
+    
     // Obtener una tipografia por su tamaño en los titulos
     getByFontTitle = async ( req, res ) => {
         try{
@@ -142,6 +150,7 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de título' });
         }
     }
+    
     // Obtener una tipografia por su tamaño en los subtitulos
     getByFontSubTitle = async ( req, res ) => {
         try{
@@ -160,6 +169,123 @@ export class TypographyController {
         catch(error){
             console.error('Error al obtener la tipografía por tamaño de subtítulo:', err);
             return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de subtítulo' });
+        }
+    }
+    
+    // Obtener una tipografia por su archivo de fuente
+    getByArchiveFont = async ( req, res ) =>{
+        try{
+            const { archive_font } = req.params;
+            if(archive_font){
+                const typegraphArchiveFont = await this.ModelsTypography.getByArchiveFont({archive_font});
+                return res.status(200).json({
+                    message: 'Tipografía por archivo de fuente obtenida correctamente',
+                    data: typegraphArchiveFont
+                });
+            }
+            else{
+                return res.status(400).json({ error: 'Archivo de fuente no proporcionado' });
+            }
+        }
+        catch(error){
+            console.error('Error al obtener la tipografía por archivo de fuente:', error);
+            return res.status(500).json({ error: 'Error al obtener la tipografía por archivo de fuente' });
+        }
+    }
+
+    // Crear una nueva tipografia con su Tipografia principal y secundaria
+    createTipographyMain = async ( req, res ) => {
+        try{
+            const result = validateTipographyMain(req.body);
+            if(!result.success) return res.status(400).json({ error: result.error.errors });
+            const newTipography = await this.ModelsTypography.createTipographyMain({typography: result.data});
+            return res.status(201).json({
+                message: 'Tipografía principal creada correctamente',
+                data: newTipography
+            });
+        }
+        catch(error){
+            console.error('Error al crear la tipografía principal:', error);
+            return res.status(500).json({ error: 'Error al crear la tipografía principal' });
+        }
+    }
+
+    // Crear una nueva tipografia con su Tipografia secundaria
+    createTipographySecondary = async ( req, res ) => {
+        try{
+            const result = validateTipographySecondary(req.body);
+            if(!result.success) return res.status(400).json({ error: result.error.errors });
+            const newTipography = await this.ModelsTypography.createTipographySecondary({typography: result.data});
+            return res.status(201).json({
+                message: 'Tipografía secundaria creada correctamente',
+                data: newTipography
+            });
+        }
+        catch(error){
+            console.error('Error al crear la tipografía secundaria:', error);
+            return res.status(500).json({ error: 'Error al crear la tipografía secundaria' });
+        }
+    }
+    
+    // Crear una nueva tipografia con su Tipografia principal y secundaria
+    createTipography = async ( req, res ) => {
+        try{
+            const result = validateTipography(req.body);
+            if(!result.success) return res.status(400).json({ error: result.error.errors });
+            const newTipography = await this.ModelsTypography.createTipography({typography: result.data});
+            return res.status(201).json({
+                message: 'Tipografía creada correctamente',
+                data: newTipography
+            });
+        }
+        catch(error){
+            console.error('Error al crear la tipografía:', error);
+            return res.status(500).json({ error: 'Error al crear la tipografía' });
+        }
+    }
+
+    // Actualizar una tipografia por su ID
+    updateByID = async ( req, res ) => {
+        try{
+            const {id_tipography} = req.params;
+            if(id_tipography){
+                const result = validateTipographyUpdate(req.body);
+                if(!result.success) return res.status(400).json({ error: result.error.errors });
+                
+                const updatedTipography = await this.ModelsTypography.updateByID({id_tipography, typography: result.data});
+                return res.status(200).json({
+                    message: 'Tipografía actualizada correctamente',
+                    data: updatedTipography
+                });
+            }
+            else{
+                return res.status(400).json({ error: 'ID de tipografía no proporcionado' });
+            }
+        }
+        catch(error){
+            console.error('Error al actualizar la tipografía por ID:', error);
+            return res.status(500).json({ error: 'Error al actualizar la tipografía por ID' });
+        }
+    }
+
+    // Eliminar una tipografia por su ID
+    deleteByID = async ( req, res ) => {
+        try{
+            const { id_tipography } = req.params;
+            if(id_tipography){
+                const deletedTipography = await this.ModelsTypography.deleteByID({id_tipography});
+                return res.status(200).json({
+                    message: 'Tipografía eliminada correctamente',
+                    data: deletedTipography
+                });
+            }
+            else{
+                return res.status(400).json({ error: 'ID de tipografía no proporcionado' });
+            }
+        }
+        catch(error){
+            console.error('Error al eliminar la tipografía por ID:', error);
+            return res.status(500).json({ error: 'Error al eliminar la tipografía por ID' });
         }
     }
 }
