@@ -36,7 +36,7 @@ export class ModelsTypography {
             const [tipography] = await connection.query('SELECT * FROM typography WHERE name_tipography_main = ?', [name_tipography_main]);
             if(tipography.length > 0){
                 console.log('Tipografía encontrada');
-                return tipography[0];
+                return tipography;
             }
             else{
                 console.log('No se encontró la tipografía');
@@ -51,7 +51,7 @@ export class ModelsTypography {
             const [tipography] = await connection.query('SELECT * FROM typography WHERE name_tipography_secondary = ?', [name_tipography_secondary]);
             if(tipography.length > 0){
                 console.log('Tipografía encontrada');
-                return tipography[0];
+                return tipography;
             }
             else{
                 console.log('No se encontró la tipografía');
@@ -66,7 +66,7 @@ export class ModelsTypography {
             const [tipographyFont] = await connection.query('SELECT * FROM typography WHERE tam_font = ?', [tam_font]);
             if(tipographyFont.length > 0){
                 console.log('Tipografía encontrada por tamaño de fuente');
-                return tipographyFont[0];
+                return tipographyFont;
             }
             else{
                 console.log('No se encontró la tipografía por tamaño de fuente');
@@ -81,7 +81,7 @@ export class ModelsTypography {
             const [TipographyParagraph] = await connection.query('SELECT * FROM typography WHERE tam_paragraph = ?', [tam_paragraph]);
             if(TipographyParagraph.length > 0){
                 console.log('Tipografía encontrada por tamaño de párrafo');
-                return TipographyParagraph[0];
+                return TipographyParagraph;
             }
             else{
                 console.log('No se encontró la tipografía por tamaño de párrafo');
@@ -96,7 +96,7 @@ export class ModelsTypography {
             const [TipographyTitle] = await connection.query('SELECT * FROM typography WHERE tam_title = ?', [tam_title]);
             if(TipographyTitle.length > 0){
                 console.log('Tipografía encontrada por tamaño de título');
-                return TipographyTitle[0];
+                return TipographyTitle;
             }
             else{
                 console.log('No se encontró la tipografía por tamaño de título');
@@ -111,7 +111,7 @@ export class ModelsTypography {
             const [TipographySubtitle] = await connection.query('SELECT * FROM typography WHERE tam_subtitle = ?', [tam_subtitle]);
             if(TipographySubtitle.length > 0){
                 console.log('Tipografía encontrada por tamaño de subtítulo');
-                return TipographySubtitle[0];
+                return TipographySubtitle;
             }
             else{
                 console.log('No se encontró la tipografía por tamaño de subtítulo');
@@ -126,7 +126,7 @@ export class ModelsTypography {
             const [tipography] = await connection.query('SELECT * FROM typography WHERE archive_font = ?', [archive_font]);
             if(tipography.length > 0){
                 console.log('Tipografía encontrada por archivo de fuente');
-                return tipography[0];
+                return tipography;
             }
             else{
                 console.log('No se encontró la tipografía por archivo de fuente');

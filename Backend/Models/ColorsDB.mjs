@@ -39,7 +39,7 @@ export class ModelsColors {
             const [PrimaryColor] = await connection.query('SELECT * FROM colors WHERE primary_color = ?', [primary_color]);
             if(PrimaryColor.length > 0){
                 console.log(`Color principal obtenido correctamente`);
-                return PrimaryColor[0];
+                return PrimaryColor;
             }
             else{
                 console.log(`No se encontró el color principal`);
@@ -58,7 +58,7 @@ export class ModelsColors {
             const [SecondaryColor] = await connection.query('SELECT * FROM colors WHERE secondary_color = ?', [secondary_color]);
             if(SecondaryColor.length > 0){
                 console.log(`Color secundario obtenido correctamente`);
-                return SecondaryColor[0];
+                return SecondaryColor;
             }
             else{
                 console.log(`No se encontró el color secundario`);
@@ -68,6 +68,128 @@ export class ModelsColors {
         else{
             console.log('Color secundario no proporcionado');
             return null;
+        }
+    }
+
+    // Obtener un color por su color terciario
+    static async getByTernaryColor({ternary_color}){
+        if(ternary_color){
+            const [TernaryColor] = await connection.query('SELECT * FROM colors WHERE ternary_color = ?', [ternary_color]);
+            if(TernaryColor.length > 0){
+                console.log(`Color terciario obtenido correctamente`);
+                return TernaryColor;
+            }
+            else{
+                console.log(`No se encontró el color terciario`);
+                return null;
+            }
+        }
+        else{
+            console.log('Color terciario no proporcionado');
+            return null;
+        }
+    }
+
+    // Obtener un color por su color cuaternario
+    static async getByCuaternaryColor({cuarternary_color}){
+        if(cuarternary_color){
+            const [CuarternaryColor] = await connection.query('SELECT * FROM colors WHERE cuaternary_color = ?', [cuarternary_color]);
+            if(CuarternaryColor.length > 0){
+                console.log(`Color cuaternario obtenido correctamente`);
+                return CuarternaryColor;
+            }
+            else{
+                console.log(`No se encontró el color cuaternario`);
+                return null;
+            }
+        }
+        else{
+            console.log('Color cuaternario no proporcionado');
+            return null;
+        }
+    }
+
+    // Obtener un color por su color neutral (Blanco o Negro)
+    static async getByNeutralColor({neutral_color}){
+        if(neutral_color){
+            const[neutralColor] = await connection.query('SELECT * FROM colors WHERE neutral_color = ?', [neutral_color]);
+            if(neutralColor.length){
+                console.log('Color neutral obtenidos correctamente');
+                return neutralColor;
+            }
+        }
+        else{
+            console.log('No se propociono el color neutro')
+            return null;
+        }
+    }
+
+    // Crear un Color
+    static async createColor({color}){
+        if(color){
+            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color
+            // Se agrega el nuevo color
+            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color) VALUES(?,?,?,?,?,?)',[
+                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color])
+            
+            if(newColor.affectedRows > 0){
+                // Se relaciona con su tabla de relación
+                const [relation] = await connection.query('INSERT INTO colors_relationship(id_colors) VALUES(?)', [newColor.insertId]);
+                if(relation.affectedRows > 0){
+                    console.log('Color creado correctamente');
+                    return newColor;
+                }
+                else{
+                    console.log('Error al relacionar el color');
+                    return null;
+                }
+            }
+        }
+    }
+
+    // Actualizar un color por su ID
+    static async updateByID({id_colors,color}){
+        if(id_colors && color){
+            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color;
+            const [updatedColor] = await connection.query('UPDATE colors SET primary_color = ?, secondary_color = ?, ternary_color = ?, cuaternary_color = ?, neutral_color = ? WHERE id_colors = ?', [
+                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color,id_colors
+            ]);
+            if(updatedColor.affectedRows > 0){
+                console.log(`Color con ID ${id_colors} actualizado correctamente`);
+                return updatedColor;
+            }
+            else{
+                console.log(`No se encontró el color con ID ${id_colors}`);
+                return null;
+            }
+        }
+        else{
+            console.log('ID de color o datos de color no proporcionados');
+            return null;
+        }
+    }
+
+    // Eliminar un color por su ID
+    static async deleteByID({id_colors}){
+        if(id_colors){
+            // Primero se elimina la relación del color
+            const [relationDeleted] = await connection.query('DELETE FROM colors_relationship WHERE id_relation = ?', [id_colors]);
+            if(relationDeleted.affectedRows > 0){
+                // Luego se elimina el color
+                const [deletedColor] = await connection.query('DELETE FROM colors WHERE id_colors = ?', [id_colors]);
+                if(deletedColor.affectedRows > 0){
+                    console.log(`Color con ID ${id_colors} eliminado correctamente`);
+                    return deletedColor;
+                }
+                else{
+                    console.log(`No se encontró el color con ID ${id_colors}`);
+                    return null;
+                }
+            }
+            else{
+                console.log(`No se encontró la relación del color con ID ${id_colors}`);
+                return null;
+            }
         }
     }
 
