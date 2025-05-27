@@ -69,10 +69,12 @@ export class UsersControllers{
     /// Cerrar sesion
     getLogout = async (req, res) => {
         try{
+            const user = await this.ModelsUsers.getLogout({user: req.body});
             return res
             .clearCookie('Access--Token')
             .status(200).json({
-                message: 'Sesión cerrada'
+                message: 'Sesión cerrada',
+                userLoggedOut: user
             });
         }catch(error){
             console.log(error);

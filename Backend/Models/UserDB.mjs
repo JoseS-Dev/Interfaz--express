@@ -13,6 +13,9 @@ export class ModelsUsers{
             const isPasswordValid = await bcrypt.compare(password_user, userDB.password_user);
             if(isPasswordValid){
                 console.log('Usuario logueado');
+                // Se guarda el usuario loguado en el servidor
+                const {id_user} = userDB;
+                const [login] = await connection.query('INSERT INTO login_user (id_user) VALUES (?)', [id_user]);
                 return userDB;
             }
             else{
@@ -41,6 +44,30 @@ export class ModelsUsers{
                 console.log('Error al crear el usuario');
                 return null;
             }
+        }
+    }
+
+    // Cerrar sesion
+    static async getLogout({user}){
+        const {email_user} = user;
+        // Se verifica si existe un usuario con ese email
+        const [userQuery] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email_user]);
+        if(userQuery.length > 0){
+            const userDB = userQuery[0];
+            // Se elimina el usuario logueado de la tabla login_user
+            const [logout] = await connection.query('DELETE FROM login_user WHERE id_user = ?', [userDB.id_user]);
+            if(logout.affectedRows > 0){
+                console.log('Usuario deslogueado');
+                return userDB;
+            }
+            else{
+                console.log('Error al desloguear el usuario');
+                return null;
+            }
+        }
+        else{
+            console.log('Usuario no encontrado');
+            return null;
         }
     }
 }
