@@ -1,7 +1,7 @@
 import { connection } from "./db/Connection.mjs";
 
 export class ModelsColors {
-    // Obtener todos los colores
+    // Obtener todos los conjuntos de  colores
     static async getAll(){
         const [colors] = await connection.query('SELECT * FROM colors');
         if(colors.length > 0){
