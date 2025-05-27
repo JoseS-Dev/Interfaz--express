@@ -18,9 +18,9 @@ RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFon
 RoutesTipography.get('/ArchiveFont/:archive_font', typographycontroller.getByArchiveFont);
 
 /// POST
-RoutesTipography.post('/Main', typographycontroller.createTipographyMain);
-RoutesTipography.post('/Secondary', typographycontroller.createTipographySecondary);
-RoutesTipography.post('/', typographycontroller.createTipography);
+RoutesTipography.post('/Main/:id_user', typographycontroller.createTipographyMain);
+RoutesTipography.post('/Secondary/:id_user', typographycontroller.createTipographySecondary);
+RoutesTipography.post('/:id_user', typographycontroller.createTipography);
 
 /// PATCH
 RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);

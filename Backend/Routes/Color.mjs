@@ -18,7 +18,7 @@ RoutesColors.get('/Cuaternary/:cuaternary_color', colorsController.getByCuartern
 RoutesColors.get('/Neutral/:neutral_color', colorsController.getByNeutralColor);
 
 // POST
-RoutesColors.post('/', colorsController.createColor);
+RoutesColors.post('/:id_user', colorsController.createColor);
 
 // PATCH
 RoutesColors.patch('/:id_colors', colorsController.updateByID);

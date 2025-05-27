@@ -136,7 +136,7 @@ export class ModelsTypography {
     }
 
     // Crear una nueva tipografia con su Tipografia principal
-    static async createTipographyMain({ typography }){
+    static async createTipographyMain({ typography, id_user }){
         if(typography){
             const { name_tipography_main, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
             // Se crea la nueva tipografia
@@ -145,7 +145,7 @@ export class ModelsTypography {
             
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
-                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography) VALUES (?)', [result.insertId]);
+                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);
                 if(relationResult.affectedRows > 0){
                     console.log('Tipografia creada y relacionada exitosamente');
                     return result;
@@ -159,7 +159,7 @@ export class ModelsTypography {
     }
     
     // Crear una nueva tipografia con su Tipografia secundaria
-    static async createTipographySecondary({ typography }){
+    static async createTipographySecondary({ typography, id_user }){
         if(typography){
             const { name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
             // Se crea la nueva tipografia
@@ -167,7 +167,7 @@ export class ModelsTypography {
                 [name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
-                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography) VALUES (?)', [result.insertId]);
+                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography, id_user) VALUES (?,?)', [result.insertId, id_user]);
                 if(relationResult.affectedRows > 0){
                     console.log('Tipografia creada y relacionada exitosamente');
                     return result;
@@ -181,7 +181,7 @@ export class ModelsTypography {
     }
 
     // Se crea una tipografia con su Tipografia principal y secundaria
-    static async createTipography({ typography }){
+    static async createTipography({ typography, id_user }){
         if(typography){
             const { name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
             // Se crea la nueva tipografia
@@ -189,7 +189,7 @@ export class ModelsTypography {
                 [name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
-                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography) VALUES (?)', [result.insertId]);
+                const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);
                 if(relationResult.affectedRows > 0){
                     console.log('Tipografia creada y relacionada exitosamente');
                     return result;
@@ -224,7 +224,7 @@ export class ModelsTypography {
     static async deleteByID({ id_tipography }){
         if(id_tipography){
             // Primero eliminamos la relacion de la tipografia
-            const [relationResult] = await connection.query('DELETE FROM typography_relationship WHERE id_relation = ?', [id_tipography]);
+            const [relationResult] = await connection.query('DELETE FROM typography_relationship WHERE id_tipography = ?', [id_tipography]);
             if(relationResult.affectedRows > 0){
                 // Luego eliminamos la tipografia
                 const [resultDelete] = await connection.query('DELETE FROM typography WHERE id_tipography = ?', [id_tipography]);

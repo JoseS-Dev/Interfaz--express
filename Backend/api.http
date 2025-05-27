@@ -52,7 +52,7 @@ GET http://localhost:3500/Tipography/TamTitle/24
 GET http://localhost:3500/Tipography/TamSubtitle/20
 
 ### Crear una tipografia
-POST http://localhost:3500/Tipography
+POST http://localhost:3500/Tipography/1
 Content-Type: application/json
 
 {
@@ -67,7 +67,7 @@ Content-Type: application/json
 }
 
 ### Crear una tipografia con su fuente principal
-POST http://localhost:3500/Tipography/Main
+POST http://localhost:3500/Tipography/Main/1
 Content-Type: application/json
 
 {
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### Crear una tipografia con su fuente secundaria
-POST http://localhost:3500/Tipography/Secondary
+POST http://localhost:3500/Tipography/Secondary/1
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 }
 
 ### Borrar una tipografia
-DELETE http://localhost:3500/Tipography/3
+DELETE http://localhost:3500/Tipography/6
 
 ### Obtener todos los conjuntos de colores
 GET http://localhost:3500/Colors
@@ -116,7 +116,7 @@ GET http://localhost:3500/Colors/Cuaternary/ff0
 GET http://localhost:3500/Colors/Neutral/000
 
 ### Crear un conjunto de colores
-POST http://localhost:3500/Colors
+POST http://localhost:3500/Colors/1
 Content-Type: application/json
 
 {
@@ -128,4 +128,4 @@ Content-Type: application/json
 }
 
 ### Borrar un conjunto de colores
-DELETE http://localhost:3500/Colors/3
+DELETE http://localhost:3500/Colors/6

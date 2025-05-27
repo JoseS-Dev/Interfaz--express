@@ -192,8 +192,9 @@ export class TypographyController {
     createTipographyMain = async ( req, res ) => {
         try{
             const result = validateTipographyMain(req.body);
+            const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
-            const newTipography = await this.ModelsTypography.createTipographyMain({typography: result.data});
+            const newTipography = await this.ModelsTypography.createTipographyMain({typography: result.data, id_user});
             return res.status(201).json({
                 message: 'Tipografía principal creada correctamente',
                 data: newTipography
@@ -209,8 +210,9 @@ export class TypographyController {
     createTipographySecondary = async ( req, res ) => {
         try{
             const result = validateTipographySecondary(req.body);
+            const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
-            const newTipography = await this.ModelsTypography.createTipographySecondary({typography: result.data});
+            const newTipography = await this.ModelsTypography.createTipographySecondary({typography: result.data, id_user});
             return res.status(201).json({
                 message: 'Tipografía secundaria creada correctamente',
                 data: newTipography
@@ -226,8 +228,9 @@ export class TypographyController {
     createTipography = async ( req, res ) => {
         try{
             const result = validateTipography(req.body);
+            const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
-            const newTipography = await this.ModelsTypography.createTipography({typography: result.data});
+            const newTipography = await this.ModelsTypography.createTipography({typography: result.data, id_user});
             return res.status(201).json({
                 message: 'Tipografía creada correctamente',
                 data: newTipography

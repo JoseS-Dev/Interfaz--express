@@ -125,7 +125,7 @@ export class ModelsColors {
     }
 
     // Crear un Color
-    static async createColor({color}){
+    static async createColor({color, id_user}){
         if(color){
             const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color
             // Se agrega el nuevo color
@@ -134,7 +134,7 @@ export class ModelsColors {
             
             if(newColor.affectedRows > 0){
                 // Se relaciona con su tabla de relación
-                const [relation] = await connection.query('INSERT INTO colors_relationship(id_colors) VALUES(?)', [newColor.insertId]);
+                const [relation] = await connection.query('INSERT INTO colors_relationship(id_colors, id_user) VALUES(?,?)', [newColor.insertId, id_user]);
                 if(relation.affectedRows > 0){
                     console.log('Color creado correctamente');
                     return newColor;
@@ -173,7 +173,7 @@ export class ModelsColors {
     static async deleteByID({id_colors}){
         if(id_colors){
             // Primero se elimina la relación del color
-            const [relationDeleted] = await connection.query('DELETE FROM colors_relationship WHERE id_relation = ?', [id_colors]);
+            const [relationDeleted] = await connection.query('DELETE  FROM colors_relationship WHERE id_colors = ?', [id_colors]);
             if(relationDeleted.affectedRows > 0){
                 // Luego se elimina el color
                 const [deletedColor] = await connection.query('DELETE FROM colors WHERE id_colors = ?', [id_colors]);

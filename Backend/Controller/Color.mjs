@@ -126,10 +126,11 @@ export class ColorsController {
     createColor = async (req, res) => {
         try{
             const result = validateColors(req.body);
+            const { id_user } = req.params; 
             if(!result.success){
                 return res.status(400).json({message: 'Datos de color inválidos', errors: result.error.errors});
             }
-            const color = await this.ModelsColors.createColor({ color: result.data });
+            const color = await this.ModelsColors.createColor({ color: result.data, id_user });
             if(color){
                 res.status(201).json({message: 'Color creado correctamente', color});
             } else {
