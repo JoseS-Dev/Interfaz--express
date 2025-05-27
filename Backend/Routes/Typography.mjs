@@ -14,7 +14,7 @@ RoutesTipography.get('/NameSeco/:name_tipography_secondary', typographycontrolle
 RoutesTipography.get('/TamFont/:tam_font', typographycontroller.getByFontSize);
 RoutesTipography.get('/TamParagraph/:tam_paragraph', typographycontroller.getByFontParagraph);
 RoutesTipography.get('/TamTitle/:tam_title', typographycontroller.getByFontTitle);
-RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFontSubtitle);
+RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFontSubTitle);
 RoutesTipography.get('/ArchiveFont/:archive_font', typographycontroller.getByArchiveFont);
 
 /// POST

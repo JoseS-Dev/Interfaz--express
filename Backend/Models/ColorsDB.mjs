@@ -39,7 +39,7 @@ export class ModelsColors {
             const [PrimaryColor] = await connection.query('SELECT * FROM colors WHERE primary_color = ?', [primary_color]);
             if(PrimaryColor.length > 0){
                 console.log(`Color principal obtenido correctamente`);
-                return PrimaryColor;
+                return PrimaryColor[0];
             }
             else{
                 console.log(`No se encontró el color principal`);
@@ -129,7 +129,7 @@ export class ModelsColors {
         if(color){
             const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color
             // Se agrega el nuevo color
-            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color) VALUES(?,?,?,?,?,?)',[
+            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color) VALUES(?,?,?,?,?)',[
                 primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color])
             
             if(newColor.affectedRows > 0){

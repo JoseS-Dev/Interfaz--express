@@ -1,9 +1,4 @@
-import { 
-    validateTipography, 
-    validateTipographyMain, 
-    validateTipographySecondary,
-    validateTipographyUpdate } 
-    from "../Validations/SchemaTipography";
+import { validateTipography, validateTipographyMain, validateTipographySecondary,validateTipographyUpdate } from "../Validations/SchemaTipography.mjs";
 
 export class TypographyController {
     constructor({ModelsTypography}){

@@ -11,11 +11,11 @@ export const RoutesColors = router;
 // GET
 RoutesColors.get('/', colorsController.getAll);
 RoutesColors.get('/:id_colors', colorsController.getByID);
-RoutesColors.get('/primary/:primary_color', colorsController.getByPrimaryColor);
-RoutesColors.get('/secondary/:secondary_color', colorsController.getBySecondaryColor);
-RoutesColors.get('ternary/:ternary_color', colorsController.getByTernaryColor);
-RoutesColors.get('/cuaternary/:cuaternary_color', colorsController.getByCuarternaryColor);
-RoutesColors.get('/neutral/:neutral_color', colorsController.getByNeutralColor);
+RoutesColors.get('/Primary/:primary_color', colorsController.getByPrimaryColor);
+RoutesColors.get('/Secondary/:secondary_color', colorsController.getBySecondaryColor);
+RoutesColors.get('/Ternary/:ternary_color', colorsController.getByTernaryColor);
+RoutesColors.get('/Cuaternary/:cuaternary_color', colorsController.getByCuarternaryColor);
+RoutesColors.get('/Neutral/:neutral_color', colorsController.getByNeutralColor);
 
 // POST
 RoutesColors.post('/', colorsController.createColor);

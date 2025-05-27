@@ -1,5 +1,5 @@
 ### Logear usuario
-POST http://localhost:3000/Users/login
+POST http://localhost:3500/Users/login
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Crear usuario
-POST http://localhost:3000/Users/register
+POST http://localhost:3500/Users/register
 Content-Type: application/json
 
 {
@@ -19,10 +19,113 @@ Content-Type: application/json
 }
 
 ### Cerrar sesion
-POST http://localhost:3000/Users/logout
+POST http://localhost:3500/Users/logout
 Content-Type: application/json
 
 {
   "email_user": "joseasantana05@gmail.com",
   "password_user": "JSa06..."
 }
+
+### Obtener todas las tipografias
+GET http://localhost:3500/Tipography
+
+### Obtener tipografia por id
+GET http://localhost:3500/Tipography/1
+
+### Obtener una tipografia por su fuente principal
+GET http://localhost:3500/Tipography/NameMain/Roboto
+
+### Obtener una tipografia por su fuente secundaria
+GET http://localhost:3500/Tipography/NameSeco/Serif
+
+### Obtener una tipografia por su tamaño de fuente
+GET http://localhost:3500/Tipography/TamFont/16
+
+### Obtener una tipografia por su tamaño en los parrafos
+GET http://localhost:3500/Tipography/TamParagraph/16
+
+### Obtener una Tipografia por su tamaño de fuente en los titulos
+GET http://localhost:3500/Tipography/TamTitle/24
+
+### Obtener una tipografia pór su tamaño de fuente en los subtitulos
+GET http://localhost:3500/Tipography/TamSubtitle/20
+
+### Crear una tipografia
+POST http://localhost:3500/Tipography
+Content-Type: application/json
+
+{
+  "name_tipography_main": "Roboto",
+  "name_tipography_secondary": "Serif",
+  "tam_font": 16,
+  "tam_paragraph": 16,
+  "tam_title": 24,
+  "tam_subtitle": 20,
+  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+
+}
+
+### Crear una tipografia con su fuente principal
+POST http://localhost:3500/Tipography/Main
+Content-Type: application/json
+
+{
+  "name_tipography_main": "Roboto",
+  "tam_font": 16,
+  "tam_paragraph": 16,
+  "tam_title": 24,
+  "tam_subtitle": 20,
+  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+}
+
+### Crear una tipografia con su fuente secundaria
+POST http://localhost:3500/Tipography/Secondary
+Content-Type: application/json
+
+{
+  "name_tipography_secondary": "Serif",
+  "tam_font": 16,
+  "tam_paragraph": 16,
+  "tam_title": 24,
+  "tam_subtitle": 20,
+  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+}
+
+### Borrar una tipografia
+DELETE http://localhost:3500/Tipography/3
+
+### Obtener todos los conjuntos de colores
+GET http://localhost:3500/Colors
+
+### Obtener un conjunto de colores por id
+GET http://localhost:3500/Colors/3
+
+### Obtener un conjunto de colores por su color primario
+GET http://localhost:3500/Colors/Primary/f00
+
+### Obtener un conjunto de colores por su color secundario
+GET http://localhost:3500/Colors/Secondary/0f0
+### Obtener un conjunto de colores por su color terciario
+GET http://localhost:3500/Colors/Ternary/00f
+
+### Obtener un conjunto de colores por su color cuaternario
+GET http://localhost:3500/Colors/Cuaternary/ff0
+
+### Obtener un conjunto de colores por su color neutral
+GET http://localhost:3500/Colors/Neutral/000
+
+### Crear un conjunto de colores
+POST http://localhost:3500/Colors
+Content-Type: application/json
+
+{
+  "primary_color": "f00",
+  "secondary_color": "0f0",
+  "ternary_color": "00f",
+  "cuarternary_color": "ff0",
+  "neutral_color": "000"
+}
+
+### Borrar un conjunto de colores
+DELETE http://localhost:3500/Colors/3
