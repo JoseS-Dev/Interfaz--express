@@ -30,7 +30,7 @@ export class ModelsTypography {
         }
     }
 
-    // Obtener una tipografia por su la tipografia principal
+    // Obtener una tipografia por su  tipografia principal
     static async getByMainName({ name_tipography_main }){
         if(name_tipography_main){
             const [tipography] = await connection.query('SELECT * FROM typography WHERE name_tipography_main = ?', [name_tipography_main]);
@@ -106,7 +106,7 @@ export class ModelsTypography {
     }
     
     // Obtener una tipografia por su tamaño de font en los subtitulos
-    static async getByFontSubtitle({ tam_subtitle }){
+    static async getByFontSubTitle({ tam_subtitle }){
         if(tam_subtitle){
             const [TipographySubtitle] = await connection.query('SELECT * FROM typography WHERE tam_subtitle = ?', [tam_subtitle]);
             if(TipographySubtitle.length > 0){
