@@ -4,26 +4,26 @@ import { ModelsTypography } from '../Models/TypographyDB.mjs';
 
 const router = Router();
 const typographycontroller = new TypographyController({ModelsTypography: ModelsTypography});
-export const TypographyRouter = router;
+export const RoutesTipography = router;
 
 /// GET
-TypographyRouter.get('/', typographycontroller.getAll);
-TypographyRouter.get('/:id_tipography', typographycontroller.getByID);
-TypographyRouter.get('/NameMain/:name_tipography_main', typographycontroller.getByMainName);
-TypographyRouter.get('/NameSeco/:name_tipography_secondary', typographycontroller.getBySecondaryName);
-TypographyRouter.get('/TamFont/:tam_font', typographycontroller.getByFontSize);
-TypographyRouter.get('/TamParagraph/:tam_paragraph', typographycontroller.getByFontParagraph);
-TypographyRouter.get('/TamTitle/:tam_title', typographycontroller.getByFontTitle);
-TypographyRouter.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFontSubtitle);
-TypographyRouter.get('/ArchiveFont/:archive_font', typographycontroller.getByArchiveFont);
+RoutesTipography.get('/', typographycontroller.getAll);
+RoutesTipography.get('/:id_tipography', typographycontroller.getByID);
+RoutesTipography.get('/NameMain/:name_tipography_main', typographycontroller.getByMainName);
+RoutesTipography.get('/NameSeco/:name_tipography_secondary', typographycontroller.getBySecondaryName);
+RoutesTipography.get('/TamFont/:tam_font', typographycontroller.getByFontSize);
+RoutesTipography.get('/TamParagraph/:tam_paragraph', typographycontroller.getByFontParagraph);
+RoutesTipography.get('/TamTitle/:tam_title', typographycontroller.getByFontTitle);
+RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFontSubtitle);
+RoutesTipography.get('/ArchiveFont/:archive_font', typographycontroller.getByArchiveFont);
 
 /// POST
-TypographyRouter.post('/Main', typographycontroller.createTipographyMain);
-TypographyRouter.post('/Secondary', typographycontroller.createTipographySecondary);
-TypographyRouter.post('/', typographycontroller.createTipography);
+RoutesTipography.post('/Main', typographycontroller.createTipographyMain);
+RoutesTipography.post('/Secondary', typographycontroller.createTipographySecondary);
+RoutesTipography.post('/', typographycontroller.createTipography);
 
 /// PATCH
-TypographyRouter.patch('/:id_tipography', typographycontroller.updateByID);
+RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);
 
 /// DELETE
-TypographyRouter.delete('/:id_tipography', typographycontroller.deleteByID);
+RoutesTipography.delete('/:id_tipography', typographycontroller.deleteByID);
