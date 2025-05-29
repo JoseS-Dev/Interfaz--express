@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme{
+    /* Variables */
+    --color-primary: #E8F4F8;  /* 60% - Azul muy claro */
+    --color-secondary: #2563EB; /* 30% - Azul */
+    --color-tertiary: #F97316; /* 10% - Naranja */
+    --color-quaternary: #FFFFFF; /* Blanco*/
+    --color-quinary: #374151; /* Negro */
+}
