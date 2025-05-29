@@ -191,7 +191,17 @@ export class TypographyController {
     // Crear una nueva tipografia con su Tipografia principal y secundaria
     createTipographyMain = async ( req, res ) => {
         try{
-            const result = validateTipographyMain(req.body);
+            const { originalname, path } = req.file;
+            const body = {
+                ...req.body,
+                name_tipography_main: originalname,
+                tam_font: parseInt(req.body.tam_font),
+                tam_paragraph: parseInt(req.body.tam_paragraph),
+                tam_title: parseInt(req.body.tam_title),
+                tam_subtitle: parseInt(req.body.tam_subtitle),
+                archive_font: path
+            }
+            const result = validateTipographyMain(body);
             const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipographyMain({typography: result.data, id_user});
@@ -209,7 +219,17 @@ export class TypographyController {
     // Crear una nueva tipografia con su Tipografia secundaria
     createTipographySecondary = async ( req, res ) => {
         try{
-            const result = validateTipographySecondary(req.body);
+            const { originalname, path } = req.file;
+            const body = {
+                ...req.body,
+                name_tipography_secondary: originalname,
+                tam_font: parseInt(req.body.tam_font),
+                tam_paragraph: parseInt(req.body.tam_paragraph),
+                tam_title: parseInt(req.body.tam_title),
+                tam_subtitle: parseInt(req.body.tam_subtitle),
+                archive_font: path
+            }
+            const result = validateTipographySecondary(body);
             const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipographySecondary({typography: result.data, id_user});
@@ -227,7 +247,24 @@ export class TypographyController {
     // Crear una nueva tipografia con su Tipografia principal y secundaria
     createTipography = async ( req, res ) => {
         try{
-            const result = validateTipography(req.body);
+            const mainFont = req.files.main_font[0];
+            const secondaryFont = req.files.secondary_font[0];
+
+            const mainPath = mainFont.path;
+            console.log('Ruta de la fuente principal:', mainPath);
+
+            const body = {
+                ...req.body,
+                name_tipography_main: mainFont.originalname,
+                name_tipography_secondary: secondaryFont.originalname,
+                tam_font: parseInt(req.body.tam_font),
+                tam_paragraph: parseInt(req.body.tam_paragraph),
+                tam_title: parseInt(req.body.tam_title),
+                tam_subtitle: parseInt(req.body.tam_subtitle),
+                archive_font_main: mainFont.path,
+                archive_font_secondary: secondaryFont.path
+            }
+            const result = validateTipography(body);
             const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipography({typography: result.data, id_user});

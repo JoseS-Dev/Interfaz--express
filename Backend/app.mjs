@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(json());
 app.use(cookieParser());
-
+app.use('/font',express.static('uploads/fonts'));
 
 
 app.use('/Users', RoutesUsers);

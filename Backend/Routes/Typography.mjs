@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { TypographyController } from '../Controller/Typography.mjs';
 import { ModelsTypography } from '../Models/TypographyDB.mjs';
+import { upload, uploadFonts } from '../Middlewares/FileUpload.mjs';
 
 const router = Router();
 const typographycontroller = new TypographyController({ModelsTypography: ModelsTypography});
@@ -18,9 +19,9 @@ RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFon
 RoutesTipography.get('/ArchiveFont/:archive_font', typographycontroller.getByArchiveFont);
 
 /// POST
-RoutesTipography.post('/Main/:id_user', typographycontroller.createTipographyMain);
-RoutesTipography.post('/Secondary/:id_user', typographycontroller.createTipographySecondary);
-RoutesTipography.post('/:id_user', typographycontroller.createTipography);
+RoutesTipography.post('/Main/:id_user',upload.single('archive_font'), typographycontroller.createTipographyMain);
+RoutesTipography.post('/Secondary/:id_user',upload.single('archive_font'), typographycontroller.createTipographySecondary);
+RoutesTipography.post('/:id_user',uploadFonts, typographycontroller.createTipography);
 
 /// PATCH
 RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);

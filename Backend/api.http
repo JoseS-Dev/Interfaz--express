@@ -53,44 +53,92 @@ GET http://localhost:3500/Tipography/TamSubtitle/20
 
 ### Crear una tipografia
 POST http://localhost:3500/Tipography/1
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=CustomBoundary
 
-{
-  "name_tipography_main": "Roboto",
-  "name_tipography_secondary": "Serif",
-  "tam_font": 16,
-  "tam_paragraph": 16,
-  "tam_title": 24,
-  "tam_subtitle": 20,
-  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
 
-}
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="main_font"; filename="Roboto.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Roboto.ttf
+--CustomBoundary
+Content-Disposition: form-data; name="secondary_font"; filename="San-serif.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/San-serif.ttf
+--CustomBoundary--
+
 
 ### Crear una tipografia con su fuente principal
 POST http://localhost:3500/Tipography/Main/1
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=CustomBoundary
 
-{
-  "name_tipography_main": "Roboto",
-  "tam_font": 16,
-  "tam_paragraph": 16,
-  "tam_title": 24,
-  "tam_subtitle": 20,
-  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-}
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="archive_font"; filename="Roboto.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Roboto.ttf
+--CustomBoundary--
 
 ### Crear una tipografia con su fuente secundaria
 POST http://localhost:3500/Tipography/Secondary/1
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=CustomBoundary
 
-{
-  "name_tipography_secondary": "Serif",
-  "tam_font": 16,
-  "tam_paragraph": 16,
-  "tam_title": 24,
-  "tam_subtitle": 20,
-  "archive_font": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-}
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="archive_font"; filename="Serif.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Serif.ttf
+--CustomBoundary--
+
+
 
 ### Borrar una tipografia
 DELETE http://localhost:3500/Tipography/6

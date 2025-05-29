@@ -138,9 +138,9 @@ export class ModelsTypography {
     // Crear una nueva tipografia con su Tipografia principal
     static async createTipographyMain({ typography, id_user }){
         if(typography){
-            const { name_tipography_main, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
+            const { name_tipography_main,tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font) VALUES (?, ?, ?, ?, ?, ?)', 
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font_main) VALUES (?, ?, ?, ?, ?, ?)', 
                 [name_tipography_main, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font]);
             
             if(result.affectedRows > 0){
@@ -161,9 +161,9 @@ export class ModelsTypography {
     // Crear una nueva tipografia con su Tipografia secundaria
     static async createTipographySecondary({ typography, id_user }){
         if(typography){
-            const { name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
+            const {name_tipography_secondary,tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font} = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font) VALUES (?, ?, ?, ?, ?, ?)', 
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?)', 
                 [name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
@@ -183,10 +183,10 @@ export class ModelsTypography {
     // Se crea una tipografia con su Tipografia principal y secundaria
     static async createTipography({ typography, id_user }){
         if(typography){
-            const { name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-                [name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font]);
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                [name_tipography_main, name_tipography_secondary, tam_font, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
                 const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);

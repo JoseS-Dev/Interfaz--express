@@ -26,11 +26,13 @@ export const schemaTipography = zod.object({
         required_error: 'El tamaño del subtítulo es requerido',
         invalid_type_error: 'El tamaño del subtítulo debe ser un número'
     }),
-    archive_font: zod.string({
+    archive_font_main: zod.string({
         required_error: 'El archivo de la fuente es requerido',
         invalid_type_error: 'El archivo de la fuente debe ser una cadena de texto'
-    }).url({
-        message: 'El archivo de la fuente debe ser una URL válida'
+    }),
+    archive_font_secondary: zod.string({
+        required_error: 'El archivo de la fuente secundaria es requerido',
+        invalid_type_error: 'El archivo de la fuente secundaria debe ser una cadena de texto'
     })
 })
 
@@ -59,8 +61,6 @@ export const schemaTipographyMain = zod.object({
     archive_font: zod.string({
         required_error: 'El archivo de la fuente es requerido',
         invalid_type_error: 'El archivo de la fuente debe ser una cadena de texto'
-    }).url({
-        message: 'El archivo de la fuente debe ser una URL válida'
     })
 })
 
@@ -89,8 +89,6 @@ export const schemaTipographySecondary = zod.object({
     archive_font: zod.string({
         required_error: 'El archivo de la fuente es requerido',
         invalid_type_error: 'El archivo de la fuente debe ser una cadena de texto'
-    }).url({
-        message: 'El archivo de la fuente debe ser una URL válida'
     })
 })
 
