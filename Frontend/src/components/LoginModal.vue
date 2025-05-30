@@ -12,6 +12,7 @@
             }
         });
     });
+    
 </script>
 
 <template>
@@ -34,7 +35,7 @@
                 </div>
                 <div class="flex justify-between">
                     <button type="button" @click="onToggleLogin" class="bg-quinary/70 text-quaternary px-4 py-2 rounded-md hover:bg-quinary/50 cursor-pointer">Cancelar</button>
-                    <button type="submit" class="bg-secondary text-quaternary px-4 py-2 rounded-md hover:bg-secondary/75 cursor-pointer">Ingresar</button>
+                    <button type="submit" @click="$router.push('/admin')" class="bg-secondary text-quaternary px-4 py-2 rounded-md hover:bg-secondary/75 cursor-pointer">Ingresar</button>
                 </div>
             </form>
         </div>
