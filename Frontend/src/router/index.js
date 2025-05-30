@@ -8,6 +8,11 @@ const router = createRouter({
             name: "Home",
             component: Home,
         },
+        {
+            path: "/admin",
+            name: "Admin",
+            component: 
+        }
     ],
 });
 
