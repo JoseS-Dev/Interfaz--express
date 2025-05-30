@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Admin from "@/views/Admin.vue";
+import AdminColors from "@/views/AdminColors.vue";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -17,6 +18,7 @@ const router = createRouter({
         {
             path: "/admin/colors",
             name: "AdminColors",
+            component: AdminColors
         }
     ],
 });
