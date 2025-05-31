@@ -1,4 +1,4 @@
-import { validateLogin, validateUser } from "../Validations/Schema.mjs";
+import { validateLogin, validateUser } from "../Validations/SchemaUser.mjs";
 import { Auth } from "../Middlewares/Auth.mjs";
 export class UsersControllers{
     constructor({ModelsUsers}){
@@ -69,10 +69,12 @@ export class UsersControllers{
     /// Cerrar sesion
     getLogout = async (req, res) => {
         try{
+            const user = await this.ModelsUsers.getLogout({user: req.body});
             return res
             .clearCookie('Access--Token')
             .status(200).json({
-                message: 'Sesión cerrada'
+                message: 'Sesión cerrada',
+                userLoggedOut: user
             });
         }catch(error){
             console.log(error);
