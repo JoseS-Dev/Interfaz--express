@@ -16,7 +16,7 @@
 </script>
 
 <template>
-    <div id="loginModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+    <div id="loginModal" class="hidden fixed inset-0 bg-quinary/85 z-50 flex items-center justify-center font-primary">
         <div class="bg-quaternary p-8 rounded-lg shadow-lg w-11/12 max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-secondary">Acceso Administrador</h2>

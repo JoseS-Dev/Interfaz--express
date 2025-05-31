@@ -23,9 +23,9 @@ const services = [
 </script>
 
 <template>
-    <section id="servicios" class="py-16 bg-quaternary">
+    <section id="servicios" class="py-16 bg-quaternary font-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-secondary mb-12">Nuestros Servicios</h2>
+            <h2 class="text-3xl text-subtitle md:text-title font-bold text-center text-secondary mb-12 font-secondary">Nuestros Servicios</h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <Service v-for="(service) in services" :key="service.title" :title="service.title"
                     :description="service.description" :imgUrl="service.imgUrl" />

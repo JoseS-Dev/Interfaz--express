@@ -133,9 +133,9 @@ const prevSlideMobile = () => {
 
 </script>
 <template>
-    <section id="galeria" class="py-16 bg-primary">
+    <section id="galeria" class="py-16 bg-primary font-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-secondary mb-12">Nuestras Instalaciones</h2>
+            <h2 class="text-3xl text-subtitle md:text-title font-bold text-center text-secondary mb-12 font-secondary">Nuestras Instalaciones</h2>
 
             <!-- Carrusel Desktop (3 en 3) -->
             <div class="hidden lg:block relative">
@@ -151,22 +151,22 @@ const prevSlideMobile = () => {
                 </div>
                 <button @click="prevSlideDesktop"
                     class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer">
-                    <i class="fas fa-chevron-left text-secondary text-xl"></i>
+                    <i class="fas fa-chevron-left text-secondary text-xl text-paragraph"></i>
                 </button>
                 <button @click="nextSlideDesktop"
-                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer">
-                    <i class="fas fa-chevron-right text-secondary text-xl"></i>
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer">
+                    <i class="fas fa-chevron-right text-secondary text-xl text-paragraph"></i>
                 </button>
                 <!-- Indicadores Desktop -->
                 <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
                     <button @click="() => goToSlideDesktop(0)"
-                        class="h-2 w-8 rounded-full bg-quaternary bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
+                        class="h-2 w-8 rounded-full  bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
                         id="indicator-desktop-0"></button>
                     <button @click="() => goToSlideDesktop(1)"
-                        class="h-2 w-8 rounded-full bg-quaternary bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
+                        class="h-2 w-8 rounded-full  bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
                         id="indicator-desktop-1"></button>
                     <button @click="() => goToSlideDesktop(2)"
-                        class="h-2 w-8 rounded-full bg-quaternary bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
+                        class="h-2 w-8 rounded-full  bg-quaternary/60 hover:bg-quaternary/100 transition-all cursor-pointer"
                         id="indicator-desktop-2"></button>
                 </div>
             </div>
@@ -175,7 +175,7 @@ const prevSlideMobile = () => {
             <div class="lg:hidden relative">
                 <!-- Contador de slides para móvil -->
                 <div
-                    class="absolute z-10 top-4 right-4 bg-quinary/50 text-quaternary px-3 py-1 rounded-full text-sm">
+                    class="absolute z-10 top-4 right-4 bg-quinary/50 text-quaternary px-3 py-1 rounded-full text-sm text-paragraph">
                     <span id="slide-counter">1 / {{ imagesDesktop.length }}</span>
                 </div>
                 <div id="carousel-mobile" @touchstart="onPausedAutoPlayMobile" @touchend="onResumedAutoPlayMobile"
@@ -187,11 +187,11 @@ const prevSlideMobile = () => {
                 </div>
                 <button @click="prevSlideMobile"
                     class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer">
-                    <i class="fas fa-chevron-left text-secondary text-xl"></i>
+                    <i class="fas fa-chevron-left text-secondary text-xl text-paragraph"></i>
                 </button>
                 <button @click="nextSlideMobile"
                     class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer">
-                    <i class="fas fa-chevron-right text-secondary text-xl"></i>
+                    <i class="fas fa-chevron-right text-secondary text-xl text-paragraph"></i>
                 </button>
             </div>
         </div>
