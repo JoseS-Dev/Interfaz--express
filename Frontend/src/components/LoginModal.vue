@@ -9,6 +9,7 @@
     const password = ref('');
     const validEmail = ref(true);
     const validPassword = ref(true);
+    const validData= ref(true);
     watch(email, (newEmail) => {
        validEmail.value = !!newEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
     });
@@ -37,12 +38,13 @@
                     user: data.user,
                     token: data.token
                 });
-                router.push('/admin');
             }
             else {
-                alert(data.message || 'Error al iniciar sesión');
+                validData.value = false;
+                console.error('Error al iniciar sesión:', data.message);
             }
         } catch (error) {
+            validData.value = false;
             console.error('Error al iniciar sesión:', error);
         }
     };
@@ -59,6 +61,9 @@
             }
         });
     });
+    const onInput = () => {
+        validData.value = true;
+    };
     
 </script>
 
@@ -74,17 +79,18 @@
             <form>
                 <div class="mb-4">
                     <label class="block text-quinary text-sm font-bold mb-1.5 text-paragraph">Correo</label> 
-                    <input type="text" v-model="email" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
+                    <input type="text" v-model="email" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
                     <span v-if="!validEmail" class="text-quinary text-paragraph pt-1 block">Correo electrónico inválido</span>
                 </div>
                 <div class="mb-6">
                     <label class="block text-quinary text-sm font-bold mb-1.5 text-paragraph">Contraseña</label>
-                    <input type="password" v-model="password" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
+                    <input type="password" v-model="password" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
                     <span v-if="!validPassword" class="text-quinary text-paragraph pt-1 block">Contraseña inválida</span>
                 </div>
-                <div class="flex justify-between">
+                <div class="flex justify-between flex-wrap">
                     <button type="button" @click="onToggleLogin" class="bg-quinary/70 text-quaternary px-4 py-2 rounded-md hover:bg-quinary/50 cursor-pointer">Cancelar</button>
                     <button type="submit" @click="onLogin" class="bg-secondary text-quaternary px-4 py-2 rounded-md hover:bg-secondary/75 cursor-pointer">Ingresar</button>
+                    <span v-if="!validData" class="text-quinary text-paragraph pt-1 block w-full text-center mt-0.5">Usuario invalido</span>
                 </div>
             </form>
         </div>

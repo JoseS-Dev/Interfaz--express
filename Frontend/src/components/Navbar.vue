@@ -1,4 +1,10 @@
 <script setup>
+    import { useAuthStore } from '@/store/AuthStore'; 
+    import { RouterLink } from 'vue-router';
+
+    const authStore = useAuthStore();
+    console.log(authStore.isAuthenticated);
+
     const onClickMobileBtn = () => {
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenu.classList.toggle('hidden');
@@ -11,6 +17,10 @@
 
     const onClickLinkMobile = () => {
         document.getElementById('mobile-menu').classList.add('hidden');
+    };
+
+    const onLogout = () => {
+        authStore.clearAuth();
     };
 </script>
 
@@ -34,7 +44,9 @@
                         <a href="#servicios" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph">Servicios</a>
                         <a href="#galeria" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph">Galería</a>
                         <a href="#contacto" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph">Contacto</a>
-                        <button @click="onToggleLogin" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph">Admin</button>
+                        <button v-if="!authStore.isAuthenticated" @click="onToggleLogin" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph">Login</button>
+                        <RouterLink v-else to="/admin" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph">Settings</RouterLink>
+                        <button v-if="authStore.isAuthenticated" @click="onLogout" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph">Logout</button>
                     </div>
                 </div>
             </div>
@@ -46,7 +58,9 @@
                 <a @click="onClickLinkMobile" href="#servicios" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph">Servicios</a>
                 <a @click="onClickLinkMobile" href="#galeria" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph">Galería</a>
                 <a @click="onClickLinkMobile" href="#contacto" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph">Contacto</a>
-                <button @click="onToggleLogin" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph">Admin</button>
+                <button v-if="!authStore.isAuthenticated" @click="onToggleLogin" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph">Login</button>
+                <RouterLink v-else to="/admin" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph">Settings</RouterLink>
+                <button v-if="authStore.isAuthenticated" @click="onLogout" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph">Logout</button>
             </div>
         </div>
     </nav>
