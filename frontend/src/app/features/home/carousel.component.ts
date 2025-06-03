@@ -11,7 +11,7 @@ interface Image {
   template: `
     <section id="galeria" class="py-16 bg-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-secondary mb-12">Nuestras Instalaciones</h2>
+            <h2 class="font-bold text-center text-secondary mb-12 font-secondary text-title">Nuestras Instalaciones</h2>
 
             <!-- Carrusel Desktop (3 en 3) -->
             <div class="hidden lg:block relative">

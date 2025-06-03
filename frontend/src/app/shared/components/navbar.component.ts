@@ -18,7 +18,7 @@ interface NavbarOption {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-bold text-secondary font-primary">Bienestar Total</h1>
+                        <h1 class="font-bold text-secondary text-title font-secondary">Bienestar Total</h1>
                     </div>
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
@@ -32,12 +32,12 @@ interface NavbarOption {
                             @for (option of navbarOptions; track $index) {
                                 <a
                                 [href]="'#' + option.href"
-                                class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium"
+                                class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium font-primary text-paragraph"
                                 >
                                     {{ option.label }}
                                 </a>
                             }
-                            <button (click)="toggleLogin()" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium">Admin</button>
+                            <button (click)="toggleLogin()" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph">Admin</button>
                         </div>
                     </div>
                 </div>
@@ -50,11 +50,12 @@ interface NavbarOption {
                     @for (option of navbarOptions; track $index) {
                         <a
                         [href]="'#' + option.href"
-                        class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium"
+                        class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium font-primary text-paragraph"
                         >
                             {{ option.label }}
-                        </a>                    }
-                    <button (click)="toggleLogin()" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75">Admin</button>
+                        </a>
+                    }
+                    <button (click)="toggleLogin()" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph">Admin</button>
                 </div>
             </div>
             }
