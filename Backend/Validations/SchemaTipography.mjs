@@ -10,10 +10,10 @@ export const schemaTipography = zod.object({
         required_error: 'El nombre de la tipografía secundaria es requerido',
         invalid_type_error: 'El nombre de la tipografía secundaria debe ser una cadena de texto'
     }),
-    tam_font: zod.number({
-        required_error: 'El tamaño de la fuente es requerido',
-        invalid_type_error: 'El tamaño de la fuente debe ser un número'
-    }),
+    // tam_font: zod.number({
+    //     required_error: 'El tamaño de la fuente es requerido',
+    //     invalid_type_error: 'El tamaño de la fuente debe ser un número'
+    // }),
     tam_paragraph: zod.number({
         required_error: 'El tamaño del párrafo es requerido',
         invalid_type_error: 'El tamaño del párrafo debe ser un número'
@@ -33,7 +33,11 @@ export const schemaTipography = zod.object({
     archive_font_secondary: zod.string({
         required_error: 'El archivo de la fuente secundaria es requerido',
         invalid_type_error: 'El archivo de la fuente secundaria debe ser una cadena de texto'
-    })
+    }),
+    is_selected: zod.boolean({
+        required_error: 'El estado de selección es requerido',
+        invalid_type_error: 'El estado de selección debe ser un booleano'
+    }).optional()
 })
 
 // Cuando se crea con solo la tipografía principal
@@ -42,10 +46,10 @@ export const schemaTipographyMain = zod.object({
         required_error: 'El nombre de la tipografía principal es requerido',
         invalid_type_error: 'El nombre de la tipografía principal debe ser una cadena de texto'
     }),
-    tam_font: zod.number({
-        required_error: 'El tamaño de la fuente es requerido',
-        invalid_type_error: 'El tamaño de la fuente debe ser un número'
-    }),
+    // tam_font: zod.number({
+    //     required_error: 'El tamaño de la fuente es requerido',
+    //     invalid_type_error: 'El tamaño de la fuente debe ser un número'
+    // }),
     tam_paragraph: zod.number({
         required_error: 'El tamaño del párrafo es requerido',
         invalid_type_error: 'El tamaño del párrafo debe ser un número'
@@ -61,7 +65,11 @@ export const schemaTipographyMain = zod.object({
     archive_font: zod.string({
         required_error: 'El archivo de la fuente es requerido',
         invalid_type_error: 'El archivo de la fuente debe ser una cadena de texto'
-    })
+    }),
+    is_selected: zod.boolean({
+        required_error: 'El estado de selección es requerido',
+        invalid_type_error: 'El estado de selección debe ser un booleano'
+    }).optional()
 })
 
 // Cuando se crea con solo la tipografía secundaria
@@ -70,10 +78,10 @@ export const schemaTipographySecondary = zod.object({
         required_error: 'El nombre de la tipografía secundaria es requerido',
         invalid_type_error: 'El nombre de la tipografía secundaria debe ser una cadena de texto'
     }),
-    tam_font: zod.number({
-        required_error: 'El tamaño de la fuente es requerido',
-        invalid_type_error: 'El tamaño de la fuente debe ser un número'
-    }),
+    // tam_font: zod.number({
+    //     required_error: 'El tamaño de la fuente es requerido',
+    //     invalid_type_error: 'El tamaño de la fuente debe ser un número'
+    // }),
     tam_paragraph: zod.number({
         required_error: 'El tamaño del párrafo es requerido',
         invalid_type_error: 'El tamaño del párrafo debe ser un número'
@@ -89,7 +97,11 @@ export const schemaTipographySecondary = zod.object({
     archive_font: zod.string({
         required_error: 'El archivo de la fuente es requerido',
         invalid_type_error: 'El archivo de la fuente debe ser una cadena de texto'
-    })
+    }),
+    is_selected: zod.boolean({
+        required_error: 'El estado de selección es requerido',
+        invalid_type_error: 'El estado de selección debe ser un booleano'
+    }).optional()
 })
 
 

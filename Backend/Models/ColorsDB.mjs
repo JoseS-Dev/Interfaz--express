@@ -33,6 +33,27 @@ export class ModelsColors {
         }
     }
 
+    // Obtener un color seleccionado por el usuario
+    static async getSelectedColors({ id_user }) {
+        const query = `
+            SELECT c.*
+            FROM colors c
+            JOIN colors_relationship cr ON c.id_colors = cr.id_colors
+            WHERE cr.id_user = ? AND c.is_selected = true
+            LIMIT 1
+        `;
+    
+        const [rows] = await connection.query(query, [id_user]);
+    
+        if (rows.length > 0) {
+            console.log('Colores encontrados');
+            return rows[0];
+        } else {
+            console.log('No se encontraron colores');
+            return null;
+        }
+    }    
+
     // Obtener un color por su color principal
     static async getByPrimaryColor({primary_color}){
         if(primary_color){

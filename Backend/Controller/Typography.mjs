@@ -41,6 +41,25 @@ export class TypographyController {
         }
     }
     
+    // Obtener una tipografia seleccionada por el usuario
+    getSelectedTypography = async ( req, res ) => {
+        try{
+            const { id_user } = req.params;
+
+            if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
+
+            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
+            return res.status(200).json({
+                message: 'Tipografía encontrada correctamente',
+                data: typography
+            });
+        }
+        catch(error){
+            console.error('Error al obtener la tipografía seleccionada:', error);
+            return res.status(500).json({ error: 'Error al obtener la tipografía seleccionada' });
+        }
+    }
+    
     // Obtener una tipografia por su tipografía principal
     getByMainName = async ( req , res ) => {
         try{
@@ -257,7 +276,7 @@ export class TypographyController {
                 ...req.body,
                 name_tipography_main: mainFont.originalname,
                 name_tipography_secondary: secondaryFont.originalname,
-                tam_font: parseInt(req.body.tam_font),
+                // tam_font: parseInt(req.body.tam_font),
                 tam_paragraph: parseInt(req.body.tam_paragraph),
                 tam_title: parseInt(req.body.tam_title),
                 tam_subtitle: parseInt(req.body.tam_subtitle),

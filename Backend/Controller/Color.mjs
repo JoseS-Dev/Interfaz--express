@@ -36,6 +36,25 @@ export class ColorsController {
             res.status(500).json({message: 'Error interno del servidor'});
         }
     }
+    
+    // Obtener colores seleccionados por el usuario
+    getSelectedColors = async ( req, res ) => {
+        try{
+            const { id_user } = req.params;
+
+            if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
+
+            const colores = await this.ModelsColors.getSelectedColors({ id_user });
+            return res.status(200).json({
+                message: 'Colores encontrados correctamente',
+                data: colores
+            });
+        }
+        catch(error){
+            console.error('Error al obtener los colores seleccionados:', error);
+            return res.status(500).json({ error: 'Error al obtener los colores seleccionados' });
+        }
+    }
 
     // Obtener un color por su color principal
     getByPrimaryColor = async (req, res) => {
