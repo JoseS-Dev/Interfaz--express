@@ -1,11 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #E8F4F8;
-  --color-secondary: #2563EB;
-  --color-tertiary: #F97316;
-  --color-quaternary: #FFFFFF;
-  --color-quinary: #374151;
+  /* Colores */
+  --color-primary: #DFEEFF;  /* 60% - Azul muy claro */
+  --color-secondary: #2563EB; /* 30% - Azul */
+  --color-tertiary: #F97316; /* 10% - Naranja */
+  --color-quaternary: #FFFFFF; /* Blanco*/
+  --color-quinary: #374151; /* Negro */
+
+  /* Tipografia */
+  --font-primary: 'RobotoSans';
+  --font-secondary: 'RobotoSerif';
+
+  /* Tamaño de fuentes */
+  --text-title: 36px;
+  --text-subtitle: 24px;
+  --text-paragraph: 16px;
+
+}
+
+@font-face {
+  font-family: 'RobotoSans';
+  src: url(http://localhost:3500/font/RobotoSans.ttf);
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'RobotoSerif';
+  src: url(http://localhost:3500/font/RobotoSerif.ttf);
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 html {

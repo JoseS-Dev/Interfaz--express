@@ -18,7 +18,7 @@ interface NavbarOption {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <h1 class="text-xl font-bold text-secondary">Bienestar Total</h1>
+                        <h1 class="text-xl font-bold text-secondary font-primary">Bienestar Total</h1>
                     </div>
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
