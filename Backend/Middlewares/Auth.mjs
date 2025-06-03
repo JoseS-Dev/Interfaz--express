@@ -7,7 +7,7 @@ dotenv.config();
 export function Auth(user){
     const token = jwt.sign(
         {id: user.id_user, email: user.email_user},
-        process.env.JWT_SECRET,
+        process.env.DB_JWT_SECRET,
         {expiresIn: process.env.DB_JWT_EXPIRATION || '1h'}
     )
     return token;
