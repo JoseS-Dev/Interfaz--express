@@ -7,10 +7,13 @@ const ternaryColor = ref('');
 const cuarternaryColor = ref('');
 const neutralColor = ref('');
 const invalidData = ref(false);
-const router = useRouter();
 
 const props = defineProps({
     onRefreshListColors: {
+        type: Function,
+        required: true
+    },
+    onRefreshColorsPreview: {
         type: Function,
         required: true
     }
@@ -44,14 +47,31 @@ const onSaveColors = async (event) => {
             ternaryColor.value = '';
             cuarternaryColor.value = '';
             neutralColor.value = '';
+            const colors = {
+                primary_color: '',
+                secondary_color: '',
+                ternary_color: '',
+                cuarternary_color: '',
+                neutral_color: ''
+            };
+            props.onRefreshColorsPreview(colors);
         }
     } catch (error) {
         console.error('Error al guardar los colores:', error);
     }
 };
 
-const onInputColor = () => {
+const onInputColor = (event) => {
+    const input = event.target;
     invalidData.value = false;
+    const colors = {
+        primary_color: primaryColor.value.slice(1),
+        secondary_color: secondaryColor.value.slice(1),
+        ternary_color: ternaryColor.value.slice(1),
+        cuarternary_color: cuarternaryColor.value.slice(1),
+        neutral_color: neutralColor.value.slice(1)
+    };
+    props.onRefreshColorsPreview(colors);
 };
 </script>
 
