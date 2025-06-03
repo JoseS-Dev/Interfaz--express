@@ -342,4 +342,31 @@ export class TypographyController {
             return res.status(500).json({ error: 'Error al eliminar la tipografía por ID' });
         }
     }
+
+    // Seleccionar una tipografía por el usuario
+    selectTypography = async (req, res) => {
+        try {
+            const { id_user, id_tipography } = req.body;
+            console.log('Datos recibidos para seleccionar tipografía:', req.body);
+    
+            if (!id_user || !id_tipography) {
+                return res.status(400).json({ error: 'ID de usuario y ID de tipografía son requeridos' });
+            }
+    
+            const updatedTypography = await this.ModelsTypography.selectTypography({ id_user, id_tipography });
+    
+            if (updatedTypography) {
+                return res.status(200).json({
+                    message: 'Tipografía seleccionada correctamente',
+                    data: updatedTypography
+                });
+            } else {
+                return res.status(404).json({ error: 'No se pudo seleccionar la tipografía' });
+            }
+        } catch (error) {
+            console.error('Error al seleccionar la tipografía:', error);
+            return res.status(500).json({ error: 'Error al seleccionar la tipografía' });
+        }
+    }    
+    
 }

@@ -226,10 +226,10 @@ export class ModelsTypography {
     // Actualizar una tipografia por su ID
     static async updateByID({id_tipography, typography}){
         if(id_tipography && typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
             // Se actualiza la tipografia
-            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, archive_font = ? WHERE id_tipography = ?', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font, id_tipography]);
+            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, archive_font_main = ?, archive_font_secondary = ? WHERE id_tipography = ?', 
+                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary, id_tipography]);
             if(result.affectedRows > 0){
                 console.log('Tipografía actualizada exitosamente');
                 return result;
@@ -260,4 +260,38 @@ export class ModelsTypography {
             }
         }
     }
+
+    // Seleccionar una tipografía para un usuario
+    static async selectTypography({ id_user, id_tipography }) {
+        // Deseleccionar todas las tipografías relacionadas con el usuario
+        console.log('Deseleccionando todas las tipografías para el usuario:', id_user);
+        console.log({ id_user, id_tipography });
+        await connection.query(
+            `UPDATE typography t
+             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+             SET t.is_selected = false
+             WHERE tr.id_user = ?`,
+            [id_user]
+        );
+    
+        // Seleccionar la tipografía indicada para el usuario
+        const [result] = await connection.query(
+            `UPDATE typography t
+             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+             SET t.is_selected = true
+             WHERE tr.id_user = ? AND t.id_tipography = ?`,
+            [id_user, id_tipography]
+        );
+    
+        if (result.affectedRows > 0) {
+            const [rows] = await connection.query(
+                `SELECT t.* FROM typography t WHERE t.id_tipography = ?`,
+                [id_tipography]
+            );
+            return rows[0];
+        } else {
+            return null;
+        }
+    }
+    
 }

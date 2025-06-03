@@ -24,6 +24,7 @@ RoutesTipography.post('/Secondary/:id_user',upload.single('archive_font'), typog
 RoutesTipography.post('/:id_user',uploadFonts, typographycontroller.createTipography);
 
 /// PATCH
+RoutesTipography.patch('/select', typographycontroller.selectTypography);
 RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);
 
 /// DELETE
