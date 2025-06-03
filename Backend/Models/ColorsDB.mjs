@@ -214,4 +214,34 @@ export class ModelsColors {
         }
     }
 
+    static async selectColor({ id_user, id_colors }) {
+        // Deseleccionar todos los colores relacionados con el usuario
+        await connection.query(
+            `UPDATE colors c
+             JOIN colors_relationship cr ON c.id_colors = cr.id_colors
+             SET c.is_selected = false
+             WHERE cr.id_user = ?`,
+            [id_user]
+        );
+    
+        // Seleccionar el color indicado para el usuario
+        const [result] = await connection.query(
+            `UPDATE colors c
+             JOIN colors_relationship cr ON c.id_colors = cr.id_colors
+             SET c.is_selected = true
+             WHERE cr.id_user = ? AND c.id_colors = ?`,
+            [id_user, id_colors]
+        );
+    
+        if (result.affectedRows > 0) {
+            const [rows] = await connection.query(
+                `SELECT c.* FROM colors c WHERE c.id_colors = ?`,
+                [id_colors]
+            );
+            return rows[0];
+        } else {
+            return null;
+        }
+    }
+    
 }
