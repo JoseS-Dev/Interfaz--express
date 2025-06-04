@@ -1,10 +1,22 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+const props = defineProps({
+    onRefreshListFonts: {
+        type: Function,
+        required: true
+    },
+    onRefreshFontsPreview: {
+        type: Function,
+        required: true
+    }
+})
+</script>
 
 <template>
-    <form class="w-full h-152 flex flex-col items-center gap-2 px-2 py-3">
+    <form class="w-full h-152 flex flex-col items-center gap-2 px-2 py-3 bg-white">
         <div class="w-full h-22  px-3 flex flex-col gap-2">
             <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="primary_color">Fuente Principal</label>
-            <input class="w-full h-1/2 rounded-sm border-1 border-gray-700 text-center cursor-pointer font-semibold px-3 py-2  bg-gray-300 text-black text-lg" type="file" accept=".ttf" name="primary_color" id="primary_color" required/>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 text-center cursor-pointer font-semibold px-3 py-2  bg-[#DFEEFF]/50 text-black text-lg" type="file" accept=".ttf" name="primary_color" id="primary_color" required/>
         </div>
         <div class="w-full h-22  px-3 flex flex-col gap-2">
             <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="secondary_color">Fuente Secundaria</label>

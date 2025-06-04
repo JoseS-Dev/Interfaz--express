@@ -18,7 +18,7 @@
         <section class="w-3/10 h-full border-r-2 border-gray-800 px-3 py-3">
             <article class="text-xl flex flex-col items-center tracking-widese">
                 <h3 class="w-full font-bold text-center border-b-2 border-black">Configuración de Fuentes</h3>
-                <formFonts/>
+                <formFonts :onRefreshListFonts="setRefreshListFonts" :onRefreshTipographyPreview="setTipographyPreview"/>
             </article>
         </section>
         <section class="border-r-2 border-gray-800 w-3/10 h-full px-3 py-3">
