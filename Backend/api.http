@@ -168,12 +168,28 @@ POST http://localhost:3500/Colors/1
 Content-Type: application/json
 
 {
-  "primary_color": "f00",
-  "secondary_color": "0f0",
-  "ternary_color": "00f",
-  "cuarternary_color": "ff0",
-  "neutral_color": "000"
+  "primary_color": "DFEEFF",
+  "secondary_color": "2563EB",
+  "ternary_color": "F97316",
+  "cuarternary_color": "FFFFFF",
+  "neutral_color": "374151",
+  "is_selected": true
 }
 
+### Actualizar color por id
+PATCH http://localhost:3500/Colors/2
+Content-Type: application/json
+
+{
+  "primary_color": "DFEEFF",
+  "secondary_color": "2563EB",
+  "ternary_color": "F97316",
+  "cuarternary_color": "FFFFFF",
+  "neutral_color": "374151",
+  "is_selected": true
+}
+
+
+
 ### Borrar un conjunto de colores
-DELETE http://localhost:3500/Colors/6
+DELETE http://localhost:3500/Colors/3

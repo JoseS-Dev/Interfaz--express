@@ -148,10 +148,10 @@ export class ModelsColors {
     // Crear un Color
     static async createColor({color, id_user}){
         if(color){
-            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color
+            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected} = color
             // Se agrega el nuevo color
-            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color) VALUES(?,?,?,?,?)',[
-                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color])
+            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected) VALUES(?,?,?,?,?,?)',[
+                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected])
             
             if(newColor.affectedRows > 0){
                 // Se relaciona con su tabla de relación
@@ -171,9 +171,9 @@ export class ModelsColors {
     // Actualizar un color por su ID
     static async updateByID({id_colors,color}){
         if(id_colors && color){
-            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color;
-            const [updatedColor] = await connection.query('UPDATE colors SET primary_color = ?, secondary_color = ?, ternary_color = ?, cuaternary_color = ?, neutral_color = ? WHERE id_colors = ?', [
-                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color,id_colors
+            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected} = color;
+            const [updatedColor] = await connection.query('UPDATE colors SET primary_color = ?, secondary_color = ?, ternary_color = ?, cuarternary_color = ?, neutral_color = ?, is_selected = ? WHERE id_colors = ?', [
+                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color,is_selected,id_colors
             ]);
             if(updatedColor.affectedRows > 0){
                 console.log(`Color con ID ${id_colors} actualizado correctamente`);

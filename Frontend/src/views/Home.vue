@@ -8,9 +8,27 @@ import LoginModal from '@/components/LoginModal.vue';
 import Footer from '@/components/Footer.vue';
 
 import { useAuthStore } from '@/store/AuthStore';
+import { onMounted } from 'vue';
 
 const authStore = useAuthStore();
-
+onMounted(async() => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/Colors`);
+        if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        const listColors = await response.json();
+        const selectedColor = listColors.find((color) => color.is_selected === 1);
+        const root = document.documentElement;
+        root.style.setProperty('--color-primary', `#${selectedColor.primary_color}`);
+        root.style.setProperty('--color-secondary', `#${selectedColor.secondary_color}`);
+        root.style.setProperty('--color-tertiary', `#${selectedColor.ternary_color}`);
+        root.style.setProperty('--color-quaternary', `#${selectedColor.cuarternary_color}`);
+        root.style.setProperty('--color-quinary', `#${selectedColor.neutral_color}`);
+        console.log('Colores obtenidos correctamente', `#${selectedColor.primary_color}`);
+    } catch (err) {
+        error.value = err.message;
+        console.error('Error al obtener colores:', err);
+    }
+})
 </script>
 
 <template>
