@@ -108,7 +108,7 @@ Content-Disposition: form-data; name="tam_subtitle"
 Content-Disposition: form-data; name="archive_font"; filename="Roboto.ttf"
 Content-Type: application/x-font-ttf
 
-< /uploads/font/Roboto.ttf
+< ../font/Roboto.ttf
 --CustomBoundary--
 
 ### Crear una tipografia con su fuente secundaria
@@ -176,4 +176,4 @@ Content-Type: application/json
 }
 
 ### Borrar un conjunto de colores
-DELETE http://localhost:3500/Colors/5
+DELETE http://localhost:3500/Colors/6
