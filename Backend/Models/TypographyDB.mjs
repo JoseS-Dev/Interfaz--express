@@ -204,10 +204,10 @@ export class ModelsTypography {
     // Se crea una tipografia con su Tipografia principal y secundaria
     static async createTipography({ typography, id_user }){
         if(typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary } = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary]);
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected,archive_font_main, archive_font_secondary]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
                 const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);
@@ -226,10 +226,10 @@ export class ModelsTypography {
     // Actualizar una tipografia por su ID
     static async updateByID({id_tipography, typography}){
         if(id_tipography && typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary } = typography;
             // Se actualiza la tipografia
-            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, archive_font_main = ?, archive_font_secondary = ? WHERE id_tipography = ?', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary, id_tipography]);
+            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, is_selected = ?,archive_font_main = ?, archive_font_secondary = ? WHERE id_tipography = ?', 
+                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected,archive_font_main, archive_font_secondary, id_tipography]);
             if(result.affectedRows > 0){
                 console.log('Tipografía actualizada exitosamente');
                 return result;

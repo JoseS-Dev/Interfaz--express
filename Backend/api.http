@@ -105,6 +105,10 @@ Content-Disposition: form-data; name="tam_subtitle"
 
 20
 --CustomBoundary
+Content-Disposition: form-data; name="is_selected"
+
+false
+--CustomBoundary
 Content-Disposition: form-data; name="archive_font"; filename="Roboto.ttf"
 Content-Type: application/x-font-ttf
 
@@ -186,7 +190,7 @@ Content-Type: application/json
   "ternary_color": "F97316",
   "cuarternary_color": "FFFFFF",
   "neutral_color": "374151",
-  "is_selected": true
+  "is_selected": false
 }
 
 

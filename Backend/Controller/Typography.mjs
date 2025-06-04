@@ -281,8 +281,10 @@ export class TypographyController {
                 tam_title: parseInt(req.body.tam_title),
                 tam_subtitle: parseInt(req.body.tam_subtitle),
                 archive_font_main: mainFont.path,
-                archive_font_secondary: secondaryFont.path
+                archive_font_secondary: secondaryFont.path,
+                is_selected: req.body.is_selected === 'true'
             }
+            console.log(body);
             const result = validateTipography(body);
             const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });

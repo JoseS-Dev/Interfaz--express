@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps } from 'vue';
 import { useRouter } from 'vue-router';
-const primaryColor = ref('#f00');
+const primaryColor = ref('');
 const secondaryColor = ref('');
 const ternaryColor = ref('');
 const cuarternaryColor = ref('');
