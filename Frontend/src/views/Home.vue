@@ -17,6 +17,7 @@ onMounted(async() => {
         if (!response.ok) throw new Error(`Error de API: ${response.status}`);
         const listColors = await response.json();
         const selectedColor = listColors.find((color) => color.is_selected === 1);
+        if (!selectedColor) throw new Error('No se encontraron colores');
         const root = document.documentElement;
         root.style.setProperty('--color-primary', `#${selectedColor.primary_color}`);
         root.style.setProperty('--color-secondary', `#${selectedColor.secondary_color}`);
