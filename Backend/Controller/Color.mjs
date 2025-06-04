@@ -36,6 +36,25 @@ export class ColorsController {
             res.status(500).json({message: 'Error interno del servidor'});
         }
     }
+    
+    // Obtener colores seleccionados por el usuario
+    getSelectedColors = async ( req, res ) => {
+        try{
+            const { id_user } = req.params;
+
+            if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
+
+            const colores = await this.ModelsColors.getSelectedColors({ id_user });
+            return res.status(200).json({
+                message: 'Colores encontrados correctamente',
+                data: colores
+            });
+        }
+        catch(error){
+            console.error('Error al obtener los colores seleccionados:', error);
+            return res.status(500).json({ error: 'Error al obtener los colores seleccionados' });
+        }
+    }
 
     // Obtener un color por su color principal
     getByPrimaryColor = async (req, res) => {
@@ -181,4 +200,28 @@ export class ColorsController {
         }
     }
 
+    // Método para seleccionar un color para un usuario
+    selectColor = async (req, res) => {
+        try {
+            const { id_user, id_colors } = req.body;
+
+            if (!id_user || !id_colors) {
+                return res.status(400).json({ error: 'ID de usuario y ID de color son requeridos' });
+            }
+
+            const updatedColor = await this.ModelsColors.selectColor({ id_user, id_colors });
+
+            if (updatedColor) {
+                return res.status(200).json({
+                    message: 'Color seleccionado correctamente',
+                    data: updatedColor
+                });
+            } else {
+                return res.status(404).json({ error: 'No se pudo seleccionar el color' });
+            }
+        } catch (error) {
+            console.error('Error al seleccionar el color:', error);
+            return res.status(500).json({ error: 'Error al seleccionar el color' });
+        }
+    }
 }

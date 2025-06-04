@@ -21,6 +21,10 @@ export const schemaColors = zod.object({
         required_error: 'El color neutral es requerido',
         invalid_type_error: 'El color neutral debe ser una cadena de texto'
     }),
+    is_selected: zod.boolean({
+        required_error: 'El estado de selección es requerido',
+        invalid_type_error: 'El estado de selección debe ser un booleano'
+    }).optional()
 })
 
 // Function para validar los colores

@@ -21,6 +21,7 @@ RoutesColors.get('/Neutral/:neutral_color', colorsController.getByNeutralColor);
 RoutesColors.post('/:id_user', colorsController.createColor);
 
 // PATCH
+RoutesColors.patch('/select', colorsController.selectColor);
 RoutesColors.patch('/:id_colors', colorsController.updateByID);
 
 // DELETE

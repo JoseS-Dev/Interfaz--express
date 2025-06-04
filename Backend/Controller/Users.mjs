@@ -85,4 +85,14 @@ export class UsersControllers{
         }
     }
 
+    getVerify = async (req, res) => {
+            if (!req.user) return res.status(401).json({
+                message: 'Usuario no autenticado'
+            });
+
+            return res.status(200).json({
+                message: 'Usuario autenticado',
+                user: req.user
+            });
+        }
 }
