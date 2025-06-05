@@ -284,7 +284,6 @@ export class TypographyController {
                 archive_font_secondary: secondaryFont.path,
                 is_selected: req.body.is_selected === 'true'
             }
-            console.log(body);
             const result = validateTipography(body);
             const { id_user } = req.params;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
@@ -304,8 +303,27 @@ export class TypographyController {
     updateByID = async ( req, res ) => {
         try{
             const {id_tipography} = req.params;
+            console.log('id de tipografia a actualizar: ',id_tipography);
+            const mainFont = req.files.main_font[0];
+            const secondaryFont = req.files.secondary_font[0];
+
+            const mainPath = mainFont.path;
+            console.log('Ruta de la fuente principal:', mainPath);
+
+            const body = {
+                ...req.body,
+                name_tipography_main: mainFont.originalname,
+                name_tipography_secondary: secondaryFont.originalname,
+                // tam_font: parseInt(req.body.tam_font),
+                tam_paragraph: parseInt(req.body.tam_paragraph),
+                tam_title: parseInt(req.body.tam_title),
+                tam_subtitle: parseInt(req.body.tam_subtitle),
+                archive_font_main: mainFont.path,
+                archive_font_secondary: secondaryFont.path,
+                is_selected: req.body.is_selected === 'true'
+            }
             if(id_tipography){
-                const result = validateTipographyUpdate(req.body);
+                const result = validateTipographyUpdate(body);
                 if(!result.success) return res.status(400).json({ error: result.error.errors });
                 
                 const updatedTipography = await this.ModelsTypography.updateByID({id_tipography, typography: result.data});

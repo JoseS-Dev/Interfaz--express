@@ -10,20 +10,20 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-quinary mb-2 text-paragraph">Nombre</label>
-                            <input type="text" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            <input type="text" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary text-quinary">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-quinary mb-2 text-paragraph">Teléfono</label>
-                            <input type="tel" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            <input type="tel" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary text-quinary">
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-quinary mb-2 text-paragraph">Email</label>
-                        <input type="email" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                        <input type="email" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary text-quinary">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-quinary mb-2 text-paragraph">Mensaje</label>
-                        <textarea rows="4" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary resize-none"></textarea>
+                        <textarea rows="4" class="bg-primary/50 w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary resize-none text-quinary"></textarea>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="bg-tertiary text-quaternary px-8 py-3 rounded-md font-medium hover:bg-tertiary/75 transition-colors cursor-pointer text-paragraph">

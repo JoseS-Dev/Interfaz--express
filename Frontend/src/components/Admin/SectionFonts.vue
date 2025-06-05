@@ -18,13 +18,13 @@
         <section class="w-3/10 h-full border-r-2 border-gray-800 px-3 py-3">
             <article class="text-xl flex flex-col items-center tracking-widese">
                 <h3 class="w-full font-bold text-center border-b-2 border-black">Configuración de Fuentes</h3>
-                <formFonts :onRefreshListFonts="setRefreshListFonts" :onRefreshTipographyPreview="setTipographyPreview"/>
+                <formFonts :onRefreshListFonts="setRefreshListFonts" :onRefreshFontsPreview="setTipographyPreview"/>
             </article>
         </section>
         <section class="border-r-2 border-gray-800 w-3/10 h-full px-3 py-3">
             <article class="text-xl flex flex-col items-center tracking-widese">
                 <h3 class="w-full font-bold text-center border-b-2 border-black">Vista Previa</h3>
-                <CardFonts/>
+                <CardFonts :fonts="tipographyPreview"/>
             </article>
         </section>
         <section class="w-2/5 h-full px-3 py-3">

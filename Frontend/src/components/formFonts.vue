@@ -1,5 +1,13 @@
 <script setup>
 import { ref } from 'vue';
+
+const primaryFont = ref('');
+const secondaryFont = ref('');
+const textTitle = ref('');
+const textSubtitle = ref('');
+const textParagraph = ref('');
+const invalidData = ref(false);
+
 const props = defineProps({
     onRefreshListFonts: {
         type: Function,
@@ -10,34 +18,163 @@ const props = defineProps({
         required: true
     }
 })
+
+
+const loadFont = (file, fontType) => {
+    return new Promise((resolve) => {
+        const fontUrl = URL.createObjectURL(file);
+        const fontName = `Custom-${fontType}-${Date.now()}`;
+        const fontFace = new FontFace(fontName, `url(${fontUrl})`, {
+            style: 'normal',
+            weight: '100 900',
+            display: 'swap',
+        });
+        fontFace.load().then((loadFont) => {
+            document.fonts.add(loadFont);
+            URL.revokeObjectURL(fontUrl);
+            resolve(fontName);
+        });
+    });
+};
+
+const onInputFile = async(event) => {
+    invalidData.value = false;
+    const file = event.target.files[0];
+    const fontType = event.target.name;
+    try {
+        const fontName = await loadFont(file, fontType);
+        console.log('Fuente cargada:', fontName);
+        if (fontType === 'primary') {
+            primaryFont.value = fontName;
+            props.onRefreshFontsPreview({primaryFont: fontName, secondaryFont: secondaryFont.value, textTitle: textTitle.value, textSubtitle: textSubtitle.value, textParagraph: textParagraph.value});
+        }
+        else if (fontType === 'secondary') {
+            secondaryFont.value = fontName;
+            props.onRefreshFontsPreview({primaryFont: primaryFont.value, secondaryFont: fontName, textTitle: textTitle.value, textSubtitle: textSubtitle.value, textParagraph: textParagraph.value});
+        }
+    } catch (error) {
+        console.error('Error al cargar la fuente:', error);
+    }
+}; 
+
+const onInputTam = (event) => {
+    invalidData.value = false;
+    if (event.target.value[0] === '-' || event.target.value[0] === '0') {
+        event.target.value = '1';
+    }
+    props.onRefreshFontsPreview({primaryFont: primaryFont.value, secondaryFont: secondaryFont.value, textTitle: textTitle.value, textSubtitle: textSubtitle.value, textParagraph: textParagraph.value});
+}
+
+const onSaveFonts = async (event) => {
+    event.preventDefault();
+    if (!primaryFont.value || !secondaryFont.value || !textTitle.value || !textSubtitle.value || !textParagraph.value) {
+        invalidData.value = true;
+        return;
+    }
+    const mainInputFile = document.getElementById('primaryFont');
+    const secondaryInputFile = document.getElementById('secondaryFont');
+    const formData = new FormData();
+    formData.append('tam_paragraph', textParagraph.value);
+    formData.append('tam_title', textTitle.value);
+    formData.append('tam_subtitle', textSubtitle.value);
+    formData.append('is_selected', 'false');
+    formData.append('main_font', mainInputFile.files[0]);
+    formData.append('secondary_font', secondaryInputFile.files[0]);
+    try {
+        const response = await fetch( `${import.meta.env.VITE_BACKEND_URL}/Tipography/1`, {
+            method: 'POST',
+            body: formData
+        });
+        if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        props.onRefreshListFonts();
+        primaryFont.value = '';
+        secondaryFont.value = '';
+        textTitle.value = '';
+        textSubtitle.value = '';
+        textParagraph.value = '';
+        props.onRefreshFontsPreview({primaryFont: '', secondaryFont: '', textTitle: '', textSubtitle: '', textParagraph: ''});
+        mainInputFile.value = null;
+        secondaryInputFile.value = null;
+    } catch (error) {
+        console.error('Error al guardar la tipografia: ',error);
+    }
+    
+};
+
+const onEditFonts = async (event) => {
+    event.preventDefault();
+    if (!primaryFont.value || !secondaryFont.value || !textTitle.value || !textSubtitle.value || !textParagraph.value) {
+        invalidData.value = true;
+        return;
+    }
+    const mainInputFile = document.getElementById('primaryFont');
+    const secondaryInputFile = document.getElementById('secondaryFont');
+    const formData = new FormData();
+    formData.append('tam_paragraph', textParagraph.value);
+    formData.append('tam_title', textTitle.value);
+    formData.append('tam_subtitle', textSubtitle.value);
+    formData.append('is_selected', 'true');
+    formData.append('main_font', mainInputFile.files[0]);
+    formData.append('secondary_font', secondaryInputFile.files[0]);
+    try {
+        const response = await fetch( `${import.meta.env.VITE_BACKEND_URL}/Tipography`)
+        if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        const listFonts = (await response.json()).data;
+        const selectedFont = listFonts.find(font => font.is_selected === 1);
+        const otherResponse = await fetch( `${import.meta.env.VITE_BACKEND_URL}/Tipography/${selectedFont.id_tipography}`, {
+            method: 'PATCH',
+            body: formData
+        })
+        if (!otherResponse.ok) throw new Error(`Error de API: ${otherResponse.status}`);
+        props.onRefreshListFonts();
+        primaryFont.value = '';
+        secondaryFont.value = '';
+        textTitle.value = '';
+        textSubtitle.value = '';
+        textParagraph.value = '';
+        props.onRefreshFontsPreview({primaryFont: '', secondaryFont: '', textTitle: '', textSubtitle: '', textParagraph: ''});
+        mainInputFile.value = null;
+        secondaryInputFile.value = null;
+    } catch (error) {
+        console.error('Error al editar la tipografia: ',error);
+    }
+}
 </script>
 
 <template>
-    <form class="w-full h-152 flex flex-col items-center gap-2 px-2 py-3 bg-white">
-        <div class="w-full h-22  px-3 flex flex-col gap-2">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="primary_color">Fuente Principal</label>
-            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 text-center cursor-pointer font-semibold px-3 py-2  bg-[#DFEEFF]/50 text-black text-lg" type="file" accept=".ttf" name="primary_color" id="primary_color" required/>
+    <form class="w-full h-152 flex flex-col items-center gap-1 px-2 py-3 bg-white">
+        <div class="w-full h-22  px-3 flex flex-col gap-1">
+            <label class="w-full trancking-widese font-500 text-lg" for="primaryFont">Fuente Principal</label>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 text-center cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" type="file" accept=".ttf" name="primary" id="primaryFont" required @input="onInputFile"/>
         </div>
-        <div class="w-full h-22  px-3 flex flex-col gap-2">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="secondary_color">Fuente Secundaria</label>
-            <input class="w-full h-1/2 rounded-sm border-1 border-gray-700 text-center cursor-pointer font-semibold px-3 py-2  bg-gray-300 text-black text-lg" type="file" name="secondary_color" id="secondary_color" required/>
+        <div class="w-full h-22  px-3 flex flex-col gap-1">
+            <label class="w-full trancking-widese font-500 text-lg" for="secondaryFont">Fuente Secundaria</label>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 text-center cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" type="file" accept=".ttf" name="secondary" id="secondaryFont" required @input="onInputFile"/>
         </div>
-        <div class="w-full h-19  px-3 flex flex-col gap-2">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="tam_font">Tamaño de las fuentes</label>
-            <input class="border-b-2 border-r-2 border-gray-700 rounded-sm outline-none h-3/5 bg-gray-300 px-2 text-black text-lg hover:border-blue-700 placeholder:text-gray-800 focus:border-blue-700 transition-color duration-100" type="text" name="tam_font" id="tam_font" placeholder="Ingrese el tamaño de las fuentes" required/>
+        
+        <div class="w-full h-19  px-3 flex flex-col gap-1">
+            <label class="w-full trancking-widese font-500 text-lg" for="tam_title">Tamaño de los titulos</label>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" id="tam_title" name="tam_title" placeholder="Ingrese el tamaño de los titulos" required type="number" v-model="textTitle" @input="onInputTam"/>
         </div>
         <div class="w-full h-19  px-3 flex flex-col gap-1">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="tam_title">Tamaño de los titulos</label>
-            <input class="border-b-2 border-r-2 border-gray-700 rounded-sm outline-none h-3/5 bg-gray-300 px-2 text-black text-lg hover:border-blue-700 placeholder:text-gray-800 focus:border-blue-700 transition-color duration-100" id="tam_title" name="tam_title" placeholder="Ingrese el tamaño de los titulos" required/>
+            <label class="w-full trancking-widese font-500 text-lg" for="tam_subtitle">Tamaño de los subtitulos</label>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" type="number" name="tam_subtitle" id="tam_subtitle" placeholder="Ingrese el tamaño de los subtitulos" required v-model="textSubtitle" @input="onInputTam"/>
         </div>
         <div class="w-full h-19  px-3 flex flex-col gap-1">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="tam_subtitle">Tamaño de los subtitulos</label>
-            <input class="border-b-2 border-r-2 border-gray-700 rounded-sm outline-none h-3/5 bg-gray-300 px-2 text-black text-lg hover:border-blue-700 placeholder:text-gray-800 focus:border-blue-700 transition-color duration-100" type="text" name="tam_subtitle" id="tam_subtitle" placeholder="Ingrese el tamaño de los subtitulos" required/>
+            <label class="w-full trancking-widese font-500 text-lg" for="tam_paragraph">Tamaño de los párrafos</label>
+            <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" type="number" name="tam_paragraph" id="tam_paragraph" placeholder="Ingrese el tamaño de los párrafos" required v-model="textParagraph" @input="onInputTam"/>
         </div>
-        <div class="w-full h-19  px-3 flex flex-col gap-1">
-            <label class="w-full trancking-widese font-500 border-b-2 border-blue-800 text-lg" for="tam_paragraph">Tamaño de los párrafos</label>
-            <input class="border-b-2 border-r-2 border-gray-700 rounded-sm outline-none h-3/5 bg-gray-300 px-2 text-black text-lg hover:border-blue-700 placeholder:text-gray-800 focus:border-blue-700 transition-color duration-100" type="text" name="tam_paragraph" id="tam_paragraph" placeholder="Ingrese el tamaño de los párrafos" required/>
+        <div class="w-full flex justify-between px-3 mt-1.5">
+            <button type="submit"
+                class="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3 text-[16px] max-w-32"
+                @click="onSaveFonts">
+                Crear
+            </button>
+            <button type="submit"
+                class="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3 text-[16px] max-w-32"
+                @click="onEditFonts">
+                Editar
+            </button>
         </div>
-        <button type="submit" class="border-2 my-2 border-black w-2/5 h-auto px-2 py-2 bg-gray-700 rounded-xl text-white text-lg cursor-pointer hover:bg-blue-500 hover:border-black hover:font-bold transition-colors duration-300">Guardar</button>
     </form>
 </template>

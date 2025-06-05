@@ -79,12 +79,12 @@
             <form>
                 <div class="mb-4">
                     <label class="block text-quinary text-sm font-bold mb-1.5 text-paragraph">Correo</label> 
-                    <input type="text" v-model="email" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
+                    <input type="text" v-model="email" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50 text-quinary">
                     <span v-if="!validEmail" class="text-quinary text-paragraph pt-1 block">Correo electrónico inválido</span>
                 </div>
                 <div class="mb-6">
                     <label class="block text-quinary text-sm font-bold mb-1.5 text-paragraph">Contraseña</label>
-                    <input type="password" v-model="password" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50">
+                    <input type="password" v-model="password" @input="onInput" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50 text-quinary">
                     <span v-if="!validPassword" class="text-quinary text-paragraph pt-1 block">Contraseña inválida</span>
                 </div>
                 <div class="flex justify-between flex-wrap">
