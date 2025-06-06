@@ -9,10 +9,28 @@ import Footer from '@/components/Footer.vue';
 
 import { useAuthStore } from '@/store/AuthStore';
 import { onMounted } from 'vue';
+import getNameFont from '@/utilities/getNameFont';
 
 const authStore = useAuthStore();
+const loadFont = (nameFont, font) => {
+    return new Promise((resolve) => {
+        const fontName = `Custom-${nameFont}-${Date.now()}`;
+        const fontFace = new FontFace(fontName, `url(${import.meta.env.VITE_BACKEND_URL}/font/${font})`, {
+            style: 'normal',
+            weight: '100 900',
+            display: 'swap',
+        });
+        fontFace.load().then((loadFont) => {
+            document.fonts.add(loadFont);
+            resolve(fontName);
+        });
+    });
+};
+
 onMounted(async() => {
     try {
+
+        /* Obtener colores */
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/Colors`);
         if (!response.ok) throw new Error(`Error de API: ${response.status}`);
         const listColors = await response.json();
@@ -25,9 +43,28 @@ onMounted(async() => {
         root.style.setProperty('--color-quaternary', `#${selectedColor.cuarternary_color}`);
         root.style.setProperty('--color-quinary', `#${selectedColor.neutral_color}`);
         console.log('Colores obtenidos correctamente', `#${selectedColor.primary_color}`);
+
+        /* Obtener fuentes */
+        const otherResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/Tipography`);
+        if (!otherResponse.ok) throw new Error(`Error de API: ${otherResponse.status}`);
+        const listFonts = (await otherResponse.json()).data;
+        const selectedFont = listFonts.find((font) => font.is_selected === 1);
+        if (!selectedFont) throw new Error('No se encontro una fuente seleccionada');
+        const primaryFont = await loadFont(selectedFont.name_tipography_main, getNameFont(selectedFont.archive_font_main));
+        const secondaryFont = await loadFont(selectedFont.name_tipography_secondary, getNameFont(selectedFont.archive_font_secondary));
+
+
+        root.style.setProperty('--font-primary', `'${primaryFont}'`);
+        root.style.setProperty('--font-secondary', `'${secondaryFont}'`);
+        root.style.setProperty('--text-title', `${selectedFont.tam_title}px`);
+        root.style.setProperty('--text-subtitle', `${selectedFont.tam_subtitle}px`);
+        root.style.setProperty('--text-paragraph', `${selectedFont.tam_paragraph}px`);
+
+        console.log('Fuentes Cargadas Correctamente');
+
     } catch (err) {
-        error.value = err.message;
-        console.error('Error al obtener colores:', err);
+        const error = err.message;
+        console.error('Error al cargar los estilos seleccionados:', error);
     }
 })
 </script>

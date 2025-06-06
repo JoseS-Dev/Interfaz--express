@@ -32,7 +32,7 @@ const textParagraph = computed(() => {
 </script>
 
 <template>
-    <div class="w-full h-120 border-2 border-black flex flex-col items-center justify-center p-5 my-2 rounded-lg">
+    <div class="w-full h-full border-2 border-black flex flex-col items-center justify-center p-5 my-2 rounded-lg overflow-auto">
         <div class="text-center ">
             <h1 class="text-md md:text-5xl font-bold mb-4" :style="`font-family: ${secondaryFont}; font-size: ${textTitle}px;`">Tu Bienestar es Nuestra Prioridad</h1>
             <p class="text-sm sm:text-2xl max-w-3xl mx-auto" :style="`font-family: ${primaryFont}; font-size: ${textSubtitle}px;`">Servicios de salud integral para toda la familia</p>

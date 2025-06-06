@@ -22,7 +22,7 @@
             </article>
         </section>
         <section class="border-r-2 border-gray-800 w-3/10 h-full px-3 py-3">
-            <article class="text-xl flex flex-col items-center tracking-widese">
+            <article class="text-xl h-full flex flex-col items-center tracking-widese">
                 <h3 class="w-full font-bold text-center border-b-2 border-black">Vista Previa</h3>
                 <CardFonts :fonts="tipographyPreview"/>
             </article>

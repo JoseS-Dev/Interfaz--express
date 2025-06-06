@@ -43,6 +43,9 @@ const listColors = computed(() => colorsData.value);
 const onSelectColor = async (id) => {
     const color = listColors.value.find((color) => color.id_colors === id);
     const olColor = listColors.value.find((color) => color.is_selected === 1);
+    if (color.id_colors === olColor.id_colors) {
+        return;
+    }
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/Colors/${id}`, {
             method: 'PATCH',
