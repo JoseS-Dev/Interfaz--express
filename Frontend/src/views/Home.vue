@@ -14,16 +14,31 @@ import getNameFont from '@/utilities/getNameFont';
 const authStore = useAuthStore();
 const loadFont = (nameFont, font) => {
     return new Promise((resolve) => {
-        const fontName = `Custom-${nameFont}-${Date.now()}`;
-        const fontFace = new FontFace(fontName, `url(${import.meta.env.VITE_BACKEND_URL}/font/${font})`, {
+        // Sanear el nombre: eliminar extensión y caracteres no permitidos
+        const sanitizedFontName = nameFont.replace(/\.[^/.]+$/, "") // Elimina extensión
+                                         .replace(/[^a-zA-Z0-9\-]/g, "-"); // Reemplaza caracteres inválidos
+        
+        const fontName = `Custom-${sanitizedFontName}-${Date.now()}`;
+        
+        // Agregar comillas simples a la URL
+        const url = `url('${import.meta.env.VITE_BACKEND_URL}/font/${nameFont}')`;
+        
+        const fontFace = new FontFace(fontName, url, {
             style: 'normal',
             weight: '100 900',
             display: 'swap',
         });
-        fontFace.load().then((loadFont) => {
-            document.fonts.add(loadFont);
-            resolve(fontName);
-        });
+        
+        fontFace.load()
+            .then((loadedFont) => {
+                document.fonts.add(loadedFont);
+                resolve(fontName);
+            })
+            .catch((error) => {
+                console.error('Error al cargar la fuente:', error);
+                // Fallback a fuente segura
+                resolve("Arial");
+            });
     });
 };
 
