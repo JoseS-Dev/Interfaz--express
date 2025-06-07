@@ -109,6 +109,7 @@ const onDeleteColor = async (id) => {
             method: 'DELETE'
         });
         if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        alert('Paleta de colores eliminada correctamente');
         loadColors();
     } catch (err) {
         error.value = err.message;

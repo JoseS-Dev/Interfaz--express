@@ -42,6 +42,7 @@ const onSaveColors = async (event) => {
             body: JSON.stringify(colors)
         });
         if (response.ok) {
+            alert('Colores guardados correctamente');
             props.onRefreshListColors();
             primaryColor.value = '';
             secondaryColor.value = '';

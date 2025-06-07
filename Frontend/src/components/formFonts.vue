@@ -86,6 +86,7 @@ const onSaveFonts = async (event) => {
             body: formData
         });
         if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        alert('Tipografía guardada correctamente');
         props.onRefreshListFonts();
         primaryFont.value = '';
         secondaryFont.value = '';

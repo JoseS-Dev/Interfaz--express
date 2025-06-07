@@ -77,6 +77,7 @@ const onDeleteFont = async (id) => {
             method: 'DELETE'
         });
         if (!response.ok) throw new Error(`Error de API: ${response.status}`);
+        alert('Tipografía eliminada correctamente');
         loadFonts();
     } catch (error) {
         error.value = error.message;
