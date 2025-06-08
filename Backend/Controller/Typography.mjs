@@ -284,7 +284,7 @@ export class TypographyController {
                 archive_font_secondary: secondaryFont.path
             }
             const result = validateTipography(body);
-            const { id_user } = req.params;
+            const { id_user } = req.user.id;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipography({typography: result.data, id_user});
             return res.status(201).json({

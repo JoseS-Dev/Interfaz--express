@@ -8,6 +8,7 @@ export class UsersControllers{
     // Logear un usuario
     getLogin = async (req , res) => {
         try{
+            console.log(req.body);
             const result = validateLogin(req.body);
             const user = await this.ModelsUsers.Login({user: result.data});
             if(user){
@@ -49,7 +50,8 @@ export class UsersControllers{
             if(Register){
                 return res.status(201).json({
                     message: 'Usuario registrado',
-                    user: Register
+                    user: Register,
+                    token: Auth(user)
                 });
             }
             else{
@@ -87,12 +89,13 @@ export class UsersControllers{
 
     getVerify = async (req, res) => {
             if (!req.user) return res.status(401).json({
-                message: 'Usuario no autenticado'
+                message: 'Usuario no autenticado',
+                isAuthenticated: false,
             });
 
             return res.status(200).json({
                 message: 'Usuario autenticado',
-                user: req.user
+                isAuthenticated: true,
             });
         }
 }

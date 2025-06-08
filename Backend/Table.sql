@@ -22,7 +22,7 @@ CREATE TABLE colors(
     ternary_color VARCHAR(200) NOT NULL,
     cuarternary_color VARCHAR(200) NOT NULL,
     neutral_color VARCHAR(200) NOT NULL,
-    is_selected BOOLEAN NOT NULL
+    is_selected BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE colors_relationship(
@@ -41,7 +41,7 @@ CREATE TABLE typography(
     tam_paragraph INT NOT NULL,
     tam_title INT NOT NULL,
     tam_subtitle INT NOT NULL,
-    is_selected BOOLEAN NOT NULL DEFAULT TRUE,
+    is_selected BOOLEAN NOT NULL DEFAULT FALSE,
     archive_font_main VARCHAR(255) NOT NULL,
     archive_font_secondary VARCHAR(255) NOT NULL
 );
