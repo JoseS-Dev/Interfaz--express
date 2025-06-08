@@ -1,8 +1,13 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
+import { AuthService } from "../../core/services/auth.service";
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { LoginCredentials } from "../../shared/interfaces/login.interface";
+import { Router } from "@angular/router";
 
 @Component({
     standalone: true,
     selector: 'login',
+    imports: [ReactiveFormsModule],
     template: `
         @if (!isLoginModalHidden) {
             <div class="fixed inset-0 bg-quinary/50 z-50 flex items-center justify-center">
@@ -13,14 +18,14 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    <form>
+                    <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
                         <div class="mb-4">
                             <label class="block text-quinary font-bold mb-2 font-primary text-paragraph">Usuario</label>
-                            <input type="text" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            <input type="text" formControlName="email" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
                         </div>
                         <div class="mb-6">
                             <label class="block text-quinary font-bold mb-2 font-primary text-paragraph">Contraseña</label>
-                            <input type="password" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            <input type="password" formControlName="password" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
                         </div>
                         <div class="flex justify-between">
                             <button type="button" (click)="toggleLogin()" class="bg-quinary bg-opacity-70 text-quaternary px-4 py-2 rounded-md hover:bg-opacity-50 font-primary text-paragraph">Cancelar</button>
@@ -33,10 +38,38 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
     `
 })
 export class LoginComponent {
+    constructor(
+        private readonly authService: AuthService
+    ) {}
+
+    private router = inject(Router);
+
+    loginForm = new FormGroup({
+        email: new FormControl(''),
+        password: new FormControl('')
+    })
+
     @Input() isLoginModalHidden = true;
     @Output() loginChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     
     toggleLogin() {
       this.loginChange.emit(!this.isLoginModalHidden);
+    }
+
+    handleLogin() {
+        const credentials: LoginCredentials = {
+            email_user: this.loginForm.value.email || '',
+            password_user: this.loginForm.value.password || '' 
+        };
+        this.authService.login(credentials).subscribe({
+            next: (res) => {
+                this.toggleLogin()
+                this.router.navigate(['admin']);
+            },
+            error: (err) => {
+              console.error('Login error:', err);
+            }
+          });
+          
     }
 }

@@ -1,7 +1,10 @@
 import { Component, signal } from "@angular/core";
 import { NgIcon, provideIcons } from "@ng-icons/core";
 import { heroBars3Solid } from "@ng-icons/heroicons/solid";
-import { LoginComponent } from "../../features/users/login.component";
+import { LoginComponent } from "../../features/home/login.component";
+import { Observable } from "rxjs";
+import { AuthService } from "../../core/services/auth.service";
+import { AsyncPipe } from "@angular/common";
 
 interface NavbarOption {
     label: string;
@@ -11,7 +14,7 @@ interface NavbarOption {
 @Component({
     selector: 'navbar',
     standalone: true,
-    imports: [NgIcon, LoginComponent],
+    imports: [NgIcon, LoginComponent, AsyncPipe],
     providers: [provideIcons({ heroBars3Solid })],
     template: `
         <nav class="bg-quaternary shadow-sm sticky top-0 z-50">
@@ -37,7 +40,18 @@ interface NavbarOption {
                                     {{ option.label }}
                                 </a>
                             }
-                            <button (click)="toggleLogin()" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph">Admin</button>
+
+                            @if (isAuthenticated$ | async) {
+                                <button
+                                (click)="logout()
+                                "class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
+                                >Logout</button>
+                            } @else {
+                                <button
+                                (click)="toggleLogin()
+                                "class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
+                                >Login</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -55,7 +69,10 @@ interface NavbarOption {
                             {{ option.label }}
                         </a>
                     }
-                    <button (click)="toggleLogin()" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph">Admin</button>
+                    <button
+                    (click)="toggleLogin()"
+                    class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph"
+                    >{{ (isAuthenticated$ | async) ? 'Logout' : 'Login' }}</button>
                 </div>
             </div>
             }
@@ -68,6 +85,12 @@ export class NavbarComponent {
     isLoginModalHidden = signal(true);
     isMobileMenuHidden = signal(true);
 
+    isAuthenticated$: Observable<boolean>;
+    
+    constructor(private authService: AuthService) {
+        this.isAuthenticated$ = this.authService.isAuthenticated();
+    }  
+
     navbarOptions: NavbarOption[] = [
         { label: 'Inicio', href: 'inicio' },
         { label: 'Servicios', href: 'servicios' },
@@ -76,11 +99,16 @@ export class NavbarComponent {
     ]
     
     toggleLogin() {
-      this.isLoginModalHidden.update(hidden => !hidden);
+        this.isLoginModalHidden.update(hidden => !hidden);
+    }
+
+    logout() {
+        this.authService.logout();
+        location.reload();
     }
   
     toggleMobileMenu() {
-      this.isMobileMenuHidden.update(hidden => !hidden);
+        this.isMobileMenuHidden.update(hidden => !hidden);
     }
 
     handleLoginChange(isHidden: boolean) {
