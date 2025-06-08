@@ -179,8 +179,6 @@ export class TypographyFormComponent {
       
         // Construir FormData para enviar archivos y datos juntos
         const formData = new FormData();
-        console.log(primaryFont)
-        console.log(secondaryFont)
         formData.append('main_font', primaryFont, primaryFont.name);
         formData.append('secondary_font', secondaryFont, secondaryFont.name);
         formData.append('name_tipography_main', this.primaryFontName);
@@ -191,6 +189,7 @@ export class TypographyFormComponent {
       
         this.typographyService.createTypography(formData).subscribe({
           next: () => {
+            this.formSubmitted.emit(); 
             Swal.fire({
                 icon: "success",
                 title: "Tipografía creada exitosamente",

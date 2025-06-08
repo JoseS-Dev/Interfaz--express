@@ -12,20 +12,20 @@ import { Component } from "@angular/core";
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block font-medium text-quinary mb-2 font-primary text-paragraph">Nombre</label>
-                                <input type="text" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                                <input type="text" class="font-primary text-paragraph w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
                             </div>
                             <div>
                                 <label class="block font-medium text-quinary mb-2 font-primary text-paragraph">Teléfono</label>
-                                <input type="tel" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                                <input type="tel" class="font-primary text-paragraph w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
                             </div>
                         </div>
                         <div>
                             <label class="block font-medium text-quinary mb-2 font-primary text-paragraph">Email</label>
-                            <input type="email" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            <input type="email" class="font-primary text-paragraph w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
                         </div>
                         <div>
                             <label class="block font-medium text-quinary mb-2 font-primary text-paragraph">Mensaje</label>
-                            <textarea rows="4" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary resize-none"></textarea>
+                            <textarea rows="4" class="font-primary text-paragraph w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary resize-none"></textarea>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="bg-tertiary text-quaternary px-8 py-3 rounded-md font-medium hover:bg-tertiary/75 transition-colors font-primary text-paragraph">

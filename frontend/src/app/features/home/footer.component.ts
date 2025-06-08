@@ -26,9 +26,9 @@ import { heroMapPinSolid, heroEnvelopeSolid, heroPhoneSolid } from "@ng-icons/he
                 </div>
                 <div>
                     <h3 class="font-semibold mb-4 font-primary text-paragraph">Contacto</h3>
-                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroMapPinSolid" size="16" /> Av. Principal 123, Ciudad</p>
-                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroPhoneSolid" size="16" /> (555) 123-4567</p>
-                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroEnvelopeSolid" size="16" /> info&#64;bienestartotal.com</p>
+                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroMapPinSolid" class="text-paragraph" /> Av. Principal 123, Ciudad</p>
+                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroPhoneSolid" class="text-paragraph" /> (555) 123-4567</p>
+                    <p class="text-quaternary/75 font-primary text-paragraph"><ng-icon name="heroEnvelopeSolid" class="text-paragraph" /> info&#64;bienestartotal.com</p>
                 </div>
                 <div>
                     <h3 class="font-semibold mb-4 font-primary text-paragraph">Horarios</h3>
@@ -41,7 +41,7 @@ import { heroMapPinSolid, heroEnvelopeSolid, heroPhoneSolid } from "@ng-icons/he
                 <div class="flex justify-center space-x-4 mb-4">
                     @for (socialMedia of socialMediaList; track $index) {
                         <a [href]="" class="text-quaternary hover:text-quaternary/75">
-                            <ng-icon [name]="socialMedia.icon" size="16" />
+                            <ng-icon [name]="socialMedia.icon" class="text-paragraph" />
                         </a>
                     }
                 </div>
