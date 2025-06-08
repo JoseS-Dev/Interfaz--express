@@ -264,8 +264,6 @@ export class ModelsTypography {
     // Seleccionar una tipografía para un usuario
     static async selectTypography({ id_user, id_tipography }) {
         // Deseleccionar todas las tipografías relacionadas con el usuario
-        console.log('Deseleccionando todas las tipografías para el usuario:', id_user);
-        console.log({ id_user, id_tipography });
         await connection.query(
             `UPDATE typography t
              JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
@@ -282,7 +280,7 @@ export class ModelsTypography {
              WHERE tr.id_user = ? AND t.id_tipography = ?`,
             [id_user, id_tipography]
         );
-    
+
         if (result.affectedRows > 0) {
             const [rows] = await connection.query(
                 `SELECT t.* FROM typography t WHERE t.id_tipography = ?`,
@@ -294,4 +292,17 @@ export class ModelsTypography {
         }
     }
     
+    static async getSelectedTypography({ id_user }) {
+        const [rows] = await connection.query(
+            `SELECT t.* FROM typography t
+             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+             WHERE tr.id_user = ? AND t.is_selected = true`,
+            [id_user]
+        );
+        if (rows.length > 0) {
+            return rows[0];
+        } else {
+            return null;
+        }
+    }
 }

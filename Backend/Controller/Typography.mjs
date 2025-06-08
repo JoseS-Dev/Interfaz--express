@@ -284,7 +284,7 @@ export class TypographyController {
                 archive_font_secondary: secondaryFont.path
             }
             const result = validateTipography(body);
-            const { id_user } = req.user.id;
+            const id_user = req.user.id;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipography({typography: result.data, id_user});
             return res.status(201).json({
@@ -346,7 +346,8 @@ export class TypographyController {
     // Seleccionar una tipografía por el usuario
     selectTypography = async (req, res) => {
         try {
-            const { id_user, id_tipography } = req.body;
+            const { id_tipography } = req.body;
+            const id_user = req.user.id;
             console.log('Datos recibidos para seleccionar tipografía:', req.body);
     
             if (!id_user || !id_tipography) {
@@ -369,4 +370,17 @@ export class TypographyController {
         }
     }    
     
+    getSelectedTypography = async ( req, res ) => {
+        try {
+            const id_user = req.user.id;
+            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
+            return res.status(200).json({
+                message: 'Tipografía encontrada correctamente',
+                data: typography
+            });
+        } catch (error) {
+            console.error('Error al obtener la tipografía seleccionada:', error);
+            return res.status(500).json({ error: 'Error al obtener la tipografía seleccionada' });
+        }
+    }
 }

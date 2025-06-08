@@ -10,6 +10,7 @@ export const RoutesTipography = router;
 
 /// GET
 RoutesTipography.get('/', authMiddleware, typographycontroller.getAll);
+RoutesTipography.get('/selected', authMiddleware, typographycontroller.getSelectedTypography);
 RoutesTipography.get('/:id_tipography', typographycontroller.getByID);
 RoutesTipography.get('/NameMain/:name_tipography_main', typographycontroller.getByMainName);
 RoutesTipography.get('/NameSeco/:name_tipography_secondary', typographycontroller.getBySecondaryName);
@@ -25,7 +26,7 @@ RoutesTipography.post('/Secondary/:id_user',upload.single('archive_font'), typog
 RoutesTipography.post('/', authMiddleware, uploadFonts, typographycontroller.createTipography);
 
 /// PATCH
-RoutesTipography.patch('/select', typographycontroller.selectTypography);
+RoutesTipography.patch('/select', authMiddleware, typographycontroller.selectTypography);
 RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);
 
 /// DELETE
