@@ -1,11 +1,14 @@
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue';
+import { useAuthStore } from '@/store/AuthStore';
+import { ref, watch, onMounted } from 'vue';
 const props = defineProps({
     refresh: {
         type: Boolean,
         required: true
     }
 });
+
+const authStore = useAuthStore();
 
 const tipographyData = ref([]);
 const loadFonts = async () => {
@@ -24,8 +27,9 @@ onMounted(() => {
     loadFonts();
 });
 
-watch(() => props.refresh, (newVal) => {
+watch(() => props.refresh, async(newVal) => {
     console.log('Prop refresh cambió, recargando tipografias...', newVal);
+    await authStore.loadListFonts();
     loadFonts();
 })
 
@@ -90,8 +94,8 @@ const onDeleteFont = async (id) => {
     <article class="w-full h-145 my-2 p-3 overflow-y-auto flex flex-col items-center gap-3 max-h-140">
         <div v-for="font in tipographyData" :key="font.id_tipography" @click="onSelectFont(font.id_tipography)" class="flex justify-around items-center w-full h-1/8 border-b-2 border-blue-800" :style="font.is_selected === 1 ? 'background-color: #BFCEDF;' : ''">
             <h4 class="font-bold text-lg tracking-widest px-3">{{font.id_tipography}}</h4>
-            <span class="font-sans text-lg flex-grow-30 basis-0">{{ font.name_tipography_main.length <= 12 ? font.name_tipography_main : font.name_tipography_main.slice(0, 12) + '...' }} </span>
-            <span class="font-serif text-lg flex-grow-30 basis-0">{{ font.name_tipography_secondary.length <= 12 ? font.name_tipography_secondary : font.name_tipography_secondary.slice(0, 12)+'...' }}</span>
+            <span class="font-sans text-lg flex-grow-30 basis-0" :style="`font-family:'${authStore.listFonts[font.id_tipography].primaryFont}';`">{{ font.name_tipography_main.length <= 12 ? font.name_tipography_main : font.name_tipography_main.slice(0, 12) + '...' }} </span>
+            <span class="font-serif text-lg flex-grow-30 basis-0" :style="`font-family:'${authStore.listFonts[font.id_tipography].secondaryFont}';`">{{ font.name_tipography_secondary.length <= 12 ? font.name_tipography_secondary : font.name_tipography_secondary.slice(0, 12)+'...' }}</span>
             <div class="flex gap-3 flex-grow-30 basis-0">
                 <span class="font-bold" title="tam_title">{{ `${font.tam_title}px` }}</span>
                 <span class="font-bold" title="tam_subtitle">{{ `${font.tam_subtitle}px` }}</span>

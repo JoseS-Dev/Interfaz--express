@@ -3,7 +3,6 @@
     import { RouterLink } from 'vue-router';
 
     const authStore = useAuthStore();
-    console.log(authStore.isAuthenticated);
 
     const onClickMobileBtn = () => {
         const mobileMenu = document.getElementById('mobile-menu');

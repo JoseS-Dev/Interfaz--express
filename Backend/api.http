@@ -74,17 +74,17 @@ Content-Disposition: form-data; name="tam_subtitle"
 --CustomBoundary
 Content-Disposition: form-data; name="is_selected"
 
-false
+true
 --CustomBoundary
 Content-Disposition: form-data; name="main_font"; filename="Roboto.ttf"
 Content-Type: application/x-font-ttf
 
-< ../font/Roboto.ttf
+< D:\Descargas\Ceviche_One,Permanent_Marker\Ceviche_One\CevicheOne-Regular.ttf
 --CustomBoundary
 Content-Disposition: form-data; name="secondary_font"; filename="San-serif.ttf"
 Content-Type: application/x-font-ttf
 
-< ../font/San-serif.ttf
+< D:\Descargas\Ceviche_One,Permanent_Marker\Permanent_Marker\PermanentMarker-Regular.ttf
 --CustomBoundary--
 
 
@@ -145,7 +145,7 @@ Content-Type: application/x-font-ttf
 
 
 ### Borrar una tipografia
-DELETE http://localhost:3500/Tipography/6
+DELETE http://localhost:3500/Tipography/1
 
 ### Obtener todos los conjuntos de colores
 GET http://localhost:3500/Colors

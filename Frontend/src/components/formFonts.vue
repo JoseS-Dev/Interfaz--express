@@ -61,6 +61,14 @@ const onInputTam = (event) => {
     invalidData.value = false;
     if (event.target.value[0] === '-' || event.target.value[0] === '0') {
         event.target.value = '1';
+        const id = event.target.id;
+        if (id === 'tam_paragraph') {
+            textParagraph.value = event.target.value;
+        } else if (id === 'tam_title') {
+            textTitle.value = event.target.value;
+        } else if (id === 'tam_subtitle') {
+            textSubtitle.value = event.target.value;
+        }
     }
     props.onRefreshFontsPreview({primaryFont: primaryFont.value, secondaryFont: secondaryFont.value, textTitle: textTitle.value, textSubtitle: textSubtitle.value, textParagraph: textParagraph.value});
 }
@@ -165,6 +173,7 @@ const onEditFonts = async (event) => {
             <label class="w-full trancking-widese font-500 text-lg" for="tam_paragraph">Tamaño de los párrafos</label>
             <input class="w-full h-1/2 rounded-sm border border-[#374151]/25 cursor-pointer px-3 py-2  bg-[#DFEEFF]/50 text-[#374151] text-sm text-[16px] focus:outline-none focus:border-secondary" type="number" name="tam_paragraph" id="tam_paragraph" placeholder="Ingrese el tamaño de los párrafos" required v-model="textParagraph" @input="onInputTam"/>
         </div>
+        <span v-if="invalidData" class="text-red-600">Complete todos los campos.</span>
         <div class="w-full flex justify-between px-3 mt-1.5">
             <button type="submit"
                 class="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3 text-[16px] max-w-32"
