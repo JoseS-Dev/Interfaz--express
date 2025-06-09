@@ -40,7 +40,7 @@ export class ColorsController {
     // Obtener colores seleccionados por el usuario
     getSelectedColors = async ( req, res ) => {
         try{
-            const { id_user } = req.params;
+            const id_user = req.user.id;
 
             if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
 
@@ -145,7 +145,7 @@ export class ColorsController {
     createColor = async (req, res) => {
         try{
             const result = validateColors(req.body);
-            const { id_user } = req.params; 
+            const id_user = req.user.id; 
             if(!result.success){
                 return res.status(400).json({message: 'Datos de color inválidos', errors: result.error.errors});
             }
@@ -186,7 +186,7 @@ export class ColorsController {
     // Eliminar un conjunto de colores
     deleteByID = async (req, res) => {
         try{
-            const { id_colors } = req.params;
+            const { id_colors } = req.user;
             const color = await this.ModelsColors.deleteByID({ id_colors });
             if(color){
                 res.status(200).json({message: `Color con ID ${id_colors} eliminado correctamente`});
@@ -203,7 +203,8 @@ export class ColorsController {
     // Método para seleccionar un color para un usuario
     selectColor = async (req, res) => {
         try {
-            const { id_user, id_colors } = req.body;
+            const { id_colors } = req.body;
+            const id_user = req.user.id;
 
             if (!id_user || !id_colors) {
                 return res.status(400).json({ error: 'ID de usuario y ID de color son requeridos' });
