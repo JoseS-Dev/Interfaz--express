@@ -1,6 +1,6 @@
 <template>
   <main
-    class="flex flex-col lg:flex-row w-full border-2 border-black min-h-screen bg-white"
+    class="flex flex-col lg:flex-row w-full h-176 bg-white"
   >
     <section
       class="border-b-2 lg:border-b-0 lg:border-r-2 border-blue-600 w-full lg:w-1/4 flex flex-col items-center justify-center px-5 bg-gray-100 py-8"
@@ -21,7 +21,7 @@
       >
         <button
           @click="$router.push('/admin/colors')"
-          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-44 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
+          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
         >
           Cambiar Colores
           <svg
@@ -47,7 +47,7 @@
         </button>
         <button
           @click="$router.push('/admin/fonts')"
-          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-44 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
+          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
         >
           Cambiar Tipografía
           <svg

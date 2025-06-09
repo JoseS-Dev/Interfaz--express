@@ -14,7 +14,7 @@ const setRefreshListFonts = () => {
 </script>
 
 <template>
-  <main class="w-full min-h-screen flex flex-col gap-4 lg:flex-row">
+  <main class="w-full h-175 flex flex-col gap-4 lg:flex-row">
     <section
       class="w-full lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-800 px-3 py-3"
     >
