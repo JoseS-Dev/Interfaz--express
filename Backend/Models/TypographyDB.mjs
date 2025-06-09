@@ -224,23 +224,66 @@ export class ModelsTypography {
     }
 
     // Actualizar una tipografia por su ID
-    static async updateByID({id_tipography, typography}){
-        if(id_tipography && typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
-            // Se actualiza la tipografia
-            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, archive_font_main = ?, archive_font_secondary = ? WHERE id_tipography = ?', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary, id_tipography]);
-            if(result.affectedRows > 0){
-                console.log('Tipografía actualizada exitosamente');
-                return result;
-            }
-            else{
-                console.log('No se actualizó la tipografía');
-                return null;
-            }
+    static async updateByID({ id_tipography, typography }) {
+        if (!id_tipography || !typography) return null;
+      
+        // Campos y valores a actualizar
+        const fields = [];
+        const values = [];
+      
+        // Mapear solo campos definidos
+        if (typography.name_tipography_main !== undefined) {
+          fields.push('name_tipography_main = ?');
+          values.push(typography.name_tipography_main);
         }
-    }
-
+        if (typography.name_tipography_secondary !== undefined) {
+          fields.push('name_tipography_secondary = ?');
+          values.push(typography.name_tipography_secondary);
+        }
+        if (typography.tam_paragraph !== undefined) {
+          fields.push('tam_paragraph = ?');
+          values.push(typography.tam_paragraph);
+        }
+        if (typography.tam_title !== undefined) {
+          fields.push('tam_title = ?');
+          values.push(typography.tam_title);
+        }
+        if (typography.tam_subtitle !== undefined) {
+          fields.push('tam_subtitle = ?');
+          values.push(typography.tam_subtitle);
+        }
+        if (typography.archive_font_main !== undefined) {
+          fields.push('archive_font_main = ?');
+          values.push(typography.archive_font_main);
+        }
+        if (typography.archive_font_secondary !== undefined) {
+          fields.push('archive_font_secondary = ?');
+          values.push(typography.archive_font_secondary);
+        }
+      
+        // Si no hay campos para actualizar
+        if (fields.length === 0) {
+          console.log('No hay campos para actualizar');
+          return null;
+        }
+      
+        // Agregar id al final para el WHERE
+        values.push(id_tipography);
+      
+        // Construir query dinámico
+        const sql = `UPDATE typography SET ${fields.join(', ')} WHERE id_tipography = ?`;
+      
+        const [result] = await connection.query(sql, values);
+      
+        if (result.affectedRows > 0) {
+          console.log('Tipografía actualizada exitosamente');
+          return result;
+        } else {
+          console.log('No se actualizó la tipografía');
+          return null;
+        }
+      }
+      
     // Eliminar una tipografia por su ID
     static async deleteByID({ id_tipography }){
         if(id_tipography){

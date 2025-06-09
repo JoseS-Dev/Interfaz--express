@@ -19,7 +19,11 @@ import { ITypographyPreview } from './typography.interface';
   template: `
     <main class="w-full h-164 flex">
       <section class="w-3/10 h-full border-r-2 border-gray-800 px-3 py-3">
-        <typography-form (formChanged)="handleFormChange($event)" />
+        <typography-form
+          (formChanged)="handleFormChange($event)"
+          [selectedTypographyId]="selectedTypographyId"
+          (formSubmitted)="handleFormSubmit()"
+        />
       </section>
 
       <section class="border-r-2 border-gray-800 w-3/10 h-full px-3 py-3">
@@ -33,7 +37,7 @@ import { ITypographyPreview } from './typography.interface';
       </section>
 
       <section class="w-2/5 h-full px-3 py-3">
-        <typography-list [formSubmitted]="formSubmitted"/>
+        <typography-list [formSubmitted]="formSubmitted" (selectedTypographyIdOutput)="handleSelectedTypographyId($event)"/>
       </section>
     </main>
   `
@@ -46,6 +50,7 @@ export class TypographyComponent {
   paragraphSize: number = 16;
 
   formSubmitted = signal(false);
+  selectedTypographyId = signal<string | null>(null);
 
   handleFormChange(event: ITypographyPreview) {
     this.primaryFont = event.primaryFont || '';
@@ -57,5 +62,9 @@ export class TypographyComponent {
 
   handleFormSubmit() {
     this.formSubmitted.set(true)
+  }
+
+  handleSelectedTypographyId(id: string | null) {
+    this.selectedTypographyId.set(id);
   }
 }

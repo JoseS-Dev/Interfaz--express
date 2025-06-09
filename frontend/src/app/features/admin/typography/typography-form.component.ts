@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ITypographyPreview } from "./typography.interface";
 import { TypographyService } from "../../../core/services/typography.service";
@@ -10,11 +10,10 @@ import Swal from 'sweetalert2';
     imports: [ReactiveFormsModule],
     template: `
         <article class="text-xl flex flex-col items-center tracking-widese">
-          <h3 class="w-full font-bold text-center border-b-2 border-black">Configuración de Fuentes</h3>
+        <h3 class="w-full font-bold text-center border-b-2 border-black">Configuración de Fuentes</h3>
             <form 
             class="w-full h-152 flex flex-col items-center gap-1 px-2 py-3 bg-white"
             [formGroup]="typographyForm"
-            (ngSubmit)="onSubmit()"
             >
                 <div class="w-full h-22  px-3 flex flex-col gap-1">
                     <label class="w-full trancking-widese font-500 text-lg" for="primaryFont">Fuente Principal</label>
@@ -73,13 +72,17 @@ import Swal from 'sweetalert2';
                     required/>
                 </div>
                 <div class="w-full flex justify-between px-3 mt-1.5">
-                    <button type="submit"
+                    <button
+                        type="submit"
                         class="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3 text-[16px] max-w-32"
+                        (click)="submit('create')"
                         >
                         Crear
                     </button>
-                    <button type="submit"
+                    <button
+                        type="submit"
                         class="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3 text-[16px] max-w-32"
+                        (click)="submit('edit')"
                         >
                         Editar
                     </button>
@@ -106,6 +109,8 @@ export class TypographyFormComponent {
 
     @Output() formChanged = new EventEmitter<ITypographyPreview>();
     @Output() formSubmitted = new EventEmitter<boolean>();
+
+    @Input() selectedTypographyId = signal<string | null>(null);
 
     onFileChange(event: Event, fontType: string) {
         const input = event.target as HTMLInputElement;
@@ -159,36 +164,44 @@ export class TypographyFormComponent {
         });
     }
 
-    onSubmit() {
+    submit(action: 'create' | 'edit') {
         const primaryFont = this.primaryFontFile;
         const secondaryFont = this.secondaryFontFile;
         const titleSize = this.typographyForm.value.titleSize;
         const subtitleSize = this.typographyForm.value.subtitleSize;
         const paragraphSize = this.typographyForm.value.paragraphSize;
-      
+    
         // Validar que todos los campos estén definidos y tengan valor
-        if (!primaryFont || !secondaryFont || !titleSize || !subtitleSize || !paragraphSize) {
+        if ((!primaryFont || !secondaryFont || !titleSize || !subtitleSize || !paragraphSize) && action === 'create') {
             Swal.fire({
                 icon: "warning",
                 title: "Todos los campos deben se rellenados",
                 showConfirmButton: false,
                 timer: 2000
             });
-          return;
+        return;
         }
-      
+    
         // Construir FormData para enviar archivos y datos juntos
         const formData = new FormData();
-        formData.append('main_font', primaryFont, primaryFont.name);
-        formData.append('secondary_font', secondaryFont, secondaryFont.name);
-        formData.append('name_tipography_main', this.primaryFontName);
-        formData.append('name_tipography_secondary', this.secondaryFontName);
-        formData.append('tam_paragraph', paragraphSize.toString());
-        formData.append('tam_title', titleSize.toString());
-        formData.append('tam_subtitle', subtitleSize.toString());
-      
+        if (primaryFont) formData.append('main_font', primaryFont, primaryFont.name);
+        if (secondaryFont) formData.append('secondary_font', secondaryFont, secondaryFont.name);
+        if (this.primaryFontName !== '') formData.append('name_tipography_main', this.primaryFontName);
+        if (this.secondaryFontName !== '') formData.append('name_tipography_secondary', this.secondaryFontName);
+        if (paragraphSize) formData.append('tam_paragraph', paragraphSize.toString());
+        if (titleSize) formData.append('tam_title', titleSize.toString());
+        if (subtitleSize) formData.append('tam_subtitle', subtitleSize.toString());
+        
+        if (action === 'create') {
+            this.createTypography(formData);
+        } else if (action === 'edit' && this.selectedTypographyId()) {
+            this.updateTypography(this.selectedTypographyId() || '', formData);
+        }
+    }
+
+    createTypography(formData: FormData): void {
         this.typographyService.createTypography(formData).subscribe({
-          next: () => {
+            next: () => {
             this.formSubmitted.emit(); 
             Swal.fire({
                 icon: "success",
@@ -196,15 +209,49 @@ export class TypographyFormComponent {
                 showConfirmButton: false,
                 timer: 1500
             });
-          },
-          error: () => {
+            },
+            error: () => {
             Swal.fire({
                 icon: "error",
                 title: "Error creando la tipografía",
                 showConfirmButton: false,
                 timer: 1500
             });
-          }
+            }
         });
-      }
+    }
+
+    updateTypography(id: string, formData: FormData): void {
+        Swal.fire({
+            title: "¿Está seguro de actualizar la tipografía?",
+            text: "No se podrá revertir esta acción.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.typographyService.updateTypography(id, formData).subscribe({
+                    next: () => {
+                        this.formSubmitted.emit();
+                        Swal.fire({
+                            title: "¡Éxito!",
+                            text: "Su tipografía ha sido eliminada correctamente.",
+                            icon: "success"
+                        });
+                    },
+                    error: (err) => {
+                        console.error(err)
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error actualizando la tipografía",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
+            }
+        });
+    }
 }

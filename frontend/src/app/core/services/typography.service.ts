@@ -20,6 +20,16 @@ export class TypographyService {
         );
     }
 
+    updateTypography(id: string, typographyFormData: FormData): Observable<any> {
+        return this.http.patch<{ data: ITypography, message: string }>(
+            `${this.baseUrl}/Tipography/${id}`,
+            typographyFormData,
+            { withCredentials: true }
+        ).pipe(
+            map(response => response.data)  // Extraemos solo data
+        );
+    }
+
     getTypography(): Observable<ITypography[]> {
         return this.http.get<{ data: ITypography[], message: string }>(
             `${this.baseUrl}/Tipography`,
