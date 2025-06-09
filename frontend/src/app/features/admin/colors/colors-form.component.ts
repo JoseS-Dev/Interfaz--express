@@ -170,14 +170,12 @@ export class ColorsFormComponent {
             return;
         }
     
-        // Construye el objeto JSON directamente
-        const colorsPayload = {
-            primary_color: colors.primaryColor,
-            secondary_color: colors.secondaryColor,
-            ternary_color: colors.ternaryColor,
-            cuarternary_color: colors.quaternaryColor,
-            neutral_color: colors.neutralColor
-        };
+        const colorsPayload: any = {};
+        if (colors.primaryColor) colorsPayload.primary_color = colors.primaryColor;
+        if (colors.secondaryColor) colorsPayload.secondary_color = colors.secondaryColor;
+        if (colors.ternaryColor) colorsPayload.ternary_color = colors.ternaryColor;
+        if (colors.quaternaryColor) colorsPayload.cuarternary_color = colors.quaternaryColor;
+        if (colors.neutralColor) colorsPayload.neutral_color = colors.neutralColor;
     
         if (action === 'create') {
             this.createColors(colorsPayload);

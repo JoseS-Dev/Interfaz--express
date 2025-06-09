@@ -169,27 +169,53 @@ export class ModelsColors {
     }
 
     // Actualizar un color por su ID
-    static async updateByID({id_colors,color}){
-        if(id_colors && color){
-            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color;
-            const [updatedColor] = await connection.query('UPDATE colors SET primary_color = ?, secondary_color = ?, ternary_color = ?, cuaternary_color = ?, neutral_color = ? WHERE id_colors = ?', [
-                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color,id_colors
-            ]);
-            if(updatedColor.affectedRows > 0){
-                console.log(`Color con ID ${id_colors} actualizado correctamente`);
-                return updatedColor;
-            }
-            else{
-                console.log(`No se encontró el color con ID ${id_colors}`);
-                return null;
-            }
+    static async updateByID({ id_colors, color }) {
+        if (!id_colors || !color) return null;
+    
+        const fields = [];
+        const values = [];
+    
+        if (color.primary_color !== undefined) {
+            fields.push('primary_color = ?');
+            values.push(color.primary_color);
         }
-        else{
-            console.log('ID de color o datos de color no proporcionados');
+        if (color.secondary_color !== undefined) {
+            fields.push('secondary_color = ?');
+            values.push(color.secondary_color);
+        }
+        if (color.ternary_color !== undefined) {
+            fields.push('ternary_color = ?');
+            values.push(color.ternary_color);
+        }
+        if (color.cuarternary_color !== undefined) {
+            fields.push('cuarternary_color = ?');
+            values.push(color.cuarternary_color);
+        }
+        if (color.neutral_color !== undefined) {
+            fields.push('neutral_color = ?');
+            values.push(color.neutral_color);
+        }
+    
+        if (fields.length === 0) {
+            console.log('No hay campos para actualizar');
+            return null;
+        }
+    
+        values.push(id_colors);
+    
+        const sql = `UPDATE colors SET ${fields.join(', ')} WHERE id_colors = ?`;
+    
+        const [result] = await connection.query(sql, values);
+    
+        if (result.affectedRows > 0) {
+            console.log(`Color con ID ${id_colors} actualizado correctamente`);
+            return result;
+        } else {
+            console.log(`No se encontró el color con ID ${id_colors}`);
             return null;
         }
     }
-
+    
     // Eliminar un color por su ID
     static async deleteByID({id_colors}){
         if(id_colors){

@@ -7,6 +7,8 @@ import { FooterComponent } from "./footer.component";
 import { TypographyService } from '../../core/services/typography.service';
 import { environment } from '../../../environments/environment';
 import { ITypography } from '../../shared/interfaces/typography.interface';
+import { ColorsService } from '../../core/services/colors.service';
+import { IColors } from '../../shared/interfaces/colors.interface';
 
 @Component({
   standalone: true,
@@ -21,10 +23,12 @@ import { ITypography } from '../../shared/interfaces/typography.interface';
   `,
 })
 export class HomeComponent {
-  constructor(private typographyService: TypographyService) {
+  constructor(
+    private typographyService: TypographyService,
+    private colorsService: ColorsService
+  ) {
     this.typographyService.getSelectedTypography().subscribe({
       next: (data) => {
-        console.log(data);
         this.loadTypography(data)
       },
       error: (error) => {
@@ -33,6 +37,15 @@ export class HomeComponent {
         document.documentElement.style.setProperty('--custom-font', 'Arial');
       }
     });
+
+    this.colorsService.getSelected().subscribe({
+      next: (data) => {
+        if (data) this.loadColors(data);
+      },
+      error: (err) => {
+        console.error('Error al obtener los colores seleccionados', err)
+      },
+    })
   }
 
   loadFont(nameFont: string): Promise<string> {
@@ -76,5 +89,13 @@ export class HomeComponent {
     document.documentElement.style.setProperty('--text-title', `${typography.tam_title}px`);
     document.documentElement.style.setProperty('--text-subtitle', `${typography.tam_subtitle}px`);
     document.documentElement.style.setProperty('--text-paragraph', `${typography.tam_paragraph}px`);
+  }
+
+  loadColors(colors: IColors) {
+    document.documentElement.style.setProperty('--color-primary', `#${colors.primary_color}`);
+    document.documentElement.style.setProperty('--color-secondary', `#${colors.secondary_color}`);
+    document.documentElement.style.setProperty('--color-tertiary', `#${colors.ternary_color}`);
+    document.documentElement.style.setProperty('--color-quaternary', `#${colors.cuarternary_color}`);
+    document.documentElement.style.setProperty('--color-quinary', `#${colors.neutral_color}`);
   }
 }
