@@ -131,7 +131,15 @@ export class ColorsListComponent {
                             icon: "success"
                         });
                     },
-                    error: (err) => console.error(err)
+                    error: (err) => {
+                        console.error(err)
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error eliminando la paleta de colores",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
                 });
             }
         });

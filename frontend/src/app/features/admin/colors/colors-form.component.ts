@@ -159,7 +159,7 @@ export class ColorsFormComponent {
 
     submit(action: 'create' | 'edit') {
         const colors = this.getNormalizedColors();
-
+    
         if ((!colors.primaryColor || !colors.secondaryColor || !colors.ternaryColor || !colors.quaternaryColor || !colors.neutralColor) && action === 'create') {
             Swal.fire({
                 icon: "warning",
@@ -169,18 +169,78 @@ export class ColorsFormComponent {
             });
             return;
         }
-
-        const formData = new FormData();
-        formData.append('primary_color', colors.primaryColor);
-        formData.append('secondary_color', colors.secondaryColor);
-        formData.append('ternary_color', colors.ternaryColor);
-        formData.append('cuarternary_color', colors.quaternaryColor);
-        formData.append('neutral_color', colors.neutralColor);
-
+    
+        // Construye el objeto JSON directamente
+        const colorsPayload = {
+            primary_color: colors.primaryColor,
+            secondary_color: colors.secondaryColor,
+            ternary_color: colors.ternaryColor,
+            cuarternary_color: colors.quaternaryColor,
+            neutral_color: colors.neutralColor
+        };
+    
         if (action === 'create') {
-            // this.colorsService.create(formData).subscribe(...)
-        } else if (action === 'edit' && this.selectedColorsId()) {
-            // this.colorsService.update(this.selectedColorsId()!, formData).subscribe(...)
+            this.createColors(colorsPayload);
+        } else if (action === 'edit') {
+            this.updateColors(this.selectedColorsId() || 0, colorsPayload);
         }
+    }
+    
+
+    createColors(colorsPayload: any): void {
+        this.colorsService.create(colorsPayload).subscribe({
+            next: () => {
+            this.formSubmitted.emit(); 
+            Swal.fire({
+                icon: "success",
+                title: "Paleta de colores creada exitosamente",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            },
+            error: (err) => {
+                console.error(err)
+                Swal.fire({
+                    icon: "error",
+                    title: "Error creando la paleta de colores",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    updateColors(id: number, colorsPayload: any): void {
+        Swal.fire({
+            title: "¿Está seguro de actualizar la paleta de colores?",
+            text: "No se podrá revertir esta acción.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.colorsService.update(id, colorsPayload).subscribe({
+                    next: () => {
+                        this.formSubmitted.emit();
+                        Swal.fire({
+                            title: "¡Éxito!",
+                            text: "Su paleta de colores ha sido eliminada correctamente.",
+                            icon: "success"
+                        });
+                    },
+                    error: (err) => {
+                        console.error(err)
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error actualizando la paleta de colores",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
+            }
+        });
     }
 }

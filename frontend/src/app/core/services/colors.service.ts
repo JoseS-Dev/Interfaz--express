@@ -12,23 +12,24 @@ export class ColorsService {
 
     constructor(private http: HttpClient) {}
 
-    create(formData: FormData): Observable<any> {
+    create(colorsPayload: any): Observable<any> {
         return this.http.post<{ data: any }>(
             `${this.baseUrl}/Colors`,
-            formData,
+            colorsPayload,
             { withCredentials: true }
         );
     }
 
-    update(id: number, formData: FormData): Observable<any> {
+    update(id: number, colorsPayload: any): Observable<any> {
         return this.http.patch<{ data: IColors, message: string }>(
             `${this.baseUrl}/Colors/${id}`,
-            formData,
+            colorsPayload,
             { withCredentials: true }
         ).pipe(
-            map(response => response.data)  // Extraemos solo data
+            map(response => response.data)
         );
     }
+
 
     getAll(): Observable<IColors[]> {
         return this.http.get<IColors[]>(

@@ -41,7 +41,6 @@ import { NgStyle } from '@angular/common';
                 'color': '#' + quaternaryColor || '#FFFFFF'
                 }"
             >
-            {{'#' + ternaryColor || '#F97316'}}
                 Agendar Cita
             </button>
             </div>
