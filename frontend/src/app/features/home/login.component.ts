@@ -1,8 +1,8 @@
-import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { AuthService } from "../../core/services/auth.service";
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginCredentials } from "../../shared/interfaces/login.interface";
-import { Router } from "@angular/router";
+import Swal from "sweetalert2";
 
 @Component({
     standalone: true,
@@ -22,6 +22,11 @@ import { Router } from "@angular/router";
                         <div class="mb-4">
                             <label class="block text-quinary font-bold mb-2 font-primary text-paragraph">Usuario</label>
                             <input type="text" formControlName="email" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                            @if (loginForm.get('email')?.errors?.['required']) {
+                                <p class="text-paragraph text-quinary font-medium">
+                                    *El email es obligatorio.
+                                </p>
+                            }
                         </div>
                         <div class="mb-6">
                             <label class="block text-quinary font-bold mb-2 font-primary text-paragraph">Contraseña</label>
@@ -42,8 +47,6 @@ export class LoginComponent {
         private readonly authService: AuthService
     ) {}
 
-    private router = inject(Router);
-
     loginForm = new FormGroup({
         email: new FormControl(''),
         password: new FormControl('')
@@ -53,7 +56,7 @@ export class LoginComponent {
     @Output() loginChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     
     toggleLogin() {
-      this.loginChange.emit(!this.isLoginModalHidden);
+        this.loginChange.emit(!this.isLoginModalHidden);
     }
 
     handleLogin() {
@@ -63,13 +66,22 @@ export class LoginComponent {
         };
         this.authService.login(credentials).subscribe({
             next: (res) => {
-                this.toggleLogin()
-                this.router.navigate(['admin']);
+                this.toggleLogin();
+                Swal.fire({
+                    text: "Inicio de sesión exitoso",
+                    icon: "success"
+                });
+                this.loginForm.patchValue({ password: '', email: '' });
             },
             error: (err) => {
-              console.error('Login error:', err);
+                Swal.fire({
+                    text: "Email o contraseña inválido.",
+                    icon: "error"
+                });
+                this.loginForm.patchValue({ password: '' });
+                console.error('Login error:', err);
             }
-          });
-          
+        });
+        
     }
 }

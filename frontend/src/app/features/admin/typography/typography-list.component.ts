@@ -25,8 +25,8 @@ import { environment } from "../../../../environments/environment";
                     'bg-white': selectedTypographyId() !== typography.id_tipography
                 }">
                     <h4 class="font-bold text-lg tracking-widest px-3">{{ typography.id_tipography }}</h4>
-                    <span [style.fontFamily]="loadedFonts[typography.id_tipography]?.main" class="text-lg flex-grow-30 basis-0">{{ typography.name_tipography_main | truncate:12 }}</span>
-                    <span [style.fontFamily]="loadedFonts[typography.id_tipography]?.secondary" class="text-lg flex-grow-30 basis-0">{{ typography.name_tipography_secondary | truncate:12 }}</span>
+                    <span [style.fontFamily]="loadedFonts[typography.id_tipography].main" class="text-lg flex-grow-30 basis-0">{{ typography.name_tipography_main | truncate:12 }}</span>
+                    <span [style.fontFamily]="loadedFonts[typography.id_tipography].secondary" class="text-lg flex-grow-30 basis-0">{{ typography.name_tipography_secondary | truncate:12 }}</span>
                     <div class="flex gap-3 flex-grow-30 basis-0">
                         <span class="font-bold" title="tam_title">{{ typography.tam_title }}px</span>
                         <span class="font-bold" title="tam_subtitle">{{ typography.tam_subtitle }}px</span>

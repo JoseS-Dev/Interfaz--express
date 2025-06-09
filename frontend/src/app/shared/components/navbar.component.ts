@@ -5,6 +5,7 @@ import { LoginComponent } from "../../features/home/login.component";
 import { Observable } from "rxjs";
 import { AuthService } from "../../core/services/auth.service";
 import { AsyncPipe } from "@angular/common";
+import { RouterLink, RouterOutlet } from "@angular/router";
 
 interface NavbarOption {
     label: string;
@@ -14,14 +15,14 @@ interface NavbarOption {
 @Component({
     selector: 'navbar',
     standalone: true,
-    imports: [NgIcon, LoginComponent, AsyncPipe],
+    imports: [NgIcon, LoginComponent, AsyncPipe, RouterLink],
     providers: [provideIcons({ heroBars3Solid })],
     template: `
         <nav class="bg-quaternary shadow-sm sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <h1 class="font-bold text-secondary text-title font-secondary">Bienestar Total</h1>
+                        <h1 class="font-bold text-secondary text-subtitle font-secondary">Bienestar Total</h1>
                     </div>
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
@@ -42,15 +43,24 @@ interface NavbarOption {
                             }
 
                             @if (isAuthenticated$ | async) {
+                                <a
+                                routerLink="/admin"
+                                class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium font-primary text-paragraph cursor-pointer"
+                                >
+                                    Ajustes
+                                </a>
+                            }
+
+                            @if (isAuthenticated$ | async) {
                                 <button
-                                (click)="logout()
-                                "class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
-                                >Logout</button>
+                                (click)="logout()"
+                                class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
+                                >Cerrar sesión</button>
                             } @else {
                                 <button
                                 (click)="toggleLogin()
                                 "class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
-                                >Login</button>
+                                >Iniciar sesión</button>
                             }
                         </div>
                     </div>
@@ -69,10 +79,27 @@ interface NavbarOption {
                             {{ option.label }}
                         </a>
                     }
-                    <button
-                    (click)="toggleLogin()"
-                    class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph"
-                    >{{ (isAuthenticated$ | async) ? 'Logout' : 'Login' }}</button>
+                    
+                    @if (isAuthenticated$ | async) {
+                        <a
+                        routerLink="/admin"
+                        class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium font-primary text-paragraph cursor-pointer"
+                        >
+                            Ajustes
+                        </a>
+                    }
+
+                    @if (isAuthenticated$ | async) {
+                        <button
+                        (click)="logout()"
+                        class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph"
+                        >Cerrar sesión</button>
+                    } @else {
+                        <button
+                        (click)="toggleLogin()
+                        "class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph"
+                        >Iniciar sesión</button>
+                    }
                 </div>
             </div>
             }
