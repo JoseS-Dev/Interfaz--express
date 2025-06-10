@@ -18,6 +18,12 @@ watch(password, (newPassword) => {
   validPassword.value = newPassword.length >= 1;
 });
 
+function getCssVar(name) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+}
+
 const onLogin = async (event) => {
   event.preventDefault();
   try {
@@ -45,16 +51,33 @@ const onLogin = async (event) => {
       Swal.fire({
         icon: "success",
         title: "¡Inicio de sesión exitoso!",
+        background: getCssVar("--color-primary"),
+        color: getCssVar("--color-secondary"),
         showConfirmButton: false,
         timer: 1500,
+        customClass: {
+          popup: "rounded-xl",
+          title: "font-bold",
+          htmlContainer: "font-primary", // Usa tu fuente principal
+        },
       });
+      validData.value = true;
+      onToggleLogin();
+      router.push("/admin");
     } else {
       validData.value = false;
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "Usuario o contraseña incorrectos",
+        background: getCssVar("--color-primary"),
+        color: getCssVar("--color-tertiary"),
         showConfirmButton: true,
+        customClass: {
+          popup: "rounded-xl",
+          title: "font-bold",
+          htmlContainer: "font-primary",
+        },
       });
       console.error("Error al iniciar sesión:", data.message);
     }
@@ -64,7 +87,14 @@ const onLogin = async (event) => {
       icon: "error",
       title: "Error",
       text: "Ocurrió un error al intentar iniciar sesión",
+      background: getCssVar("--color-primary"),
+      color: getCssVar("--color-tertiary"),
       showConfirmButton: true,
+      customClass: {
+        popup: "rounded-xl",
+        title: "font-bold",
+        htmlContainer: "font-primary",
+      },
     });
     console.error("Error al iniciar sesión:", error);
   }

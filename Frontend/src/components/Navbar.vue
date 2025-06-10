@@ -3,6 +3,12 @@ import { useAuthStore } from "@/store/AuthStore";
 import { RouterLink } from "vue-router";
 import Swal from "sweetalert2";
 
+function getCssVar(name) {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+}
+
 const authStore = useAuthStore();
 
 const onClickMobileBtn = () => {
@@ -25,10 +31,19 @@ const onLogout = async () => {
     text: "Vas a cerrar tu sesión.",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: getCssVar("--color-tertiary"),
+    cancelButtonColor: getCssVar("--color-quinary"),
     confirmButtonText: "Sí, salir",
     cancelButtonText: "Cancelar",
+    background: getCssVar("--color-primary"),
+    color: getCssVar("--color-secondary"),
+    customClass: {
+      popup: "rounded-xl",
+      confirmButton: "font-bold",
+      cancelButton: "font-bold",
+      title: "font-bold",
+      htmlContainer: "font-primary",
+    },
   });
 
   if (result.isConfirmed) {
@@ -36,8 +51,15 @@ const onLogout = async () => {
     Swal.fire({
       icon: "success",
       title: "Sesión cerrada",
+      background: getCssVar("--color-primary"),
+      color: getCssVar("--color-secondary"),
       showConfirmButton: false,
       timer: 1200,
+      customClass: {
+        popup: "rounded-xl",
+        title: "font-bold",
+        htmlContainer: "font-primary",
+      },
     });
     router.push("/");
   }
