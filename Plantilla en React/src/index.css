@@ -14,3 +14,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.h-9\/10{
+  height: 91.5%;
+}
