@@ -1,3 +1,26 @@
+### Obtener todos los usuarios
+GET http://localhost:3500/Users
+
+### Obtener un usuario por id
+GET http://localhost:3500/Users/1
+
+### Obtener un usuario por su email
+GET http://localhost:3500/Users/Email/joseasantana05@gmail.com
+
+### Obtener un usuario por su nombre de usuario
+GET http://localhost:3500/Users/Username/SenkuJS
+
+### Actualizar un usuario
+PATCH http://localhost:3500/Users/1
+Content-Type: application/json
+
+{
+  "name_user": "Jose Santana",
+  "email_user": "joseasantana05@gmail.com",
+  "password_user": "JSa06...",
+  "username": "SenkuJS"
+}
+
 ### Logear usuario
 POST http://localhost:3500/Users/login
 Content-Type: application/json

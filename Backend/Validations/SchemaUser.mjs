@@ -37,6 +37,10 @@ export function validateUser(user){
     return schemaUser.safeParse(user);
 }
 
+export function validateUpdateUser(user){
+    return schemaUser.partial().safeParse(user);
+}
+
 export function validateLogin(user){
     return schemaLogin.safeParse(user);
 }

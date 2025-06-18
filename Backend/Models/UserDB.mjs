@@ -70,4 +70,82 @@ export class ModelsUsers{
             return null;
         }
     }
+
+    // Obtener a todos los usuarios
+    static async getAllUsers(){
+        const [users] = await connection.query('SELECT * FROM user_register');
+        if(users.length > 0){
+            console.log("Usuaurios obtenidos");
+            return users;
+        }
+        else{
+            console.log("No hay usuarios registrados");
+            return [];
+        }
+    }
+
+    // Obtener a un usuario por su ID
+    static async getUserByID({id_user}){
+        if(id_user){
+            const [userID] = await connection.query("SELECT * FROM user_register WHERE id_user = ?", [id_user]);
+            if(userID.length > 0){
+                console.log("Usuario encontrado con el ID solicitado");
+                return userID;
+            }
+            else{
+                console.log("Usuario no encontrado");
+                return null;
+            }
+        }
+    }
+
+    // Obtener a un usuario por su email
+    static async getUserByEmail({ email_user }){
+        if(email_user){
+            const [userEmail] = await connection.query("SELECT * FROM user_register WHERE email_user LIKE ?", [`%${email_user}%`]);
+            if(userEmail.length > 0){
+                console.log("Usuario encontrado con el email solicitado");
+                return userEmail[0];
+            }
+            else{
+                console.log("Usuario no encontrado");
+                return null;
+            }
+        }
+    }
+
+    // Obtener a un usuario por su username
+    static async getUserByUsername({ username }){
+        if(username){
+            const [userUsername] = await connection.query("SELECT * FROM user_register WHERE username = ?", [username]);
+            if(userUsername.length > 0){
+                console.log("Usuario encontrado con el username solicitado");
+                return userUsername[0];
+            }
+            else{
+                console.log("Usuario no encontrado");
+                return null;
+            }
+        }
+    }
+
+    // Actualizar un usuario
+    static async updateUser({id_user, user}){
+        if(!id_user || !user) return null;
+        const {name_user, email_user, password_user, username} = user;
+        // Se verifica si existe un usuario con ese ID
+        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE id_user = ?', [id_user]);
+        if(existingUser.length > 0){
+            const hashedPassword = password_user ? await bcrypt.hash(password_user, 10) : existingUser[0].password_user;
+            const [updateUser] = await connection.query('UPDATE user_register SET name_user = ?, email_user = ?, password_user = ?, username = ? WHERE id_user = ?', [name_user, email_user, hashedPassword, username, id_user]);
+            if(updateUser.affectedRows > 0){
+                console.log('Usuario actualizado');
+                return updateUser;
+            }
+            else{
+                console.log('Error al actualizar el usuario');
+                return null;
+            }
+        }
+    }
 }

@@ -102,26 +102,6 @@ export class TypographyController {
         }
     }
     
-    // Obtener una tipografia por su tamaño de font
-    getByFontSize = async ( req, res ) => {
-        try{
-            const { tam_font } = req.params;
-            if(tam_font){
-                const typegraphFontSize = await this.ModelsTypography.getByFontSize({tam_font});
-                return res.status(200).json({
-                    message: 'Tipografía por tamaño de fuente obtenida correctamente',
-                    data: typegraphFontSize
-                });
-            }
-            else{
-                return res.status(400).json({ error: 'Tamaño de fuente no proporcionado' });
-            }
-        }
-        catch(error){
-            console.error('Error al obtener la tipografía por tamaño de fuente:', error);
-            return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de fuente' });
-        }
-    }
     
     // Obtener una tipografia por su tamaño en los parrafos
     getByFontParagraph = async ( req, res ) => {
