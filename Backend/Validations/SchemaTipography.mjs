@@ -122,5 +122,5 @@ export function validateTipographySecondary(tipography) {
 }
 // Function para validar la tipografía a la hora de modificar
 export function validateTipographyUpdate(tipography) {
-    return schemaTipography.partial().safeParse(tipography);
+    return schemaTipography.safeParse(tipography);
 }

@@ -72,15 +72,19 @@ Content-Disposition: form-data; name="tam_subtitle"
 
 20
 --CustomBoundary
+Content-Disposition: form-data; name="is_selected"
+
+true
+--CustomBoundary
 Content-Disposition: form-data; name="main_font"; filename="Roboto.ttf"
 Content-Type: application/x-font-ttf
 
-< ../font/Roboto.ttf
+< D:\Descargas\Ceviche_One,Permanent_Marker\Ceviche_One\CevicheOne-Regular.ttf
 --CustomBoundary
 Content-Disposition: form-data; name="secondary_font"; filename="San-serif.ttf"
 Content-Type: application/x-font-ttf
 
-< ../font/San-serif.ttf
+< D:\Descargas\Ceviche_One,Permanent_Marker\Permanent_Marker\PermanentMarker-Regular.ttf
 --CustomBoundary--
 
 
@@ -141,7 +145,7 @@ Content-Type: application/x-font-ttf
 
 
 ### Borrar una tipografia
-DELETE http://localhost:3500/Tipography/6
+DELETE http://localhost:3500/Tipography/1
 
 ### Obtener todos los conjuntos de colores
 GET http://localhost:3500/Colors
@@ -168,12 +172,28 @@ POST http://localhost:3500/Colors/1
 Content-Type: application/json
 
 {
-  "primary_color": "f00",
-  "secondary_color": "0f0",
-  "ternary_color": "00f",
-  "cuarternary_color": "ff0",
-  "neutral_color": "000"
+  "primary_color": "DFEEFF",
+  "secondary_color": "2563EB",
+  "ternary_color": "F97316",
+  "cuarternary_color": "FFFFFF",
+  "neutral_color": "374151",
+  "is_selected": true
 }
 
+### Actualizar color por id
+PATCH http://localhost:3500/Colors/2
+Content-Type: application/json
+
+{
+  "primary_color": "DFEEFF",
+  "secondary_color": "2563EB",
+  "ternary_color": "F97316",
+  "cuarternary_color": "FFFFFF",
+  "neutral_color": "374151",
+  "is_selected": false
+}
+
+
+
 ### Borrar un conjunto de colores
-DELETE http://localhost:3500/Colors/6
+DELETE http://localhost:3500/Colors/3

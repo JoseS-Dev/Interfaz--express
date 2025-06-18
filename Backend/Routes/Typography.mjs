@@ -25,7 +25,7 @@ RoutesTipography.post('/:id_user',uploadFonts, typographycontroller.createTipogr
 
 /// PATCH
 RoutesTipography.patch('/select', typographycontroller.selectTypography);
-RoutesTipography.patch('/:id_tipography', typographycontroller.updateByID);
+RoutesTipography.patch('/:id_tipography',uploadFonts ,typographycontroller.updateByID);
 
 /// DELETE
 RoutesTipography.delete('/:id_tipography', typographycontroller.deleteByID);
