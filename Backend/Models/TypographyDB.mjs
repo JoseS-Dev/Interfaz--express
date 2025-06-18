@@ -81,7 +81,20 @@ export class ModelsTypography {
         }
     }
 
-    
+    // // Obtener una tipografia por su tamaño de font
+    // static async getByFontSize({ tam_font }){
+    //     if(tam_font){
+    //         const [tipographyFont] = await connection.query('SELECT * FROM typography WHERE tam_font = ?', [tam_font]);
+    //         if(tipographyFont.length > 0){
+    //             console.log('Tipografía encontrada por tamaño de fuente');
+    //             return tipographyFont;
+    //         }
+    //         else{
+    //             console.log('No se encontró la tipografía por tamaño de fuente');
+    //             return null;
+    //         }
+    //     }
+    // }
 
     // Obtener una tipografia por su tamaño de font en los parrafos
     static async getByFontParagraph({ tam_paragraph }){
@@ -191,10 +204,10 @@ export class ModelsTypography {
     // Se crea una tipografia con su Tipografia principal y secundaria
     static async createTipography({ typography, id_user }){
         if(typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected,archive_font_main, archive_font_secondary]);
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
                 const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);
@@ -211,23 +224,66 @@ export class ModelsTypography {
     }
 
     // Actualizar una tipografia por su ID
-    static async updateByID({id_tipography, typography}){
-        if(id_tipography && typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary } = typography;
-            // Se actualiza la tipografia
-            const [result] = await connection.query('UPDATE typography SET name_tipography_main = ?, name_tipography_secondary = ?, tam_paragraph = ?, tam_title = ?, tam_subtitle = ?, is_selected = ?,archive_font_main = ?, archive_font_secondary = ? WHERE id_tipography = ?', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected,archive_font_main, archive_font_secondary, id_tipography]);
-            if(result.affectedRows > 0){
-                console.log('Tipografía actualizada exitosamente');
-                return result;
-            }
-            else{
-                console.log('No se actualizó la tipografía');
-                return null;
-            }
+    static async updateByID({ id_tipography, typography }) {
+        if (!id_tipography || !typography) return null;
+      
+        // Campos y valores a actualizar
+        const fields = [];
+        const values = [];
+      
+        // Mapear solo campos definidos
+        if (typography.name_tipography_main !== undefined) {
+          fields.push('name_tipography_main = ?');
+          values.push(typography.name_tipography_main);
         }
-    }
-
+        if (typography.name_tipography_secondary !== undefined) {
+          fields.push('name_tipography_secondary = ?');
+          values.push(typography.name_tipography_secondary);
+        }
+        if (typography.tam_paragraph !== undefined) {
+          fields.push('tam_paragraph = ?');
+          values.push(typography.tam_paragraph);
+        }
+        if (typography.tam_title !== undefined) {
+          fields.push('tam_title = ?');
+          values.push(typography.tam_title);
+        }
+        if (typography.tam_subtitle !== undefined) {
+          fields.push('tam_subtitle = ?');
+          values.push(typography.tam_subtitle);
+        }
+        if (typography.archive_font_main !== undefined) {
+          fields.push('archive_font_main = ?');
+          values.push(typography.archive_font_main);
+        }
+        if (typography.archive_font_secondary !== undefined) {
+          fields.push('archive_font_secondary = ?');
+          values.push(typography.archive_font_secondary);
+        }
+      
+        // Si no hay campos para actualizar
+        if (fields.length === 0) {
+          console.log('No hay campos para actualizar');
+          return null;
+        }
+      
+        // Agregar id al final para el WHERE
+        values.push(id_tipography);
+      
+        // Construir query dinámico
+        const sql = `UPDATE typography SET ${fields.join(', ')} WHERE id_tipography = ?`;
+      
+        const [result] = await connection.query(sql, values);
+      
+        if (result.affectedRows > 0) {
+          console.log('Tipografía actualizada exitosamente');
+          return result;
+        } else {
+          console.log('No se actualizó la tipografía');
+          return null;
+        }
+      }
+      
     // Eliminar una tipografia por su ID
     static async deleteByID({ id_tipography }){
         if(id_tipography){
@@ -251,8 +307,6 @@ export class ModelsTypography {
     // Seleccionar una tipografía para un usuario
     static async selectTypography({ id_user, id_tipography }) {
         // Deseleccionar todas las tipografías relacionadas con el usuario
-        console.log('Deseleccionando todas las tipografías para el usuario:', id_user);
-        console.log({ id_user, id_tipography });
         await connection.query(
             `UPDATE typography t
              JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
@@ -269,7 +323,7 @@ export class ModelsTypography {
              WHERE tr.id_user = ? AND t.id_tipography = ?`,
             [id_user, id_tipography]
         );
-    
+
         if (result.affectedRows > 0) {
             const [rows] = await connection.query(
                 `SELECT t.* FROM typography t WHERE t.id_tipography = ?`,
@@ -281,4 +335,17 @@ export class ModelsTypography {
         }
     }
     
+    static async getSelectedTypography({ id_user }) {
+        const [rows] = await connection.query(
+            `SELECT t.* FROM typography t
+             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+             WHERE tr.id_user = ? AND t.is_selected = true`,
+            [id_user]
+        );
+        if (rows.length > 0) {
+            return rows[0];
+        } else {
+            return null;
+        }
+    }
 }

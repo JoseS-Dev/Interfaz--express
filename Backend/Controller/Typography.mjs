@@ -281,11 +281,10 @@ export class TypographyController {
                 tam_title: parseInt(req.body.tam_title),
                 tam_subtitle: parseInt(req.body.tam_subtitle),
                 archive_font_main: mainFont.path,
-                archive_font_secondary: secondaryFont.path,
-                is_selected: req.body.is_selected === 'true'
+                archive_font_secondary: secondaryFont.path
             }
             const result = validateTipography(body);
-            const { id_user } = req.params;
+            const id_user = req.user.id;
             if(!result.success) return res.status(400).json({ error: result.error.errors });
             const newTipography = await this.ModelsTypography.createTipography({typography: result.data, id_user});
             return res.status(201).json({
@@ -300,47 +299,57 @@ export class TypographyController {
     }
 
     // Actualizar una tipografia por su ID
-    updateByID = async ( req, res ) => {
-        try{
-            const {id_tipography} = req.params;
-            console.log('id de tipografia a actualizar: ',id_tipography);
-            const mainFont = req.files.main_font[0];
-            const secondaryFont = req.files.secondary_font[0];
-
-            const mainPath = mainFont.path;
-            console.log('Ruta de la fuente principal:', mainPath);
-
-            const body = {
-                ...req.body,
-                name_tipography_main: mainFont.originalname,
-                name_tipography_secondary: secondaryFont.originalname,
-                // tam_font: parseInt(req.body.tam_font),
-                tam_paragraph: parseInt(req.body.tam_paragraph),
-                tam_title: parseInt(req.body.tam_title),
-                tam_subtitle: parseInt(req.body.tam_subtitle),
-                archive_font_main: mainFont.path,
-                archive_font_secondary: secondaryFont.path,
-                is_selected: req.body.is_selected === 'true'
-            }
-            if(id_tipography){
-                const result = validateTipographyUpdate(body);
-                if(!result.success) return res.status(400).json({ error: result.error.errors });
-                
-                const updatedTipography = await this.ModelsTypography.updateByID({id_tipography, typography: result.data});
-                return res.status(200).json({
-                    message: 'Tipografía actualizada correctamente',
-                    data: updatedTipography
-                });
-            }
-            else{
-                return res.status(400).json({ error: 'ID de tipografía no proporcionado' });
-            }
+    updateByID = async (req, res) => {
+        try {
+          const { id_tipography } = req.params;
+      
+          // Validar si vienen archivos y extraerlos con seguridad
+          const mainFontFile = req.files?.main_font?.[0];
+          const secondaryFontFile = req.files?.secondary_font?.[0];
+      
+          // Construir objeto body con campos obligatorios y opcionales
+          const body = {
+            ...req.body,
+            tam_paragraph: req.body.tam_paragraph ? parseInt(req.body.tam_paragraph) : undefined,
+            tam_title: req.body.tam_title ? parseInt(req.body.tam_title) : undefined,
+            tam_subtitle: req.body.tam_subtitle ? parseInt(req.body.tam_subtitle) : undefined
+          };
+      
+          // Si se envió archivo main_font, agregar propiedades relacionadas
+          if (mainFontFile) {
+            body.name_tipography_main = mainFontFile.originalname;
+            body.archive_font_main = mainFontFile.path;
+          }
+      
+          // Si se envió archivo secondary_font, agregar propiedades relacionadas
+          if (secondaryFontFile) {
+            body.name_tipography_secondary = secondaryFontFile.originalname;
+            body.archive_font_secondary = secondaryFontFile.path;
+          }
+      
+          if (!id_tipography) {
+            return res.status(400).json({ error: 'ID de tipografía no proporcionado' });
+          }
+      
+          // Validar datos (ajusta la función para que acepte campos opcionales)
+          const result = validateTipographyUpdate(body);
+          if (!result.success) {
+            return res.status(400).json({ error: result.error.errors });
+          }
+      
+          const updatedTipography = await this.ModelsTypography.updateByID({ id_tipography, typography: result.data });
+      
+          return res.status(200).json({
+            message: 'Tipografía actualizada correctamente',
+            data: updatedTipography
+          });
+        } catch (error) {
+          console.error('Error al actualizar la tipografía por ID:', error);
+          return res.status(500).json({ error: 'Error al actualizar la tipografía por ID' });
         }
-        catch(error){
-            console.error('Error al actualizar la tipografía por ID:', error);
-            return res.status(500).json({ error: 'Error al actualizar la tipografía por ID' });
-        }
-    }
+      };
+      
+
 
     // Eliminar una tipografia por su ID
     deleteByID = async ( req, res ) => {
@@ -366,7 +375,8 @@ export class TypographyController {
     // Seleccionar una tipografía por el usuario
     selectTypography = async (req, res) => {
         try {
-            const { id_user, id_tipography } = req.body;
+            const { id_tipography } = req.body;
+            const id_user = req.user.id;
             console.log('Datos recibidos para seleccionar tipografía:', req.body);
     
             if (!id_user || !id_tipography) {
@@ -389,4 +399,17 @@ export class TypographyController {
         }
     }    
     
+    getSelectedTypography = async ( req, res ) => {
+        try {
+            const id_user = req.user.id;
+            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
+            return res.status(200).json({
+                message: 'Tipografía encontrada correctamente',
+                data: typography
+            });
+        } catch (error) {
+            console.error('Error al obtener la tipografía seleccionada:', error);
+            return res.status(500).json({ error: 'Error al obtener la tipografía seleccionada' });
+        }
+    }
 }

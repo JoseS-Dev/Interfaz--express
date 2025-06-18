@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import { ColorsController } from '../Controller/Color.mjs';
 import { ModelsColors } from '../Models/ColorsDB.mjs';
+import { authMiddleware } from '../Middlewares/Auth.mjs'
 
 
 const router = Router();
@@ -9,7 +10,8 @@ export const RoutesColors = router;
 
 
 // GET
-RoutesColors.get('/', colorsController.getAll);
+RoutesColors.get('/', authMiddleware, colorsController.getAll);
+RoutesColors.get('/selected', authMiddleware, colorsController.getSelectedColors)
 RoutesColors.get('/:id_colors', colorsController.getByID);
 RoutesColors.get('/Primary/:primary_color', colorsController.getByPrimaryColor);
 RoutesColors.get('/Secondary/:secondary_color', colorsController.getBySecondaryColor);
@@ -18,11 +20,11 @@ RoutesColors.get('/Cuaternary/:cuaternary_color', colorsController.getByCuartern
 RoutesColors.get('/Neutral/:neutral_color', colorsController.getByNeutralColor);
 
 // POST
-RoutesColors.post('/:id_user', colorsController.createColor);
+RoutesColors.post('/', authMiddleware, colorsController.createColor);
 
 // PATCH
-RoutesColors.patch('/select', colorsController.selectColor);
-RoutesColors.patch('/:id_colors', colorsController.updateByID);
+RoutesColors.patch('/select', authMiddleware, colorsController.selectColor);
+RoutesColors.patch('/:id_colors', authMiddleware, colorsController.updateByID);
 
 // DELETE
-RoutesColors.delete('/:id_colors', colorsController.deleteByID);
+RoutesColors.delete('/:id_colors', authMiddleware, colorsController.deleteByID);
