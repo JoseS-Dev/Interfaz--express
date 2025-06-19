@@ -15,4 +15,4 @@ const CardPrevious = (primaryColor: string, secondaryColor: string, ternaryColor
     )
 }
 
-export default CardColors;
+export default CardPrevious;

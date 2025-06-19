@@ -8,8 +8,8 @@ const FormColors = () => {
     const [NeutralColorInput, setChangeNeutralColor] = useState("");
     
     return (
-        <form className="w-full h-152 flex flex-col items-center gap-5 px-2 py-3">
-            <div className="w-full h-22 flex flex-col gap-1">
+        <form className="w-full h-full  flex flex-col items-center gap-5 px-2 py-3">
+            <div className="w-full h-24 flex flex-col gap-1">
                 <label className="text-lg trancking-wide font-500 w-full border-b-2 border-gray-700" htmlFor="primary_color">
                     Color Primario
                 </label>
@@ -23,7 +23,7 @@ const FormColors = () => {
                     required
                 />
             </div>
-            <div className="w-full h-22 flex flex-col gap-1">
+            <div className="w-full h-24 flex flex-col gap-1">
                 <label className="text-lg trancking-wide font-500 w-full border-b-2 border-gray-700" htmlFor="secondary_color">
                     Color Secundario
                 </label>
@@ -37,7 +37,7 @@ const FormColors = () => {
                     required
                 />
             </div>
-            <div className="w-full h-22 flex flex-col gap-1">
+            <div className="w-full h-24 flex flex-col gap-1">
                 <label className="text-lg trancking-wide font-500 w-full border-b-2 border-gray-700">
                     Color Terciario
                 </label>
@@ -51,7 +51,7 @@ const FormColors = () => {
                     required
                 />
             </div>
-            <div className="w-full h-22 flex flex-col gap-1">
+            <div className="w-full h-24 flex flex-col gap-1">
                 <label className="text-lg trancking-wide font-500 w-full border-b-2 border-gray-700" htmlFor="cuarternary_color">
                     Color cuaternario
                 </label>
@@ -65,7 +65,7 @@ const FormColors = () => {
                     required
                 />
             </div>
-            <div className="w-full h-22 flex flex-col gap-1">
+            <div className="w-full h-24 flex flex-col gap-1">
                 <label className="text-lg trancking-wide font-500 w-full border-b-2 border-gray-700" htmlFor="neutral_color">
                     Color neutral
                 </label>
