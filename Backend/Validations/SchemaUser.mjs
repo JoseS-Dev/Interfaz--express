@@ -16,7 +16,8 @@ export const schemaUser = zod.object({
     username: zod.string({
         required_error: 'El nombre de usuario es requerido',
         invalid_type_error: 'El nombre de usuario debe ser una cadena de texto'
-    }).min(3, 'El nombre de usuario debe tener al menos 3 caracteres')
+    }).min(3, 'El nombre de usuario debe tener al menos 3 caracteres'),
+    
 })
 
 
