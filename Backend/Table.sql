@@ -1,56 +1,77 @@
 CREATE TABLE user_register(
     id_user INT PRIMARY KEY AUTO_INCREMENT,
-    name_user VARCHAR(255) NOT NULL,
-    Last_name_user VARCHAR(255) NOT NULL,
-    maiden_name_user VARCHAR(255) NOT NULL,
-    age_user INT NOT NULL,
-    phone_user VARCHAR(20) NOT NULL,
-    image_user VARCHAR(255) NOT NULL,
-    height_user DECIMAL(5,2) NOT NULL,
-    weight_user DECIMAL(5,2) NOT NULL
-    birth_date_user VARCHAR(255) NOT NULL,
-    blood_type_user VARCHAR(50) NOT NULL,
-    eye_color_user VARCHAR(50) NOT NULL,
-    hair_color_user VARCHAR(50) NOT NULL,
-    hair_type_user VARCHAR(50) NOT NULL,
-    ip_address_user VARCHAR(255) NOT NULL,
-    address_user VARCHAR(255) NOT NULL,
-    city_user VARCHAR(255) NOT NULL,
-    state_user VARCHAR(255) NOT NULL,
-    address_stateCode_user VARCHAR(50) NOT NULL,
-    address_postalCode_user VARCHAR(50) NOT NULL,
-    address_coordinates_lat_user DECIMAL(10,8) NOT NULL,
-    address_coordinates_lng_user DECIMAL(11,8) NOT NULL,
-    address_country_user VARCHAR(255) NOT NULL,
-    mac_address_user VARCHAR(255) NOT NULL,
-    university_user VARCHAR(255) NOT NULL,
-    bank_cardExpires_user VARCHAR(50) NOT NULL,
-    bank_cardNumber_user VARCHAR(50) NOT NULL,
-    bank_cardType_user VARCHAR(50) NOT NULL,
-    bank_currency_user VARCHAR(50) NOT NULL,
-    bank_iban_user VARCHAR(50) NOT NULL,
-    company_department_user VARCHAR(255) NOT NULL,
-    company_name_user VARCHAR(255) NOT NULL,
-    company_title_user VARCHAR(255) NOT NULL,
-    company_address_user VARCHAR(255) NOT NULL,
-    company_address_city_user VARCHAR(255) NOT NULL,
-    company_address_state_user VARCHAR(255) NOT NULL,
-    company_address_stateCode_user VARCHAR(50) NOT NULL,
-    company_address_postalCode_user VARCHAR(50) NOT NULL,
-    company_address_coordinates_lat_user DECIMAL(10,8) NOT NULL,
-    company_address_coordinates_lng_user DECIMAL(11,8) NOT NULL,
-    company_address_country_user VARCHAR(255) NOT NULL,
-    ein_user VARCHAR(255) NOT NULL,
-    ssn_user VARCHAR(255) NOT NULL,
-    userAgent_user VARCHAR(255) NOT NULL,
-    crypto_coin_user VARCHAR(255) NOT NULL,
-    crypto_wallet_user VARCHAR(255) NOT NULL,
-    crypton_network_user VARCHAR(255) NOT NULL,
-    role_user VARCHAR(50) NOT NULL,
+    name_user VARCHAR(255) NOT NULL, 
     email_user VARCHAR(255) NOT NULL,
     password_user VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL
+    username VARCHAR(255) NOT NULL,
+    age_user INT NOT NULL,
+    phone_user VARCHAR(255) NOT NULL,
+    birth_date_user DATE NOT NULL,
+    image_user VARCHAR(255) NOT NULL,
+    blood_group_user VARCHAR(10) NOT NULL,
+    height_user DECIMAL(5,2) NOT NULL,
+    weight_user DECIMAL(5,2) NOT NULL
+    eye_color_user VARCHAR(50) NOT NULL,
+    ip_user VARCHAR(45) NOT NULL,
+    mac_address_user VARCHAR(17) NOT NULL,
+    university_user VARCHAR(255) NOT NULL,
+    ein_user VARCHAR(255) NOT NULL,
+    ssn_user VARCHAR(255) NOT NULL,
+    user_agent_user VARCHAR(255) NOT NULL,
+    role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+
 );
+
+CREATE TABLE address_user(
+    id_address INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    street_address VARCHAR(255) NOT NULL,
+    city_address VARCHAR(100) NOT NULL,
+    state_address VARCHAR(100) NOT NULL,
+    state_code_address VARCHAR(10) NOT NULL,
+    postal_code_address VARCHAR(20) NOT NULL,
+    latitude_address DECIMAL(10,8) NOT NULL,
+    longitude_address DECIMAL(11,8) NOT NULL,
+    country_address VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+)
+
+CREATE TABLE bank_info_user(
+    id_bank_info INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    card_expire_user VARCHAR(10) NOT NULL,
+    card_number_user VARCHAR(20) NOT NULL,
+    card_type_user VARCHAR(25) NOT NULL,
+    currency_user VARCHAR(10) NOT NULL,
+    iban_user VARCHAR(34) NOT NULL,
+
+)
+
+CREATE TABLE companies_user(
+    id_company INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    department_company_user VARCHAR(100) NOT NULL,
+    company_name_user VARCHAR(255) NOT NULL,
+    company_title_user VARCHAR(100) NOT NULL,
+    company_street_user VARCHAR(255) NOT NULL,
+    company_city_user VARCHAR(100) NOT NULL,
+    company_state_user VARCHAR(100) NOT NULL,
+    company_state_code_user VARCHAR(10) NOT NULL,
+    company_postal_code_user VARCHAR(20) NOT NULL,
+    company_latitude_user DECIMAL(10,8) NOT NULL,
+    company_longitude_user DECIMAL(11,8) NOT NULL,
+    company_country_user VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+)
+
+CREATE TABLE crypto_wallets_user(
+    id_crypto_wallet INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    coin_user VARCHAR(255) NOT NULL,
+    wallet_address_user VARCHAR(255) NOT NULL,
+    network_user VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+)
 
 CREATE TABLE login_user(
     id_login INT PRIMARY KEY AUTO_INCREMENT,
