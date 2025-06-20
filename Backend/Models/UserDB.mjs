@@ -27,7 +27,7 @@ export class ModelsUsers{
     static async Register({user}){
         const {
             name_user, maiden_name_user, email_user, password_user, username,
-            age_user, phone_user, birth_date_user, image_user, blood_type_user,
+            age_user, phone_user, birth_date_user, image_user, blood_group_user,
             height_user, weight_user, eye_color_user, ip_user, mac_address_user,
             university_user, ein_user, ssn_user, user_agent_user, role_user,
             street_address, city_address, state_address, state_code_address,
@@ -60,12 +60,12 @@ export class ModelsUsers{
                 const userID = createUser.insertId;
                 const [ InfoUser ] = await connection.query(
                     `INSERT INTO info_user 
-                    (id_user,age_user,phone_user,birth_date_user,image_user,blood_type_user,
+                    (id_user,age_user,phone_user,birth_date_user,image_user,blood_group_user,
                     height_user,weight_user,eye_color_user,ip_user,mac_address_user,
                     university_user,ein_user,ssn_user,user_agent_user,role_user) 
                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
                     [
-                        userID, age_user, phone_user, birth_date_user, image_user, blood_type_user,
+                        userID, age_user, phone_user, birth_date_user, image_user, blood_group_user,
                         height_user, weight_user, eye_color_user, ip_user, mac_address_user,
                         university_user, ein_user, ssn_user, user_agent_user, role_user
 
@@ -114,7 +114,7 @@ export class ModelsUsers{
                 console.log("Datos de la empresa del usuario guardados");
                 // Se guarda los datos de la billetera del usuario en la tabla crypto_wallet_user
                 const[cryptoUser] = await connection.query(
-                    `INSERT INTO crypto_wallet_user 
+                    `INSERT INTO crypto_wallets_user 
                     (id_user,coin_user,wallet_address_user,network_user) 
                     VALUES (?,?,?,?)`,
                     [

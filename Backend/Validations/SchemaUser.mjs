@@ -122,7 +122,7 @@ export const schemaUser = zod.object({
     }).refine(value => {
         return value >= -90 && value <= 90;
     }),
-    longitud_address: zod.number({
+    longitude_address: zod.number({
         required_error: 'La longitud es requerido',
         invalid_type_error: 'La longitud debe ser un número'
     }).refine(value => {
@@ -142,9 +142,6 @@ export const schemaUser = zod.object({
     card_number_user: zod.string({
         required_error: 'El número de tarjeta es requerido',
         invalid_type_error: 'El número de tarjeta debe ser una cadena de texto'
-    }).refine(value => {
-        const regex = /^\d{16}$/;
-        return regex.test(value);
     }),
     card_type_user: zod.string({
         required_error: 'El tipo de tarjeta es requerido',

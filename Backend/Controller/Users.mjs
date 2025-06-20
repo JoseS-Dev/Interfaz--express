@@ -51,7 +51,7 @@ export class UsersControllers{
                 return res.status(201).json({
                     message: 'Usuario registrado',
                     user: Register,
-                    token: Auth(user)
+                    token: Auth(Register)
                 });
             }
             else{
