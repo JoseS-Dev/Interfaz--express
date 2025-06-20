@@ -15,7 +15,7 @@ export class ModelsUsers{
                 console.log('Usuario logueado');
                 // Se guarda el usuario loguado en el servidor
                 const {id_user} = userDB;
-                const [login] = await connection.query('INSERT INTO login_user (id_user) VALUES (?)', [id_user]);
+                await connection.query('INSERT INTO login_user (id_user) VALUES (?)', [id_user]);
                 return userDB;
             }
             else{
@@ -25,7 +25,20 @@ export class ModelsUsers{
         }
     }
     static async Register({user}){
-        const {name_user, email_user, password_user, username} = user;
+        const {
+            name_user, maiden_name_user, email_user, password_user, username,
+            age_user, phone_user, birth_date_user, image_user, blood_type_user,
+            height_user, weight_user, eye_color_user, ip_user, mac_address_user,
+            university_user, ein_user, ssn_user, user_agent_user, role_user,
+            street_address, city_address, state_address, state_code_address,
+            postal_code_address, latitude_address, longitude_address, country_address,
+            card_expire_user, card_number_user, card_type_user, currency_user,
+            iban_user, department_company_user, company_name_user, company_title_user,
+            company_street_user, company_city_user, company_state_user, company_state_code_user,
+            company_postal_code_user, company_latitude_user, company_longitude_user,
+            company_country_user, coin_user, wallet_address_user, network_user
+
+        } = user;
         if(!name_user || !email_user || !password_user || !username) return null;
         // Se verifica si ya existe un usuario con ese email
         const [existingUser] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email_user]);
@@ -35,10 +48,85 @@ export class ModelsUsers{
         }
         else{
             const hashedPassword = await bcrypt.hash(password_user, 10);
-            const [createUser] = await connection.query('INSERT INTO user_register (name_user, email_user, password_user, username) VALUES (?, ?, ?, ?)', [name_user, email_user, hashedPassword, username]);
+            const [createUser] = await connection.query(
+                `
+                INSERT INTO user_register (name_user,maiden_name_user, email_user, password_user, username) 
+                VALUES (?, ?, ?, ?, ?)
+                `, 
+                [name_user,maiden_name_user, email_user, hashedPassword, username]);
             if(createUser.affectedRows > 0){
-                console.log('Usuario creado');
-                return createUser;
+                console.log("Registro Existoso");
+                // Se guarda los datos adicionales del usuario en la tabla info_user
+                const userID = createUser.insertId;
+                const [ InfoUser ] = await connection.query(
+                    `INSERT INTO info_user 
+                    (id_user,age_user,phone_user,birth_date_user,image_user,blood_type_user,
+                    height_user,weight_user,eye_color_user,ip_user,mac_address_user,
+                    university_user,ein_user,ssn_user,user_agent_user,role_user) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                    [
+                        userID, age_user, phone_user, birth_date_user, image_user, blood_type_user,
+                        height_user, weight_user, eye_color_user, ip_user, mac_address_user,
+                        university_user, ein_user, ssn_user, user_agent_user, role_user
+
+                    ]
+                )
+                console.log("Datos personales del usuario guardados");
+                // Se guarda la direccion del usuario en la tabla address_user
+                const[ addressUser ] = await connection.query(
+                    `INSERT INTO address_user 
+                    (id_user,street_address,city_address,state_address,state_code_address,
+                    postal_code_address,latitude_address,longitude_address,country_address) 
+                    VALUES (?,?,?,?,?,?,?,?,?)`,
+                    [
+                        userID, street_address, city_address, state_address, state_code_address,
+                        postal_code_address, latitude_address, longitude_address, country_address
+                    ]
+                );
+                console.log("Direccion del usuario guardada");
+                // Se guarda los datos de la tarjeta del usuario en la tabla bank_info_user
+                const[ BankUser ] = await connection.query(
+                    `INSERT INTO bank_info_user 
+                    (id_user,card_expire_user,card_number_user,card_type_user,currency_user,
+                    iban_user) 
+                    VALUES (?,?,?,?,?,?)`,
+                    [
+                        userID, card_expire_user, card_number_user, card_type_user, currency_user,
+                        iban_user
+                    ]
+                )
+                console.log("Datos de la tarjeta del usuario guardados");
+                // Se guarda los datos de la empresa del usuario en la tabla companies_user
+                const[ CompanyUser ] = await connection.query(
+                    `INSERT INTO companies_user 
+                    (id_user,department_company_user,company_name_user,company_title_user,
+                    company_street_user,company_city_user,company_state_user,company_state_code_user,
+                    company_postal_code_user,company_latitude_user,company_longitude_user,
+                    company_country_user) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+                    [
+                        userID, department_company_user, company_name_user, company_title_user,
+                        company_street_user, company_city_user, company_state_user, company_state_code_user,
+                        company_postal_code_user, company_latitude_user, company_longitude_user,
+                        company_country_user
+                    ]
+                )
+                console.log("Datos de la empresa del usuario guardados");
+                // Se guarda los datos de la billetera del usuario en la tabla crypto_wallet_user
+                const[cryptoUser] = await connection.query(
+                    `INSERT INTO crypto_wallet_user 
+                    (id_user,coin_user,wallet_address_user,network_user) 
+                    VALUES (?,?,?,?)`,
+                    [
+                        userID, coin_user, wallet_address_user, network_user
+                    ]
+                );
+                console.log("Datos de la billetera del usuario guardados");
+                // Se verifica que se hayan guardado todos los datos
+                if(InfoUser.affectedRows > 0 && addressUser.affectedRows > 0 && BankUser.affectedRows > 0 && CompanyUser.affectedRows > 0 && cryptoUser.affectedRows > 0){
+                    console.log("Usuario creado con exito");
+                    return createUser;
+                }
             }
             else{
                 console.log('Error al crear el usuario');

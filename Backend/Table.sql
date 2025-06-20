@@ -1,9 +1,16 @@
 CREATE TABLE user_register(
     id_user INT PRIMARY KEY AUTO_INCREMENT,
-    name_user VARCHAR(255) NOT NULL, 
+    name_user VARCHAR(255) NOT NULL,
+    maiden_name_user VARCHAR(255) NOT NULL, 
     email_user VARCHAR(255) NOT NULL,
     password_user VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
+
+);
+
+CREATE TABLE info_user(
+    id_info_user INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
     age_user INT NOT NULL,
     phone_user VARCHAR(255) NOT NULL,
     birth_date_user DATE NOT NULL,
@@ -19,8 +26,8 @@ CREATE TABLE user_register(
     ssn_user VARCHAR(255) NOT NULL,
     user_agent_user VARCHAR(255) NOT NULL,
     role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user',
-
-);
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+)
 
 CREATE TABLE address_user(
     id_address INT PRIMARY KEY AUTO_INCREMENT,
