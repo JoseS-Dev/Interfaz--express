@@ -79,12 +79,12 @@ true
 Content-Disposition: form-data; name="main_font"; filename="Roboto.ttf"
 Content-Type: application/x-font-ttf
 
-< D:\Descargas\Ceviche_One,Permanent_Marker\Ceviche_One\CevicheOne-Regular.ttf
+< ../font/Roboto-VariableFont_wdth,wght.ttf
 --CustomBoundary
 Content-Disposition: form-data; name="secondary_font"; filename="San-serif.ttf"
 Content-Type: application/x-font-ttf
 
-< D:\Descargas\Ceviche_One,Permanent_Marker\Permanent_Marker\PermanentMarker-Regular.ttf
+< ../font/RobotoSerif-VariableFont_GRAD,opsz,wdth,wght.ttf
 --CustomBoundary--
 
 
