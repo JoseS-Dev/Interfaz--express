@@ -34,16 +34,16 @@ export class ModelsColors {
     }
 
     // Obtener un color seleccionado por el usuario
-    static async getSelectedColors({ id_user }) {
+    static async getSelectedColors() {
         const query = `
             SELECT c.*
             FROM colors c
             JOIN colors_relationship cr ON c.id_colors = cr.id_colors
-            WHERE cr.id_user = ? AND c.is_selected = true
+            WHERE c.is_selected = true
             LIMIT 1
         `;
     
-        const [rows] = await connection.query(query, [id_user]);
+        const [rows] = await connection.query(query);
     
         if (rows.length > 0) {
             console.log('Colores encontrados');
@@ -240,23 +240,21 @@ export class ModelsColors {
         }
     }
 
-    static async selectColor({ id_user, id_colors }) {
+    static async selectColor({ id_colors }) {
         // Deseleccionar todos los colores relacionados con el usuario
         await connection.query(
             `UPDATE colors c
-             JOIN colors_relationship cr ON c.id_colors = cr.id_colors
-             SET c.is_selected = false
-             WHERE cr.id_user = ?`,
-            [id_user]
+            JOIN colors_relationship cr ON c.id_colors = cr.id_colors
+            SET c.is_selected = false`
         );
     
         // Seleccionar el color indicado para el usuario
         const [result] = await connection.query(
             `UPDATE colors c
-             JOIN colors_relationship cr ON c.id_colors = cr.id_colors
-             SET c.is_selected = true
-             WHERE cr.id_user = ? AND c.id_colors = ?`,
-            [id_user, id_colors]
+            JOIN colors_relationship cr ON c.id_colors = cr.id_colors
+            SET c.is_selected = true
+            WHERE c.id_colors = ?`,
+            [id_colors]
         );
     
         if (result.affectedRows > 0) {

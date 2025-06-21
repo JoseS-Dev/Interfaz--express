@@ -356,14 +356,13 @@ export class TypographyController {
     selectTypography = async (req, res) => {
         try {
             const { id_tipography } = req.body;
-            const id_user = req.user.id;
             console.log('Datos recibidos para seleccionar tipografía:', req.body);
     
-            if (!id_user || !id_tipography) {
-                return res.status(400).json({ error: 'ID de usuario y ID de tipografía son requeridos' });
+            if (!id_tipography) {
+                return res.status(400).json({ error: 'ID de tipografía son requeridos' });
             }
     
-            const updatedTypography = await this.ModelsTypography.selectTypography({ id_user, id_tipography });
+            const updatedTypography = await this.ModelsTypography.selectTypography({ id_tipography });
     
             if (updatedTypography) {
                 return res.status(200).json({
@@ -381,8 +380,7 @@ export class TypographyController {
     
     getSelectedTypography = async ( req, res ) => {
         try {
-            const id_user = req.user.id;
-            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
+            const typography = await this.ModelsTypography.getSelectedTypography();
             return res.status(200).json({
                 message: 'Tipografía encontrada correctamente',
                 data: typography

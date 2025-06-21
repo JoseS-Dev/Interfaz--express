@@ -24,42 +24,44 @@ export class ModelsUsers{
             }
         }
     }
+
     static async Register({ user }) {
         const {
             username,
             email_user,
-            password_user
+            password_user,
+            role_user
         } = user;
-    
+
         // Se verifica que se proporcionen los campos necesarios
         if (!username || !email_user || !password_user) {
             console.log('Faltan campos obligatorios');
             return null;
         }
-    
+
         try {
             // Se verifica si ya existe un usuario con ese email o nombre de usuario
             const [existingUser] = await connection.query(
                 'SELECT * FROM user_register WHERE email_user = ? OR username = ?',
                 [email_user, username]
             );
-    
+
             if (existingUser.length > 0) {
                 console.log('El email o el nombre de usuario ya están registrados');
                 return null;
             } else {
                 // Se encripta la contraseña
                 const hashedPassword = await bcrypt.hash(password_user, 10);
-    
+
                 // Se inserta el nuevo usuario en la tabla user_register
                 const [createUser] = await connection.query(
                     `
-                    INSERT INTO user_register (username, email_user, password_user) 
-                    VALUES (?, ?, ?)
+                    INSERT INTO user_register (username, email_user, password_user, role_user)
+                    VALUES (?, ?, ?, ?)
                     `,
-                    [username, email_user, hashedPassword]
+                    [username, email_user, hashedPassword, role_user] 
                 );
-    
+
                 if (createUser.affectedRows > 0) {
                     console.log("Registro Exitoso");
                     // Retorna el resultado de la creación del usuario

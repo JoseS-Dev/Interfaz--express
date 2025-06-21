@@ -40,11 +40,7 @@ export class ColorsController {
     // Obtener colores seleccionados por el usuario
     getSelectedColors = async ( req, res ) => {
         try{
-            const id_user = req.user.id;
-
-            if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
-
-            const colores = await this.ModelsColors.getSelectedColors({ id_user });
+            const colores = await this.ModelsColors.getSelectedColors();
             return res.status(200).json({
                 message: 'Colores encontrados correctamente',
                 data: colores
@@ -206,13 +202,12 @@ export class ColorsController {
     selectColor = async (req, res) => {
         try {
             const { id_colors } = req.body;
-            const id_user = req.user.id;
 
-            if (!id_user || !id_colors) {
-                return res.status(400).json({ error: 'ID de usuario y ID de color son requeridos' });
+            if (!id_colors) {
+                return res.status(400).json({ error: 'ID de color es requerido' });
             }
 
-            const updatedColor = await this.ModelsColors.selectColor({ id_user, id_colors });
+            const updatedColor = await this.ModelsColors.selectColor({ id_colors });
 
             if (updatedColor) {
                 return res.status(200).json({
