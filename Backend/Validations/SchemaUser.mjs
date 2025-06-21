@@ -237,6 +237,38 @@ export const schemaUser = zod.object({
 
 })
 
+export const registerSchema = zod.object({
+    username: zod.string({
+        required_error: "El nombre de usuario es requerido.",
+    })
+    .min(3, {
+        message: "El nombre de usuario debe tener al menos 3 caracteres.",
+    })
+    .max(30, {
+        message: "El nombre de usuario no debe exceder los 30 caracteres.",
+    })
+    .regex(/^[a-zA-Z0-9_]+$/, {
+        message: "El nombre de usuario solo puede contener letras, números y guiones bajos.",
+    }),
+
+    email_user: zod.string({
+        required_error: "El correo electrónico es requerido.",
+    })
+    .email({
+        message: "El formato del correo electrónico no es válido.",
+    }),
+
+    password_user: zod.string({
+        required_error: "La contraseña es requerida.",
+    })
+    .min(8, {
+        message: "La contraseña debe tener al menos 8 caracteres.",
+    })
+    .max(100, {
+        message: "La contraseña no debe exceder los 100 caracteres.",
+    }),
+});
+
 
 export const schemaLogin = zod.object({
     email_user: zod.string({
@@ -253,6 +285,10 @@ export const schemaLogin = zod.object({
 
 export function validateUser(user){
     return schemaUser.safeParse(user);
+}
+
+export function validateRegister(user){
+    return registerSchema.safeParse(user);
 }
 
 export function validateUpdateUser(user){

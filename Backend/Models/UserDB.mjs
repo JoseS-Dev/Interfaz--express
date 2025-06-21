@@ -24,113 +24,54 @@ export class ModelsUsers{
             }
         }
     }
-    static async Register({user}){
+    static async Register({ user }) {
         const {
-            name_user, maiden_name_user, email_user, password_user, username,
-            age_user, phone_user, birth_date_user, image_user, blood_group_user,
-            height_user, weight_user, eye_color_user,hair_user, ip_user, mac_address_user,
-            university_user, ein_user, ssn_user, user_agent_user, role_user,
-            street_address, city_address, state_address, state_code_address,
-            postal_code_address, latitude_address, longitude_address, country_address,
-            card_expire_user, card_number_user, card_type_user, currency_user,
-            iban_user, department_company_user, company_name_user, company_title_user,
-            company_street_user, company_city_user, company_state_user, company_state_code_user,
-            company_postal_code_user, company_latitude_user, company_longitude_user,
-            company_country_user, coin_user, wallet_address_user, network_user
-
+            username,
+            email_user,
+            password_user
         } = user;
-        if(!name_user || !email_user || !password_user || !username) return null;
-        // Se verifica si ya existe un usuario con ese email
-        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email_user]);
-        if(existingUser.length > 0){
-            console.log('El email ya está registrado');
+    
+        // Se verifica que se proporcionen los campos necesarios
+        if (!username || !email_user || !password_user) {
+            console.log('Faltan campos obligatorios');
             return null;
         }
-        else{
-            const hashedPassword = await bcrypt.hash(password_user, 10);
-            const [createUser] = await connection.query(
-                `
-                INSERT INTO user_register (name_user,maiden_name_user, email_user, password_user, username,role_user) 
-                VALUES (?, ?, ?, ?, ?, ?)
-                `, 
-                [name_user,maiden_name_user, email_user, hashedPassword, username, role_user]);
-            if(createUser.affectedRows > 0){
-                console.log("Registro Existoso");
-                // Se guarda los datos adicionales del usuario en la tabla info_user
-                const userID = createUser.insertId;
-                const [ InfoUser ] = await connection.query(
-                    `INSERT INTO info_user 
-                    (id_user,age_user,phone_user,birth_date_user,image_user,blood_group_user,
-                    height_user,weight_user,eye_color_user,hair_user,ip_user,mac_address_user,
-                    university_user,ein_user,ssn_user,user_agent_user) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-                    [
-                        userID, age_user, phone_user, birth_date_user, image_user, blood_group_user,
-                        height_user, weight_user, eye_color_user,hair_user, ip_user, mac_address_user,
-                        university_user, ein_user, ssn_user, user_agent_user
-                    ]
-                )
-                console.log("Datos personales del usuario guardados");
-                // Se guarda la direccion del usuario en la tabla address_user
-                const[ addressUser ] = await connection.query(
-                    `INSERT INTO address_user 
-                    (id_user,street_address,city_address,state_address,state_code_address,
-                    postal_code_address,latitude_address,longitude_address,country_address) 
-                    VALUES (?,?,?,?,?,?,?,?,?)`,
-                    [
-                        userID, street_address, city_address, state_address, state_code_address,
-                        postal_code_address, latitude_address, longitude_address, country_address
-                    ]
+    
+        try {
+            // Se verifica si ya existe un usuario con ese email o nombre de usuario
+            const [existingUser] = await connection.query(
+                'SELECT * FROM user_register WHERE email_user = ? OR username = ?',
+                [email_user, username]
+            );
+    
+            if (existingUser.length > 0) {
+                console.log('El email o el nombre de usuario ya están registrados');
+                return null;
+            } else {
+                // Se encripta la contraseña
+                const hashedPassword = await bcrypt.hash(password_user, 10);
+    
+                // Se inserta el nuevo usuario en la tabla user_register
+                const [createUser] = await connection.query(
+                    `
+                    INSERT INTO user_register (username, email_user, password_user) 
+                    VALUES (?, ?, ?)
+                    `,
+                    [username, email_user, hashedPassword]
                 );
-                console.log("Direccion del usuario guardada");
-                // Se guarda los datos de la tarjeta del usuario en la tabla bank_info_user
-                const[ BankUser ] = await connection.query(
-                    `INSERT INTO bank_info_user 
-                    (id_user,card_expire_user,card_number_user,card_type_user,currency_user,
-                    iban_user) 
-                    VALUES (?,?,?,?,?,?)`,
-                    [
-                        userID, card_expire_user, card_number_user, card_type_user, currency_user,
-                        iban_user
-                    ]
-                )
-                console.log("Datos de la tarjeta del usuario guardados");
-                // Se guarda los datos de la empresa del usuario en la tabla companies_user
-                const[ CompanyUser ] = await connection.query(
-                    `INSERT INTO companies_user 
-                    (id_user,department_company_user,company_name_user,company_title_user,
-                    company_street_user,company_city_user,company_state_user,company_state_code_user,
-                    company_postal_code_user,company_latitude_user,company_longitude_user,
-                    company_country_user) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
-                    [
-                        userID, department_company_user, company_name_user, company_title_user,
-                        company_street_user, company_city_user, company_state_user, company_state_code_user,
-                        company_postal_code_user, company_latitude_user, company_longitude_user,
-                        company_country_user
-                    ]
-                )
-                console.log("Datos de la empresa del usuario guardados");
-                // Se guarda los datos de la billetera del usuario en la tabla crypto_wallet_user
-                const[cryptoUser] = await connection.query(
-                    `INSERT INTO crypto_wallets_user 
-                    (id_user,coin_user,wallet_address_user,network_user) 
-                    VALUES (?,?,?,?)`,
-                    [
-                        userID, coin_user, wallet_address_user, network_user
-                    ]
-                );
-                console.log("Datos de la billetera del usuario guardados");
-                // Se verifica que se hayan guardado todos los datos
-                if(InfoUser.affectedRows > 0 && addressUser.affectedRows > 0 && BankUser.affectedRows > 0 && CompanyUser.affectedRows > 0 && cryptoUser.affectedRows > 0){
-                    console.log("Usuario creado con exito");
+    
+                if (createUser.affectedRows > 0) {
+                    console.log("Registro Exitoso");
+                    // Retorna el resultado de la creación del usuario
                     return createUser;
+                } else {
+                    console.log('Error al crear el usuario');
+                    return null;
                 }
             }
-            else{
-                console.log('Error al crear el usuario');
-                return null;
-            }
+        } catch (error) {
+            console.error('Error en el registro de usuario:', error);
+            return null;
         }
     }
 
@@ -262,107 +203,215 @@ export class ModelsUsers{
         }
     }
 
-    // Actualizar un usuario
-    static async updateUser({id_user, user}){
-        if(!id_user || !user) return null;
+    static async updateUser({ id_user, user }) {
+        if (!id_user || !user) {
+            console.log('ID de usuario o datos de usuario no proporcionados.');
+            return null;
+        }
+
         const {
-            name_user, maiden_name_user, email_user, password_user, username,
+            name_user, maiden_name_user, email_user, password_user, username, role_user,
+            // Datos de info_user
             age_user, phone_user, birth_date_user, image_user, blood_group_user,
-            height_user, weight_user, eye_color_user, ip_user, mac_address_user,
-            university_user, ein_user, ssn_user, user_agent_user, role_user,
+            height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
+            university_user, ein_user, ssn_user, user_agent_user,
+            // Datos de address_user
             street_address, city_address, state_address, state_code_address,
             postal_code_address, latitude_address, longitude_address, country_address,
-            card_expire_user, card_number_user, card_type_user, currency_user,
-            iban_user, department_company_user, company_name_user, company_title_user,
+            // Datos de bank_info_user
+            card_expire_user, card_number_user, card_type_user, currency_user, iban_user,
+            // Datos de companies_user
+            department_company_user, company_name_user, company_title_user,
             company_street_user, company_city_user, company_state_user, company_state_code_user,
             company_postal_code_user, company_latitude_user, company_longitude_user,
-            company_country_user, coin_user, wallet_address_user, network_user
-
+            company_country_user,
+            // Datos de crypto_wallets_user
+            coin_user, wallet_address_user, network_user
         } = user;
-        
-        // Se verifica si existe un usuario con ese ID
-        const [existingUser] = await connection.query('SELECT * FROM user_register WHERE id_user = ?', [id_user]);
-        if(existingUser.length > 0){
-            const hashedPassword = password_user ? await bcrypt.hash(password_user, 10) : existingUser[0].password_user;
-            const [updateUser] = await connection.query('UPDATE user_register SET name_user = ?,maiden_name_user = ?, email_user = ?, password_user = ?, username = ? WHERE id_user = ?', [name_user,maiden_name_user, email_user, hashedPassword, username, id_user]);
-            if(updateUser.affectedRows > 0){
-                console.log("Cambion en el registro del usuario");
-                // Se actualizan los datos adicionales del usuario en la tabla info_user
-                const [updateInfoUser] = await connection.query(
-                    `UPDATE info_user 
-                    SET age_user = ?, phone_user = ?, birth_date_user = ?, image_user = ?, blood_group_user = ?,
-                    height_user = ?, weight_user = ?, eye_color_user = ?, ip_user = ?, mac_address_user = ?,
-                    university_user = ?, ein_user = ?, ssn_user = ?, user_agent_user = ?, role_user = ?
-                    WHERE id_user = ?`,
-                    [
-                        age_user, phone_user, birth_date_user, image_user, blood_group_user,
-                        height_user, weight_user, eye_color_user, ip_user, mac_address_user,
-                        university_user, ein_user, ssn_user, user_agent_user, role_user,
-                        id_user
-                    ]
-                );
-                console.log("Datos personales del usuario actualizados");
-                // Se actualiza la direccion del usuario en la tabla address_user
-                const [updatedAddressUser] = await connection.query(
-                    `UPDATE address_user 
-                    SET street_address = ?, city_address = ?, state_address = ?, state_code_address = ?,
-                    postal_code_address = ?, latitude_address = ?, longitude_address = ?, country_address = ?
-                    WHERE id_user = ?`,
-                    [
-                        street_address, city_address, state_address, state_code_address,
-                        postal_code_address, latitude_address, longitude_address, country_address,
-                        id_user
-                    ]
-                )
-                console.log("Direccion del usuario actualizada");
-                // Se actualizan los datos de la tarjeta del usuario en la tabla bank_info_user
-                const [updatedBankUser] = await connection.query(
-                    `UPDATE bank_info_user 
-                    SET card_expire_user = ?, card_number_user = ?, card_type_user = ?, currency_user = ?,
-                    iban_user = ?
-                    WHERE id_user = ?`,
-                    [
-                        card_expire_user, card_number_user, card_type_user, currency_user,
-                        iban_user, id_user
-                    ]
-                )
-                console.log("Datos de la tarjeta del usuario actualizados");
-                // Se actualizan los datos de la empresa del usuario en la tabla companies_user
-                const [updatedCompanyUser] = await connection.query(
-                    `UPDATE companies_user 
-                    SET department_company_user = ?, company_name_user = ?, company_title_user = ?,
-                    company_street_user = ?, company_city_user = ?, company_state_user = ?, company_state_code_user = ?,
-                    company_postal_code_user = ?, company_latitude_user = ?, company_longitude_user = ?,
-                    company_country_user = ?
-                    WHERE id_user = ?`,
-                    [
-                        department_company_user, company_name_user, company_title_user,
-                        company_street_user, company_city_user, company_state_user, company_state_code_user,
-                        company_postal_code_user, company_latitude_user, company_longitude_user,
-                        company_country_user, id_user
-                    ]
-                )
-                console.log("Datos de la empresa del usuario actualizados");
-                // Se actualizan los datos de la billetera del usuario en la tabla crypto_wallet_user
-                const [updatedWalletUser] = await connection.query(
-                    `UPDATE crypto_wallets_user 
-                    SET coin_user = ?, wallet_address_user = ?, network_user = ?
-                    WHERE id_user = ?`,
-                    [
-                        coin_user, wallet_address_user, network_user, id_user
-                    ]
-                );
-                console.log("Datos de la billetera del usuario actualizados");
-                // Se verifica que se hayan actualizado todos los datos
-                if(updateInfoUser.affectedRows > 0 && updatedAddressUser.affectedRows > 0 && updatedBankUser.affectedRows > 0 && updatedCompanyUser.affectedRows > 0 && updatedWalletUser.affectedRows > 0){
-                    console.log("Usuario actualizado con exito");
-                    return updateUser;
-                }
-            }
-            else{
-                console.log('Error al actualizar el usuario');
+
+        try {
+            // Verificar si el usuario principal existe
+            const [existingUserRow] = await connection.query('SELECT * FROM user_register WHERE id_user = ?', [id_user]);
+            if (existingUserRow.length === 0) {
+                console.log(`Usuario con ID ${id_user} no encontrado.`);
                 return null;
             }
+            const existingUser = existingUserRow[0]; // Obtener el objeto del usuario existente
+
+            // Actualizar user_register (si hay cambios en sus campos)
+            let hashedPassword = existingUser.password_user;
+            if (password_user) {
+                hashedPassword = await bcrypt.hash(password_user, 10);
+            }
+
+            const updateFieldsUserRegister = [];
+            const updateValuesUserRegister = [];
+
+            // Añadir campos solo si están definidos en el 'user' entrante
+            if (username !== undefined) { updateFieldsUserRegister.push('username = ?'); updateValuesUserRegister.push(username); }
+            if (email_user !== undefined) { updateFieldsUserRegister.push('email_user = ?'); updateValuesUserRegister.push(email_user); }
+            if (password_user !== undefined) { updateFieldsUserRegister.push('password_user = ?'); updateValuesUserRegister.push(hashedPassword); }
+            if (name_user !== undefined) { updateFieldsUserRegister.push('name_user = ?'); updateValuesUserRegister.push(name_user); }
+            if (maiden_name_user !== undefined) { updateFieldsUserRegister.push('maiden_name_user = ?'); updateValuesUserRegister.push(maiden_name_user); }
+            if (role_user !== undefined) { updateFieldsUserRegister.push('role_user = ?'); updateValuesUserRegister.push(role_user); }
+
+            let userRegisterUpdated = false;
+            if (updateFieldsUserRegister.length > 0) {
+                const [updateResult] = await connection.query(
+                    `UPDATE user_register SET ${updateFieldsUserRegister.join(', ')} WHERE id_user = ?`,
+                    [...updateValuesUserRegister, id_user]
+                );
+                userRegisterUpdated = updateResult.affectedRows > 0;
+                if (userRegisterUpdated) {
+                    console.log(`Registro principal del usuario ${id_user} actualizado.`);
+                } else {
+                    console.log(`No se realizaron cambios en el registro principal del usuario ${id_user} o ya estaba actualizado.`);
+                }
+            }
+
+
+            //Lógica para las tablas secundarias (UPSERT: UPDATE si existe, INSERT si no existe)
+
+            // Función auxiliar para manejar upserts
+            const upsertTable = async (tableName, fields, values, idColumnName = 'id_user') => {
+                // Filtrar valores undefined antes de usarlos
+                const filteredFields = [];
+                const filteredValues = [];
+                for (let i = 0; i < fields.length; i++) {
+                    if (values[i] !== undefined) {
+                        filteredFields.push(fields[i]);
+                        filteredValues.push(values[i]);
+                    }
+                }
+
+                if (filteredFields.length === 0) {
+                    return { affectedRows: 0, operation: 'none' }; // No hay campos para actualizar/insertar
+                }
+
+                // Verificar si ya existe una fila para este id_user
+                const [existingRow] = await connection.query(`SELECT * FROM ${tableName} WHERE ${idColumnName} = ?`, [id_user]);
+
+                if (existingRow.length > 0) {
+                    // Si existe, actualizar
+                    const setClauses = filteredFields.map(field => `${field} = ?`).join(', ');
+                    const [updateResult] = await connection.query(
+                        `UPDATE ${tableName} SET ${setClauses} WHERE ${idColumnName} = ?`,
+                        [...filteredValues, id_user]
+                    );
+                    return { affectedRows: updateResult.affectedRows, operation: 'update' };
+                } else {
+                    // Si no existe, insertar
+                    const columns = [idColumnName, ...filteredFields];
+                    const placeholders = columns.map(() => '?').join(', ');
+                    const insertValues = [id_user, ...filteredValues];
+                    const [insertResult] = await connection.query(
+                        `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES (${placeholders})`,
+                        insertValues
+                    );
+                    return { affectedRows: insertResult.affectedRows, operation: 'insert' };
+                }
+            };
+
+            let allSecondaryTablesUpdated = true;
+
+            // info_user
+            const infoUserFields = [
+                'age_user', 'phone_user', 'birth_date_user', 'image_user', 'blood_group_user',
+                'height_user', 'weight_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user',
+                'university_user', 'ein_user', 'ssn_user', 'user_agent_user'
+            ];
+            const infoUserValues = [
+                age_user, phone_user, birth_date_user, image_user, blood_group_user,
+                height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
+                university_user, ein_user, ssn_user, user_agent_user
+            ];
+            const infoUserResult = await upsertTable('info_user', infoUserFields, infoUserValues);
+            if (infoUserResult.affectedRows > 0) {
+                console.log(`info_user: ${infoUserResult.operation === 'insert' ? 'Insertado' : 'Actualizado'}.`);
+            } else if (infoUserResult.operation !== 'none') {
+                console.log('Error o no se realizaron cambios en info_user.');
+                allSecondaryTablesUpdated = false;
+            }
+
+
+            // address_user
+            const addressUserFields = [
+                'street_address', 'city_address', 'state_address', 'state_code_address',
+                'postal_code_address', 'latitude_address', 'longitude_address', 'country_address'
+            ];
+            const addressUserValues = [
+                street_address, city_address, state_address, state_code_address,
+                postal_code_address, latitude_address, longitude_address, country_address
+            ];
+            const addressUserResult = await upsertTable('address_user', addressUserFields, addressUserValues);
+            if (addressUserResult.affectedRows > 0) {
+                console.log(`address_user: ${addressUserResult.operation === 'insert' ? 'Insertado' : 'Actualizado'}.`);
+            } else if (addressUserResult.operation !== 'none') {
+                console.log('Error o no se realizaron cambios en address_user.');
+                allSecondaryTablesUpdated = false;
+            }
+
+
+            // bank_info_user
+            const bankUserFields = [
+                'card_expire_user', 'card_number_user', 'card_type_user', 'currency_user', 'iban_user'
+            ];
+            const bankUserValues = [
+                card_expire_user, card_number_user, card_type_user, currency_user, iban_user
+            ];
+            const bankUserResult = await upsertTable('bank_info_user', bankUserFields, bankUserValues);
+            if (bankUserResult.affectedRows > 0) {
+                console.log(`bank_info_user: ${bankUserResult.operation === 'insert' ? 'Insertado' : 'Actualizado'}.`);
+            } else if (bankUserResult.operation !== 'none') {
+                console.log('Error o no se realizaron cambios en bank_info_user.');
+                allSecondaryTablesUpdated = false;
+            }
+
+            // companies_user
+            const companyUserFields = [
+                'department_company_user', 'company_name_user', 'company_title_user',
+                'company_street_user', 'company_city_user', 'company_state_user', 'company_state_code_user',
+                'company_postal_code_user', 'company_latitude_user', 'company_longitude_user', 'company_country_user'
+            ];
+            const companyUserValues = [
+                department_company_user, company_name_user, company_title_user,
+                company_street_user, company_city_user, company_state_user, company_state_code_user,
+                company_postal_code_user, company_latitude_user, company_longitude_user, company_country_user
+            ];
+            const companyUserResult = await upsertTable('companies_user', companyUserFields, companyUserValues);
+            if (companyUserResult.affectedRows > 0) {
+                console.log(`companies_user: ${companyUserResult.operation === 'insert' ? 'Insertado' : 'Actualizado'}.`);
+            } else if (companyUserResult.operation !== 'none') {
+                console.log('Error o no se realizaron cambios en companies_user.');
+                allSecondaryTablesUpdated = false;
+            }
+
+            // crypto_wallets_user
+            const walletUserFields = [
+                'coin_user', 'wallet_address_user', 'network_user'
+            ];
+            const walletUserValues = [
+                coin_user, wallet_address_user, network_user
+            ];
+            const walletUserResult = await upsertTable('crypto_wallets_user', walletUserFields, walletUserValues);
+            if (walletUserResult.affectedRows > 0) {
+                console.log(`crypto_wallets_user: ${walletUserResult.operation === 'insert' ? 'Insertado' : 'Actualizado'}.`);
+            } else if (walletUserResult.operation !== 'none') {
+                console.log('Error o no se realizaron cambios en crypto_wallets_user.');
+                allSecondaryTablesUpdated = false;
+            }
+
+            if (userRegisterUpdated || allSecondaryTablesUpdated) {
+                console.log("Proceso de actualización completado. Revise los logs para detalles específicos.");
+                return { success: true, id_user: id_user };
+            } else {
+                console.log("No se realizaron cambios en el usuario o hubo errores en la actualización.");
+                return null;
+            }
+
+        } catch (error) {
+            console.error('Error en updateUser:', error);
+            return null;
         }
     }
 }

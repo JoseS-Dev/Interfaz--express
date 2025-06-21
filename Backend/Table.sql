@@ -1,12 +1,11 @@
 CREATE TABLE user_register(
     id_user INT PRIMARY KEY AUTO_INCREMENT,
-    name_user VARCHAR(255) NOT NULL,
-    maiden_name_user VARCHAR(255) NOT NULL, 
+    name_user VARCHAR(255) NOT NULL DEFAULT '',
+    maiden_name_user VARCHAR(255) NOT NULL DEFAULT '',
     email_user VARCHAR(255) NOT NULL,
     password_user VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
-    role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user',
-
+    role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE info_user(
@@ -18,7 +17,7 @@ CREATE TABLE info_user(
     image_user VARCHAR(255) NOT NULL,
     blood_group_user VARCHAR(10) NOT NULL,
     height_user DECIMAL(5,2) NOT NULL,
-    weight_user DECIMAL(5,2) NOT NULL
+    weight_user DECIMAL(5,2) NOT NULL,
     eye_color_user VARCHAR(50) NOT NULL,
     hair_user VARCHAR(50) NOT NULL,
     ip_user VARCHAR(45) NOT NULL,
@@ -28,7 +27,7 @@ CREATE TABLE info_user(
     ssn_user VARCHAR(255) NOT NULL,
     user_agent_user VARCHAR(255) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
-)
+);
 
 CREATE TABLE address_user(
     id_address INT PRIMARY KEY AUTO_INCREMENT,
@@ -42,7 +41,7 @@ CREATE TABLE address_user(
     longitude_address DECIMAL(11,8) NOT NULL,
     country_address VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
-)
+);
 
 CREATE TABLE bank_info_user(
     id_bank_info INT PRIMARY KEY AUTO_INCREMENT,
@@ -51,9 +50,8 @@ CREATE TABLE bank_info_user(
     card_number_user VARCHAR(20) NOT NULL,
     card_type_user VARCHAR(25) NOT NULL,
     currency_user VARCHAR(10) NOT NULL,
-    iban_user VARCHAR(34) NOT NULL,
-
-)
+    iban_user VARCHAR(34) NOT NULL
+);
 
 CREATE TABLE companies_user(
     id_company INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,7 +68,7 @@ CREATE TABLE companies_user(
     company_longitude_user DECIMAL(11,8) NOT NULL,
     company_country_user VARCHAR(100) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
-)
+);
 
 CREATE TABLE crypto_wallets_user(
     id_crypto_wallet INT PRIMARY KEY AUTO_INCREMENT,
@@ -79,7 +77,7 @@ CREATE TABLE crypto_wallets_user(
     wallet_address_user VARCHAR(255) NOT NULL,
     network_user VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
-)
+);
 
 CREATE TABLE login_user(
     id_login INT PRIMARY KEY AUTO_INCREMENT,
