@@ -202,6 +202,30 @@ export class UsersControllers{
         }
     }
 
+    // Obtener un usuario por su rol
+    getUserByRole = async (req, res) => {
+        try{
+            const { role_user } = req.params;
+            const userRole = await this.ModelsUsers.getUserByRole({role_user});
+            if(!userRole || userRole.length === 0){
+                return res.status(404).json({
+                    message: 'No hay usuarios con ese rol'
+                });
+            }
+            return res.status(200).json({
+                message: 'Usuarios encontrados',
+                users: userRole
+            });
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).json({
+                message: 'Error en el servidor',
+                error
+            });
+        }
+    }
+
     // Actualizar a un usuario
     updateUser = async (req, res) => {
         try{

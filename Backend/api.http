@@ -10,6 +10,9 @@ GET http://localhost:3500/Users/Email/joseasantana05@gmail.com
 ### Obtener un usuario por su nombre de usuario
 GET http://localhost:3500/Users/Username/SenkuJS
 
+### Obtener a un usuario por su rol
+GET http://localhost:3500/Users/Role/admin
+
 ### Actualizar un usuario
 PATCH http://localhost:3500/Users/1
 Content-Type: application/json

@@ -15,6 +15,8 @@ RoutesUsers.get('/:id_user', userController.getUserByID);
 RoutesUsers.get('/Email/:email_user', userController.getUserByEmail);
 // Obtener a un usuario por su username
 RoutesUsers.get('/Username/:username', userController.getUserByUsername);
+// Obtener a un usuario por su rol
+RoutesUsers.get('/Role/:role_user', userController.getUserByRole);
 // Verificar si el usuario está logueado
 RoutesUsers.get('/verify', authMiddleware, userController.getVerify);
 

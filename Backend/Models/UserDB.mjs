@@ -245,6 +245,24 @@ export class ModelsUsers{
         }
     }
 
+    // Obtener un usuario por su rol
+    static async getUserByRole({ role_user }){
+        if(role_user){
+            const [userRole] = await connection.query(
+                `SELECT a.*, b.* FROM user_register a JOIN info_user b ON a.id_user = b.id_user WHERE b.role_user = ?`,
+                [role_user]
+            );
+            if(userRole.length > 0){
+                console.log("Usuario encontrado con el rol solicitado");
+                return userRole;
+            }
+            else{
+                console.log("Usuario no encontrado");
+                return null;
+            }
+        }
+    }
+
     // Actualizar un usuario
     static async updateUser({id_user, user}){
         if(!id_user || !user) return null;
