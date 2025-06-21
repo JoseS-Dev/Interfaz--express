@@ -3,14 +3,23 @@ import { Link } from 'react-router-dom';
 import FormColors from '../FormColors';
 import CardPrevious from '../CardColors';
 import ListColors from '../listColors';
+import { useState } from 'react';
 
 const SectionColors = () => {
+    const [refreshListColors, setRefreshListColors] = useState(false);
+    const [colors, setColors] = useState({});
+    const onRefreshListColors = () => {
+        setRefreshListColors((value) => !value);
+    }
+    const onRefreshColorsPreview = (newColors: object) => {
+        setColors(newColors);
+    }
     return (
         <main className="w-full h-9/10 flex flex-col gap-4 lg:flex-row">
             <section className="w-full lg:w-1/4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-800 px-3 py-3">
                 <article className="flex flex-col h-9/10 items-center text-xl tracking-widese gap-4 py-4">
                     <h3 className="w-full font-bold border-b-2 border-black text-center">Colores plantilla</h3>
-                    <FormColors/>
+                    <FormColors onRefreshListColors={onRefreshListColors} onRefreshColorsPreview={onRefreshColorsPreview}/>
                 </article>
             </section>
             <section className="w-full lg:w-3/12 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-800 flex px-3 py-3">

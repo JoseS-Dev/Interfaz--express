@@ -143,6 +143,7 @@ export class ColorsController {
 
     // Crear un nuevo conjunto color
     createColor = async (req, res) => {
+        console.log('Creando color con datos:', req.body);
         try{
             const result = validateColors(req.body);
             const id_user = req.user.id; 

@@ -4,7 +4,7 @@ import { axiosInstance } from '../context/axiosInstances';
 import { AxiosInstance } from 'axios';
 import { useState, useEffect } from 'react';
 
-const verifyAdmin = async (axiosInstance: AxiosInstance, user: any, setLoading: (loading: boolean) => void, setAuthenticated: (authenticated: boolean) => void) => {
+const verifyAdmin = async (axiosInstance: AxiosInstance, user: any, setLoading: (loading: boolean) => void, setAuthenticated: (authenticated: boolean) => void, logout: () => void) => {
     try {
         const response1 = await axiosInstance.post('/Users/verify', { user });
         const status1 = response1.status;
@@ -19,17 +19,18 @@ const verifyAdmin = async (axiosInstance: AxiosInstance, user: any, setLoading: 
         console.error('Error verifying admin:', error);
         setAuthenticated(false);
         setLoading(false);
+        logout();
     }
 };
 
 export default function PrivateRouteAdmin() {
-  const { isAuthenticated, user } = useAuth();
+  const {user, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const location = useLocation();
   useEffect(() => {
     // Verifica si el usuario es administrador
-    verifyAdmin(axiosInstance, user, setLoading, setAuthenticated);
+    verifyAdmin(axiosInstance, user, setLoading, setAuthenticated, logout);
   }, []);
 
   // Si no está autenticado, redirige a /login

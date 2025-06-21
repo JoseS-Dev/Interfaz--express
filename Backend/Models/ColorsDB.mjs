@@ -148,10 +148,10 @@ export class ModelsColors {
     // Crear un Color
     static async createColor({color, id_user}){
         if(color){
-            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color} = color
+            const {primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected} = color
             // Se agrega el nuevo color
-            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color) VALUES(?,?,?,?,?)',[
-                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color])
+            const [newColor] = await connection.query('INSERT INTO colors(primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected) VALUES(?,?,?,?,?,?)',[
+                primary_color,secondary_color,ternary_color,cuarternary_color,neutral_color, is_selected || false])
             
             if(newColor.affectedRows > 0){
                 // Se relaciona con su tabla de relación

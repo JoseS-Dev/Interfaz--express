@@ -1,12 +1,102 @@
 import React, { useState } from "react";
+import { axiosInstance } from "../context/axiosInstances";
 
-const FormColors = () => {
-    const [PrimaryColorInput, setChangePrimaryColor] = useState("");
-    const [SecondaryColorInput, setChangeSecondaryColor] = useState("");
-    const [TernaryColorInput, setChangeTernaryColor] = useState("");
-    const [CuarternaryColorInput, setChangeCuarternaryColor] = useState("");
-    const [NeutralColorInput, setChangeNeutralColor] = useState("");
+
+const FormColors = ({onRefreshListColors, onRefreshColorsPreview}) => {
+    const [primaryColorInput, setPrimaryColorInput] = useState("");
+    const [secondaryColorInput, setSecondaryColorInput] = useState("");
+    const [ternaryColorInput, setTernaryColorInput] = useState("");
+    const [cuarternaryColorInput, setCuarternaryColorInput] = useState("");
+    const [neutralColorInput, setNeutralColorInput] = useState("");
+    const [invalidData, setInvalidData] = useState(false);
     
+    const onSaveColors = async(event: React.FormEvent) => {
+        event.preventDefault();
+        if (primaryColorInput === "" || secondaryColorInput === "" || ternaryColorInput === "" || cuarternaryColorInput === "" || neutralColorInput === "") {
+            setInvalidData(true);
+            return;
+        }
+
+        const colors = {
+            primary_color: primaryColorInput.slice(1),
+            secondary_color: secondaryColorInput.slice(1),
+            ternary_color: ternaryColorInput.slice(1),
+            cuarternary_color: cuarternaryColorInput.slice(1),
+            neutral_color: neutralColorInput.slice(1),
+            is_selected: false
+        };
+        try {
+            const response = await axiosInstance.post('/Colors', colors);
+            
+                onRefreshListColors();
+                setPrimaryColorInput("");
+                setSecondaryColorInput("");
+                setTernaryColorInput("");
+                setCuarternaryColorInput("");
+                setNeutralColorInput("");
+                const newColors = {
+                    primary_color: "",
+                    secondary_color: "",
+                    ternary_color: "",
+                    cuarternary_color: "",
+                    neutral_color: ""
+                };
+                onRefreshColorsPreview(newColors);
+            
+        } catch (error) {
+            console.error("Error al guardar los colores:", error);
+        }
+    };
+    const onInputColor = (event) => {
+        const input = event.target;
+        setInvalidData(false);
+        const colors = {
+            primary_color: primaryColorInput.slice(1),
+            secondary_color: secondaryColorInput.slice(1),
+            ternary_color: ternaryColorInput.slice(1),
+            cuarternary_color: cuarternaryColorInput.slice(1),
+            neutral_color: neutralColorInput.slice(1)
+        };
+        onRefreshColorsPreview(colors);
+    };
+
+    const onEditColors = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (primaryColorInput === "" || secondaryColorInput === "" || ternaryColorInput === "" || cuarternaryColorInput === "" || neutralColorInput === "") {
+            setInvalidData(true);
+            return;
+        }
+
+        try {
+            const reponse = await axiosInstance.get('/Colors/selected');
+            const selectedColor = reponse.data.data;
+            const colors = {
+                primary_color: primaryColorInput.slice(1),
+                secondary_color: secondaryColorInput.slice(1),
+                ternary_color: ternaryColorInput.slice(1),
+                cuarternary_color: cuarternaryColorInput.slice(1),
+                neutral_color: neutralColorInput.slice(1),
+                is_selected: true
+            };
+            const otherResponse = await axiosInstance.patch(`/Colors/${selectedColor.id_colors}`, colors);
+            onRefreshListColors();
+            setPrimaryColorInput("");
+            setSecondaryColorInput("");
+            setTernaryColorInput("");
+            setCuarternaryColorInput("");
+            setNeutralColorInput("");
+            const newColors = {
+                primary_color: "",
+                secondary_color: "",
+                ternary_color: "",
+                cuarternary_color: "",
+                neutral_color: ""
+            };
+            onRefreshColorsPreview(newColors);
+        } catch (error) {
+            console.error("Error al editar los colores:", error);
+        }
+    };
     return (
         <form className="w-full h-full  flex flex-col items-center gap-5 px-2 py-3">
             <div className="w-full h-24 flex flex-col gap-1">
@@ -18,8 +108,11 @@ const FormColors = () => {
                     type="color"
                     name="primary_color"
                     id="primary_color"
-                    value={PrimaryColorInput}
-                    onChange={(e) => setChangePrimaryColor(e.target.value)}
+                    value={primaryColorInput}
+                    onChange={(e) => {
+                        setPrimaryColorInput(e.target.value);
+                        onInputColor(e);
+                    }}
                     required
                 />
             </div>
@@ -32,8 +125,11 @@ const FormColors = () => {
                     type="color"
                     name="secondary_color"
                     id="secondary_color"
-                    value={SecondaryColorInput}
-                    onChange={(e) => setChangeSecondaryColor(e.target.value)}
+                    value={secondaryColorInput}
+                    onChange={(e) => {
+                        setSecondaryColorInput(e.target.value);
+                        onInputColor(e);
+                    }}
                     required
                 />
             </div>
@@ -46,8 +142,11 @@ const FormColors = () => {
                     type="color"
                     name="ternary_color"
                     id="ternary_color"
-                    value={TernaryColorInput}
-                    onChange={(e) => setChangeTernaryColor(e.target.value)}
+                    value={ternaryColorInput}
+                    onChange={(e) => {
+                        setTernaryColorInput(e.target.value);
+                        onInputColor(e);
+                    }}
                     required
                 />
             </div>
@@ -60,8 +159,11 @@ const FormColors = () => {
                     type="color"
                     name="cuarternary_color"
                     id="cuarternary_color"
-                    value={CuarternaryColorInput}
-                    onChange={(e) => setChangeCuarternaryColor(e.target.value)}
+                    value={cuarternaryColorInput}
+                    onChange={(e) => {
+                        setCuarternaryColorInput(e.target.value);
+                        onInputColor(e);
+                    }}
                     required
                 />
             </div>
@@ -74,17 +176,22 @@ const FormColors = () => {
                     type="color"
                     name="neutral_color"
                     id="neutral_color"
-                    value={NeutralColorInput}
-                    onChange={(e) => setChangeNeutralColor(e.target.value)}
+                    value={neutralColorInput}
+                    onChange={(e) => {
+                        setNeutralColorInput(e.target.value);
+                        onInputColor(e);
+                    }}
                     required
                 />
             </div>
-            { PrimaryColorInput == "" || SecondaryColorInput == "" || TernaryColorInput == "" || CuarternaryColorInput== "" || NeutralColorInput == "" ? (
-                <span className="text-red-600">Complete todos los campos.</span>
-            ) : null}
+            { invalidData && (
+                <span className="text-red-600">
+                    Complete todos los campos.
+                </span>
+            )}
             <div className="w-full flex justify-between">
-                <button type="submit" className="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3">Crear</button>
-                <button type="submit" className="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3">Editar</button>
+                <button type="submit" className="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3" onClick={onSaveColors}>Crear</button>
+                <button type="submit" className="bg-[#F97316] text-white px-3 py-2 rounded-md font-medium hover:bg-[#F97316]/75 transition-colors cursor-pointer w-1/3" onClick={onEditColors}>Editar</button>
             </div>
         </form>
     )
