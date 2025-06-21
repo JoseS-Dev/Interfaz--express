@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from 'react-router-dom';
+
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const {logout} = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+  const onLogout = () => {
+    logout();
   };
 
   const toggleLogin = () => {
@@ -69,12 +75,12 @@ const Navbar = () => {
                   Admin
                 </button>
               ) : (
-                <a className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer" >
+                <Link to={"/admin"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer" >
                   Settings
-                </a>
+                </Link>
               )}
               { isAuthenticated && (
-                <button className="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph">
+                <button className="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph" onClick={onLogout}>
                   Logout
                 </button>
               )}
@@ -117,12 +123,23 @@ const Navbar = () => {
           >
             Contacto
           </a>
-          <button
-            onClick={toggleLogin}
-            className="w-full text-left bg-secondary text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700"
-          >
-            Admin
-          </button>
+          { !isAuthenticated ? (
+            <button
+              onClick={toggleLogin}
+              className="bg-secondary text-quaternary px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+            >
+              Admin
+            </button>
+          ) : (
+            <Link to={"/admin"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer block" >
+              Settings
+            </Link>
+          )}
+          { isAuthenticated && (
+            <button className="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph" onClick={onLogout}>
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </nav>
