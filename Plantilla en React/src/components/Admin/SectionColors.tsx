@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import FormColors from '../FormColors';
+import FormColors from '../formColors';
 import CardPrevious from '../CardColors';
 import ListColors from '../listColors';
 import { useState } from 'react';
