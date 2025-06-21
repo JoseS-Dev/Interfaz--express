@@ -62,6 +62,10 @@ export const schemaUser = zod.object({
         required_error: 'El color de ojos es requerido',
         invalid_type_error: 'El color de ojos debe ser una cadena de texto'
     }),
+    hair_user: zod.string({
+        required_error: 'El color de cabello es requerido',
+        invalid_type_error: 'El color de cabello debe ser una cadena de texto'
+    }),
     ip_user: zod.string({
         required_error: 'La IP es requerida',
         invalid_type_error: 'La IP debe ser una cadena de texto'
