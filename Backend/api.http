@@ -1,3 +1,6 @@
+### Verificar si un usuario esta autenticado
+GET http://localhost:3500/Users/verify/
+
 ### Obtener todos los usuarios
 GET http://localhost:3500/Users
 

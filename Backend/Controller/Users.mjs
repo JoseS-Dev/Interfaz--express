@@ -88,6 +88,8 @@ export class UsersControllers{
     }
 
     getVerify = async (req, res) => {
+            
+            console.log('Verificando usuario autenticado');
             if (!req.user) return res.status(401).json({
                 message: 'Usuario no autenticado',
                 isAuthenticated: false,
@@ -126,6 +128,7 @@ export class UsersControllers{
 
     // Obtener a un usuario por su ID
     getUserByID = async (req, res) => {
+        console.log('Obteniendo usuario por ID');
         try{
             const { id_user } = req.params;
             const userID = await this.ModelsUsers.getUserByID({id_user});
