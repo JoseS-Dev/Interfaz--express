@@ -5,6 +5,7 @@ CREATE TABLE user_register(
     email_user VARCHAR(255) NOT NULL,
     password_user VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
+    role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user',
 
 );
 
@@ -19,13 +20,13 @@ CREATE TABLE info_user(
     height_user DECIMAL(5,2) NOT NULL,
     weight_user DECIMAL(5,2) NOT NULL
     eye_color_user VARCHAR(50) NOT NULL,
+    hair_user VARCHAR(50) NOT NULL,
     ip_user VARCHAR(45) NOT NULL,
     mac_address_user VARCHAR(17) NOT NULL,
     university_user VARCHAR(255) NOT NULL,
     ein_user VARCHAR(255) NOT NULL,
     ssn_user VARCHAR(255) NOT NULL,
     user_agent_user VARCHAR(255) NOT NULL,
-    role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user',
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
 )
 

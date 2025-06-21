@@ -28,7 +28,7 @@ export class ModelsUsers{
         const {
             name_user, maiden_name_user, email_user, password_user, username,
             age_user, phone_user, birth_date_user, image_user, blood_group_user,
-            height_user, weight_user, eye_color_user, ip_user, mac_address_user,
+            height_user, weight_user, eye_color_user,hair_user, ip_user, mac_address_user,
             university_user, ein_user, ssn_user, user_agent_user, role_user,
             street_address, city_address, state_address, state_code_address,
             postal_code_address, latitude_address, longitude_address, country_address,
@@ -50,10 +50,10 @@ export class ModelsUsers{
             const hashedPassword = await bcrypt.hash(password_user, 10);
             const [createUser] = await connection.query(
                 `
-                INSERT INTO user_register (name_user,maiden_name_user, email_user, password_user, username) 
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO user_register (name_user,maiden_name_user, email_user, password_user, username,role_user) 
+                VALUES (?, ?, ?, ?, ?, ?)
                 `, 
-                [name_user,maiden_name_user, email_user, hashedPassword, username]);
+                [name_user,maiden_name_user, email_user, hashedPassword, username, role_user]);
             if(createUser.affectedRows > 0){
                 console.log("Registro Existoso");
                 // Se guarda los datos adicionales del usuario en la tabla info_user
@@ -61,14 +61,13 @@ export class ModelsUsers{
                 const [ InfoUser ] = await connection.query(
                     `INSERT INTO info_user 
                     (id_user,age_user,phone_user,birth_date_user,image_user,blood_group_user,
-                    height_user,weight_user,eye_color_user,ip_user,mac_address_user,
-                    university_user,ein_user,ssn_user,user_agent_user,role_user) 
+                    height_user,weight_user,eye_color_user,hair_user,ip_user,mac_address_user,
+                    university_user,ein_user,ssn_user,user_agent_user) 
                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
                     [
                         userID, age_user, phone_user, birth_date_user, image_user, blood_group_user,
-                        height_user, weight_user, eye_color_user, ip_user, mac_address_user,
-                        university_user, ein_user, ssn_user, user_agent_user, role_user
-
+                        height_user, weight_user, eye_color_user,hair_user, ip_user, mac_address_user,
+                        university_user, ein_user, ssn_user, user_agent_user
                     ]
                 )
                 console.log("Datos personales del usuario guardados");
@@ -249,7 +248,7 @@ export class ModelsUsers{
     static async getUserByRole({ role_user }){
         if(role_user){
             const [userRole] = await connection.query(
-                `SELECT a.*, b.* FROM user_register a JOIN info_user b ON a.id_user = b.id_user WHERE b.role_user = ?`,
+                `SELECT * FROM user_register WHERE role_user = ?`,
                 [role_user]
             );
             if(userRole.length > 0){
