@@ -2,14 +2,22 @@ import { Link } from "react-router-dom"
 import FormFonts from "../formFonts"
 import CardFonts from "../CardFonts"
 import ListFonts from "../listFonts"
-
+import { useState } from "react"
 const SectionFonts = () => {
+    const [refreshListFonts, setRefreshListFonts] = useState(false);
+    const [fonts, setFonts] = useState({primaryFont: '', secondaryFont: '', textTitle: '', textSubtitle: '', textParagraph: ''});
+    const onRefreshListFonts = () => {
+        setRefreshListFonts((value) => !value);
+    }
+    const onRefreshFontsPreview = (newFonts: {primaryFont: string, secondaryFont: string, textTitle: string, textSubtitle: string, textParagraph: string}) => {
+        setFonts(newFonts);
+    }
     return (
         <main className="w-full h-9/10 flex flex-col gap-4 lg:flex-row">
             <section className="w-full lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-800 px-3 py-3">
                 <article className="flex flex-col items-center text-xl tracking-widese gap-4 py-4">
                     <h3 className="w-full font-bold text-center border-b-2 border-black"> Configuración de Fuentes</h3>
-                    <FormFonts/>
+                    <FormFonts onRefreshListFonts={onRefreshListFonts} onRefreshFontsPreview={onRefreshFontsPreview}/>
                 </article>
             </section>
             <section className="w-full lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-800 px-3 py-3">

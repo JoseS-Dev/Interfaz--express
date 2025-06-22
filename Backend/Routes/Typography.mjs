@@ -9,7 +9,7 @@ const typographycontroller = new TypographyController({ModelsTypography: ModelsT
 export const RoutesTipography = router;
 
 /// GET
-RoutesTipography.get('/', authMiddleware, typographycontroller.getAll);
+RoutesTipography.get('/', authMiddleware ,typographycontroller.getAll);
 RoutesTipography.get('/selected', authMiddleware, typographycontroller.getSelectedTypography);
 RoutesTipography.get('/:id_tipography', typographycontroller.getByID);
 RoutesTipography.get('/NameMain/:name_tipography_main', typographycontroller.getByMainName);
