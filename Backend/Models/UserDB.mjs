@@ -6,7 +6,7 @@ export class ModelsUsers{
         const {email_user, password_user} = user;
         if(!email_user || !password_user) return null;
         // Se verifica si existe un usuario con ese email y contraseña
-        const [userQuery] = await connection.query('SELECT * FROM user_register WHERE email_user = ?', [email_user]);
+        const [userQuery] = await connection.query('SELECT * FROM user_register WHERE email_user = ? AND is_active_user = 1', [email_user]);
         if(userQuery.length > 0){
             const userDB = userQuery[0];
             // Se verifica si la contraseña es correcta
@@ -102,26 +102,83 @@ export class ModelsUsers{
     }
 
     // Obtener a todos los usuarios
-    static async getAllUsers(){
-        const [users] = await connection.query(
-            `SELECT a.*, b.*, c.*, d.*, e.*, f.*
-            FROM user_register a 
-            JOIN info_user b ON a.id_user = b.id_user
-            JOIN address_user c ON a.id_user = c.id_user
-            JOIN bank_info_user d ON a.id_user = d.id_user
-            JOIN companies_user e ON a.id_user = e.id_user
-            JOIN crypto_wallets_user f ON a.id_user = f.id_user
-            ORDER BY a.id_user DESC`
-        );
-        if(users.length > 0){
-            console.log("Usuaurios obtenidos");
-            return users;
-        }
-        else{
-            console.log("No hay usuarios registrados");
-            return [];
-        }
+    static async getAllUsers() {
+        const [users] = await connection.query(`
+            SELECT 
+            a.id_user AS user_id,
+            a.name_user,
+            a.maiden_name_user,
+            a.email_user,
+            a.password_user,
+            a.username,
+            a.is_active_user,
+            a.role_user,
+
+            b.id_info_user,
+            b.age_user,
+            b.phone_user,
+            b.birth_date_user,
+            b.image_user,
+            b.blood_group_user,
+            b.height_user,
+            b.weight_user,
+            b.eye_color_user,
+            b.hair_user,
+            b.ip_user,
+            b.mac_address_user,
+            b.university_user,
+            b.ein_user,
+            b.ssn_user,
+            b.user_agent_user,
+
+            c.id_address,
+            c.street_address,
+            c.city_address,
+            c.state_address,
+            c.state_code_address,
+            c.postal_code_address,
+            c.latitude_address,
+            c.longitude_address,
+            c.country_address,
+
+            d.id_bank_info,
+            d.card_expire_user,
+            d.card_number_user,
+            d.card_type_user,
+            d.currency_user,
+            d.iban_user,
+
+            e.id_company,
+            e.department_company_user,
+            e.company_name_user,
+            e.company_title_user,
+            e.company_street_user,
+            e.company_city_user,
+            e.company_state_user,
+            e.company_state_code_user,
+            e.company_postal_code_user,
+            e.company_latitude_user,
+            e.company_longitude_user,
+            e.company_country_user,
+
+            f.id_crypto_wallet,
+            f.coin_user,
+            f.wallet_address_user,
+            f.network_user
+
+            FROM user_register a
+            LEFT JOIN info_user b ON a.id_user = b.id_user
+            LEFT JOIN address_user c ON a.id_user = c.id_user
+            LEFT JOIN bank_info_user d ON a.id_user = d.id_user
+            LEFT JOIN companies_user e ON a.id_user = e.id_user
+            LEFT JOIN crypto_wallets_user f ON a.id_user = f.id_user
+
+            ORDER BY a.id_user ASC;
+        `);
+        
+        return users.length > 0 ? users : [];
     }
+    
 
     // Obtener a un usuario por su ID
     static async getUserByID({id_user}){
@@ -413,6 +470,35 @@ export class ModelsUsers{
 
         } catch (error) {
             console.error('Error en updateUser:', error);
+            return null;
+        }
+    }
+
+    static async activateOrDeactiveUser({ id_user, isActive }) {
+        if (!id_user) {
+            console.log('ID de usuario no proporcionado.');
+            return null;
+        }
+    
+        try {
+            const [result] = await connection.query(
+                'UPDATE user_register SET is_active_user = ? WHERE id_user = ?',
+                [isActive, id_user]
+            );
+    
+            if (result.affectedRows > 0) {
+                // Opcional: obtener el usuario actualizado para devolverlo
+                const [rows] = await connection.query(
+                    'SELECT id_user, is_active_user FROM user_register WHERE id_user = ?',
+                    [id_user]
+                );
+                return rows[0]; // Devuelve el usuario actualizado
+            } else {
+                console.log(`Usuario con ID ${id_user} no encontrado.`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error al actualizar el estado del usuario:', error);
             return null;
         }
     }

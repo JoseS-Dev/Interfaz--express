@@ -255,4 +255,49 @@ export class UsersControllers{
         }
     }
     
+    activateUser = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+            const user = await this.ModelsUsers.activateOrDeactiveUser({ id_user, isActive: 1 });
+            if(user){
+                return res.status(200).json({
+                    message: 'Usuario activado',
+                    user
+                });
+            } else {
+                return res.status(404).json({
+                    message: 'Usuario no encontrado'
+                });
+            }
+        } catch (error){
+            console.error(error);
+            return res.status(500).json({
+                message: 'Error en el servidor',
+                error
+            });
+        }
+    }
+    
+    deactivateUser = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+            const user = await this.ModelsUsers.activateOrDeactiveUser({ id_user, isActive: 0 });
+            if(user){
+                return res.status(200).json({
+                    message: 'Usuario desactivado',
+                    user
+                });
+            } else {
+                return res.status(404).json({
+                    message: 'Usuario no encontrado'
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                message: 'Error en el servidor',
+                error
+            });
+        }
+    }
 }

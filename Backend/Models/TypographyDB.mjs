@@ -29,27 +29,6 @@ export class ModelsTypography {
             }
         }
     }
-    
-    // Obtener la tipografia seleccionada por el usuario
-    static async getSelectedTypography({ id_user }) {
-        const query = `
-            SELECT t.*
-            FROM typography t
-            JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
-            WHERE tr.id_user = ? AND t.is_selected = true
-        `;
-    
-        const [rows] = await connection.query(query, [id_user]);
-    
-        if (rows.length > 0) {
-            console.log('Tipografía encontrada');
-            return rows[0];
-        } else {
-            console.log('No se encontró la tipografía');
-            return null;
-        }
-    }
-    
 
     // Obtener una tipografia por su  tipografia principal
     static async getByMainName({ name_tipography_main }){
@@ -325,7 +304,6 @@ export class ModelsTypography {
             `SELECT t.* FROM typography t
             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
             WHERE t.is_selected = true`,
-            [id_user]
         );
         if (rows.length > 0) {
             return rows[0];

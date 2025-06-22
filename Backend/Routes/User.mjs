@@ -31,3 +31,7 @@ RoutesUsers.post('/verify', authMiddleware, userController.getVerify);
 
 // Actualizar un usuario
 RoutesUsers.patch('/:id_user', userController.updateUser);
+// Activar un usuario
+RoutesUsers.patch('/activate/:id_user', userController.activateUser);
+// Desactivar un usuario
+RoutesUsers.patch('/deactivate/:id_user', userController.deactivateUser);

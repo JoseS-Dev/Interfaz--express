@@ -5,6 +5,7 @@ CREATE TABLE user_register(
     email_user VARCHAR(255) NOT NULL,
     password_user VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
+    is_active_user BOOLEAN NOT NULL DEFAULT TRUE,
     role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user'
 );
 
