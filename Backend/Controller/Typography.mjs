@@ -242,7 +242,8 @@ export class TypographyController {
                 tam_title: parseInt(req.body.tam_title),
                 tam_subtitle: parseInt(req.body.tam_subtitle),
                 archive_font_main: mainFont.path,
-                archive_font_secondary: secondaryFont.path
+                archive_font_secondary: secondaryFont.path,
+                is_selected: req.body.is_selected === 'true'
             }
             const result = validateTipography(body);
             const id_user = req.user.id;
@@ -273,7 +274,8 @@ export class TypographyController {
             ...req.body,
             tam_paragraph: req.body.tam_paragraph ? parseInt(req.body.tam_paragraph) : undefined,
             tam_title: req.body.tam_title ? parseInt(req.body.tam_title) : undefined,
-            tam_subtitle: req.body.tam_subtitle ? parseInt(req.body.tam_subtitle) : undefined
+            tam_subtitle: req.body.tam_subtitle ? parseInt(req.body.tam_subtitle) : undefined,
+            is_selected: req.body.is_selected === 'true'
           };
       
           // Si se envió archivo main_font, agregar propiedades relacionadas
