@@ -15,7 +15,7 @@ const SectionButtons = () => {
         </section>
         <section className="w-full lg:w-3/4 flex flex-col items-center justify-center bg-white py-8">
             <article className="w-full flex flex-col md:flex-row items-center justify-around gap-8">
-                <Link to={'/admin/colors'} className="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+                <Link to={'/admin/colors'} className="border-2 border-black max-w-lg md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
                     Cambiar Colores
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ const SectionButtons = () => {
                         <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
                 </Link>
-                <Link to={'/admin/fonts'} className="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+                <Link to={'/admin/fonts'} className="border-2 border-black max-w-lg w-full md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
                     Cambiar Tipografía
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +59,24 @@ const SectionButtons = () => {
                         <path d="M9 13v-1h6v1" />
                         <path d="M12 12v6" />
                         <path d="M11 18h2" />
+                    </svg>
+                </Link>
+                <Link to={'/admin/users'} className="border-2 border-black max-w-lg w-full md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+                    Usuarios
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="56"
+                        height="56"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"            
+                        stroke="#eee"
+                        strokeWidth="2"        
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"  
+                        className="lucide lucide-user" 
+                    >
+                        <circle cx="12" cy="7" r="4"/>
+                        <path d="M2 21v-2a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v2"/>
                     </svg>
                 </Link>
             </article>
