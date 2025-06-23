@@ -1,0 +1,46 @@
+
+@import "tailwindcss";
+
+/* Custom colors configuration */
+@theme {
+  /* Colores */
+    --color-primary: #DFEEFF;  /* 60% - Azul muy claro */
+    --color-secondary: #2563EB; /* 30% - Azul */
+    --color-tertiary: #F97316; /* 10% - Naranja */
+    --color-quaternary: #FFFFFF; /* Blanco*/
+    --color-quinary: #374151; /* Negro */
+
+    /* Tipografia */
+    --font-primary: 'RobotoSans';
+    --font-secondary: 'RobotoSerif';
+    /* Tamaño de fuentes */
+    --text-title: 36px;
+    --text-subtitle: 24px;
+    --text-paragraph: 16px;
+}
+
+
+@font-face {
+    font-family: 'RobotoSans';
+    src: url(/src/assets/fonts/Roboto-VariableFont_wdth\,wght.ttf);
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'RobotoSerif';
+    src: url(/src/assets/fonts/RobotoSerif-VariableFont_GRAD\,opsz\,wdth\,wght.ttf);
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+.h-9\/10{
+  height: 91.5%;
+}

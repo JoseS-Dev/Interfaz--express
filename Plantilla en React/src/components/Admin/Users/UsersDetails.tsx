@@ -4,12 +4,23 @@ import L, { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 // Configuración de iconos Leaflet para bundlers modernos
-// L.Icon.Default.mergeOptions({
-//     iconRetinaUrl:
-//         "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
-//     iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
-//     shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
-// });
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl:
+        "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
+    iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
+    marker: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
+});
+
+const customMarkerIcon = L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
+    iconSize: [30, 45],
+    iconAnchor: [17, 45],
+    popupAnchor: [0, -45],
+    shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
+    shadowSize: [41, 41],
+    shadowAnchor: [12, 41],
+});
 
 const COLORS = {
     primary_color: "DFEEFF",
@@ -105,7 +116,7 @@ const UserDetailsModal = ({ user, isOpen, onClose }) => {
 
             {/* Mapa Leaflet */}
             <div className="h-64 w-full rounded-md overflow-hidden border border-gray-300 mt-4">
-                {/* <MapContainer
+                <MapContainer
                 center={position}
                 zoom={13}
                 scrollWheelZoom={false}
@@ -115,13 +126,12 @@ const UserDetailsModal = ({ user, isOpen, onClose }) => {
                     attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position}>
+                <Marker position={position} icon={customMarkerIcon}>
                     <Popup>
-                    {user.street_address}, {user.city_address}, {user.state_address},{" "}
-                    {user.country_address}
+                    A pretty CSS3 popup. <br /> Easily customizable.
                     </Popup>
                 </Marker>
-                </MapContainer> */}
+                </MapContainer>
             </div>
             </section>
 
