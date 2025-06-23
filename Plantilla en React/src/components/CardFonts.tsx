@@ -1,12 +1,11 @@
 
-const CardFonts = ({ primaryFont, secondaryFont, textTitle, textSubtitle, textParagraph }) => {
+const CardFonts = ({fonts: {primaryFont, secondaryFont, textTitle, textSubtitle, textParagraph}}) => {
     // Define the fonts as variables
     primaryFont = primaryFont || 'RobotoSans'; // Default to Arial if not provided
     secondaryFont = secondaryFont || 'RobotoSerif'; // Default to Georgia if not provided
     textTitle = textTitle || '36'; // Default to 24px if not provided
     textSubtitle = textSubtitle || '24'; // Default to 18px if not provided
     textParagraph = textParagraph || '16'; // Default to 16px if not provided
-    console.log(secondaryFont);
     return (
         <div className="w-full h-full border-2 border-black flex flex-col items-center justify-center p-5 my-2 rounded-lg overflow-auto">
             <div className="text-center">
