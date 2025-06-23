@@ -7,6 +7,8 @@ import AdminColors from "./Pages/AdminColors";
 import AdminFonts from "./Pages/AdminFonts";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import AdminUsers from "./Pages/AdminUsers";
+import PrivateRouteUser from "./components/PrivateRouteUser";
+import Settings from "./Pages/Settings";
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           <Route path="/admin/colors" element={<AdminColors />} />
           <Route path="/admin/fonts" element={<AdminFonts />} />
           <Route path="/admin/users" element={<AdminUsers />} />
+        </Route>
+        <Route element={<PrivateRouteUser />}>
+          <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>
     </Router>

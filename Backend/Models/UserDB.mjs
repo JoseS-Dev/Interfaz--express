@@ -184,10 +184,10 @@ export class ModelsUsers{
     static async getUserByID({id_user}){
         if(id_user){
             const [userID] = await connection.query(
-                `SELECT a.name_user, a.maiden_name_user, a.email_user, a.username,
+                `SELECT a.id_user, a.name_user, a.maiden_name_user, a.email_user, a.username, a.password_user, a.role_user,
                 b.age_user, b.phone_user, b.birth_date_user, b.image_user, b.blood_group_user,
-                b.height_user, b.weight_user, b.eye_color_user, b.ip_user, b.mac_address_user,
-                b.university_user, b.ein_user, b.ssn_user, b.user_agent_user, b.role_user,
+                b.height_user, b.weight_user, b.eye_color_user, b.hair_user, b.ip_user, b.mac_address_user,
+                b.university_user, b.ein_user, b.ssn_user, b.user_agent_user,
                 c.street_address, c.city_address, c.state_address, c.state_code_address,
                 c.postal_code_address, c.latitude_address, c.longitude_address, c.country_address,
                 d.card_expire_user, d.card_number_user, d.card_type_user, d.currency_user,
@@ -195,11 +195,12 @@ export class ModelsUsers{
                 e.company_street_user, e.company_city_user, e.company_state_user, e.company_state_code_user,
                 e.company_postal_code_user, e.company_latitude_user, e.company_longitude_user,
                 e.company_country_user, f.coin_user, f.wallet_address_user, f.network_user
-                FROM user_register a JOIN info_user b ON a.id_user = b.id_user
-                JOIN address_user c ON a.id_user = c.id_user
-                JOIN bank_info_user d ON a.id_user = d.id_user
-                JOIN companies_user e ON a.id_user = e.id_user
-                JOIN crypto_wallets_user f ON a.id_user = f.id_user
+                FROM user_register a 
+                LEFT JOIN info_user b ON a.id_user = b.id_user
+                LEFT JOIN address_user c ON a.id_user = c.id_user
+                LEFT JOIN bank_info_user d ON a.id_user = d.id_user
+                LEFT JOIN companies_user e ON a.id_user = e.id_user
+                LEFT JOIN crypto_wallets_user f ON a.id_user = f.id_user
                 WHERE a.id_user = ?`,
                 [id_user]
             );
