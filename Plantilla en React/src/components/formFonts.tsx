@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { axiosInstance } from "../context/axiosInstances";
-import { useAuth } from "../context/AuthContext";
 const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
-  const {user} = useAuth();
-  const user_id = user?.id_user;
   const [primaryInputFont, setPrimaryInputFont] = useState("");
   const [secondaryInputFont, setSecondaryInputFont] = useState("");
   const [titleInputSize, setTitleInputSize] = useState("");
@@ -55,9 +52,10 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
   };
   const onInputTam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInvalidData(false);
+    const id = event.target.id;
     if (event.target.value[0] === "-" || event.target.value[0] === "0") {
       event.target.value = "1";
-      const id = event.target.id;
+      
       if (id === "tam_paragraph") {
         setParagraphInputSize(event.target.value);
       } else if (id === "tam_title") {
@@ -69,9 +67,9 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
     onRefreshFontsPreview({
       primaryFont: primaryInputFont,
       secondaryFont: secondaryInputFont,
-      textTitle: titleInputSize,
-      textSubtitle: subtitleInputSize,
-      textParagraph: paragraphInputSize,
+      textTitle: id === "tam_title" ? event.target.value : titleInputSize,
+      textSubtitle: id === "tam_subtitle" ? event.target.value : subtitleInputSize,
+      textParagraph: id === "tam_paragraph" ? event.target.value : paragraphInputSize,
     });
   };
   const onSaveFonts = async (event: React.FormEvent) => {
