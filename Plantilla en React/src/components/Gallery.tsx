@@ -9,55 +9,55 @@ const Gallery = () => {
 
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img4.avif",
       title: "Recepción Moderna",
       description: "Área de bienvenida cómoda y acogedora",
       alt: "Recepción moderna"
     },
     {
-      src: "https://images.unsplash.com/photo-1504439468489-c8920d796a29?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img5.avif",
       title: "Sala de Espera",
       description: "Espacios cómodos para nuestros pacientes",
       alt: "Sala de espera"
     },
     {
-      src: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img6.avif",
       title: "Consultorio Médico",
       description: "Equipamiento médico de última generación",
       alt: "Consultorio médico"
     },
     {
-      src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img7.jpeg",
       title: "Laboratorio",
       description: "Análisis clínicos con tecnología avanzada",
       alt: "Laboratorio"
     },
     {
-      src: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img8.avif",
       title: "Sala de Rehabilitación",
       description: "Terapia física y rehabilitación integral",
       alt: "Sala de rehabilitación"
     },
     {
-      src: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img9.avif",
       title: "Área de Nutrición",
       description: "Consultas nutricionales personalizadas",
       alt: "Área de nutrición"
     },
     {
-      src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img10.avif",
       title: "Quirófano",
       description: "Cirugías con los más altos estándares",
       alt: "Quirófano"
     },
     {
-      src: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img11.avif",
       title: "Farmacia",
       description: "Medicamentos y productos de salud",
       alt: "Farmacia"
     },
     {
-      src: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+      src: "/src/assets/img/img12.avif",
       title: "Jardín Terapéutico",
       description: "Espacios verdes para la recuperación",
       alt: "Jardín terapéutico"
@@ -113,9 +113,9 @@ const Gallery = () => {
   };
 
   return (
-    <section id="galeria" className="py-16 bg-primary">
+    <section id="galeria" className="py-16 bg-primary font-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center text-secondary mb-12">Nuestras Instalaciones</h2>
+        <h2 className="text-3xl text-subtitle md:text-title font-bold text-center text-secondary mb-12 font-secondary">Nuestras Instalaciones</h2>
         
         {/* Carrusel Desktop (3 en 3) */}
         <div className="hidden lg:block relative">
@@ -129,15 +129,15 @@ const Gallery = () => {
           </div>
           <button 
             onClick={prevSlideDesktop}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer"
           >
-            <i className="fas fa-chevron-left text-secondary text-xl"></i>
+            <i className="fas fa-chevron-left text-secondary text-xl text-paragraph"></i>
           </button>
           <button 
             onClick={nextSlideDesktop}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer"
           >
-            <i className="fas fa-chevron-right text-secondary text-xl"></i>
+            <i className="fas fa-chevron-right text-secondary text-xl text-paragraph"></i>
           </button>
           {/* Indicadores Desktop */}
           <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
@@ -148,7 +148,7 @@ const Gallery = () => {
                 className={`h-2 w-8 rounded-full transition-all ${
                   index === currentSlideDesktop 
                     ? 'bg-secondary' 
-                    : 'bg-white bg-opacity-60 hover:bg-opacity-100'
+                    : 'bg-quaternary/60 hover:bg-quaternary/100'
                 }`}
               />
             ))}
@@ -158,7 +158,7 @@ const Gallery = () => {
         {/* Carrusel Mobile/Tablet (1 en 1) */}
         <div className="lg:hidden relative">
           {/* Contador de slides para móvil */}
-          <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm z-10">
+          <div className="absolute z-10 top-4 right-4 bg-quinary/50 text-quaternary px-3 py-1 rounded-full text-sm text-paragraph">
             <span>{currentSlideMobile + 1} / {totalSlidesMobile}</span>
           </div>
           <div className="overflow-hidden rounded-lg shadow-lg">
@@ -173,25 +173,21 @@ const Gallery = () => {
                     alt={image.alt} 
                     className="w-full h-64 sm:h-80 object-cover rounded-lg"
                   />
-                  <div className="text-center mt-4">
-                    <h3 className="text-lg font-semibold text-secondary">{image.title}</h3>
-                    <p className="text-gray-600 text-sm">{image.description}</p>
-                  </div>
                 </div>
               ))}
             </div>
           </div>
           <button 
             onClick={prevSlideMobile}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer"
           >
-            <i className="fas fa-chevron-left text-secondary text-xl"></i>
+            <i className="fas fa-chevron-left text-secondary text-xl text-paragraph"></i>
           </button>
           <button 
             onClick={nextSlideMobile}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary/80 hover:bg-quaternary/100 rounded-full p-3 shadow-md focus:outline-none z-10 cursor-pointer"
           >
-            <i className="fas fa-chevron-right text-secondary text-xl"></i>
+            <i className="fas fa-chevron-right text-secondary text-xl text-paragraph"></i>
           </button>
         </div>
       </div>

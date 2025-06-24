@@ -1,30 +1,35 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { axiosInstance } from '../context/axiosInstances';
-import { AxiosInstance } from 'axios';
-import { useState, useEffect } from 'react';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { axiosInstance } from "../context/axiosInstances";
+import { AxiosInstance } from "axios";
+import { useState, useEffect } from "react";
 
-const verifyAdmin = async (axiosInstance: AxiosInstance, user: any, setLoading: (loading: boolean) => void, setAuthenticated: (authenticated: boolean) => void, logout: () => void) => {
-    try {
-        const response1 = await axiosInstance.post('/Users/verify', { user });
-        const status1 = response1.status;
-        const response2 = await axiosInstance.get('/Users/Role/admin');
-        const data = response2.data;
-        const id_user = user?.id_user ?? ''; 
-        const isAdmin = data.users.some((user: any) => user.id_user === id_user);
-        setAuthenticated(status1 === 200 && isAdmin);
-        setLoading(false);
-
-    } catch (error) {
-        console.error('Error verifying admin:', error);
-        setAuthenticated(false);
-        setLoading(false);
-        logout();
-    }
+const verifyAdmin = async (
+  axiosInstance: AxiosInstance,
+  user: any,
+  setLoading: (loading: boolean) => void,
+  setAuthenticated: (authenticated: boolean) => void,
+  logout: () => void
+) => {
+  try {
+    const response1 = await axiosInstance.post("/Users/verify", { user });
+    const status1 = response1.status;
+    const response2 = await axiosInstance.get("/Users/Role/admin");
+    const data = response2.data;
+    const id_user = user?.id_user ?? "";
+    const isAdmin = data.users.some((user: any) => user.id_user === id_user);
+    setAuthenticated(status1 === 200 && isAdmin);
+    setLoading(false);
+  } catch (error) {
+    console.error("Error verifying admin:", error);
+    setAuthenticated(false);
+    setLoading(false);
+    logout();
+  }
 };
 
 export default function PrivateRouteAdmin() {
-  const {user, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const location = useLocation();
@@ -37,13 +42,15 @@ export default function PrivateRouteAdmin() {
   if (!authenticated && !loading) {
     // guardamos en state la ruta a la que quería ir
     return <Navigate to="/" state={{ from: location }} replace />;
-  }
-  else if (authenticated && !loading) {
+  } else if (authenticated && !loading) {
     // Si está autenticado, renderiza el componente hijo
     return <Outlet />;
-  }
-  else if (loading){
+  } else if (loading) {
     // Si está cargando, muestra un mensaje de carga
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-secondary"></div>
+      </div>
+    );
   }
 }
