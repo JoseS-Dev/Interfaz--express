@@ -349,13 +349,13 @@ const Settings: React.FC = () => {
     return (
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="block text-sm font-medium text-quinary">
+          <label className="block text-sm font-medium text-quinary/75 text-paragraph">
             {label} {required && '*'}
           </label>
           <button
             type="button"
             onClick={() => toggleFieldEdit(field)}
-            className="text-secondary hover:text-blue-700"
+            className="text-secondary cursor-pointer"
           >
             <i className={`fas fa-${isEditable ? 'save' : 'edit'}`}></i>
           </button>
@@ -367,8 +367,8 @@ const Settings: React.FC = () => {
             onChange={(e) => handleInputChange(field, e.target.value)}
             disabled={!isEditable}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
-              hasError ? 'border-red-500' : 'border-gray-300'
-            } ${!isEditable ? 'bg-gray-100' : ''}`}
+              hasError ? 'border-tertiary' : 'border-quinary/25'
+            } ${!isEditable ? 'bg-quinary/5' : ''}`}
           >
             {options?.map(option => (
               <option key={option.value} value={option.value}>
@@ -383,12 +383,12 @@ const Settings: React.FC = () => {
             onChange={(e) => handleInputChange(field, e.target.value)}
             disabled={!isEditable}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
-              hasError ? 'border-red-500' : 'border-gray-300'
-            } ${!isEditable ? 'bg-gray-100' : ''}`}
+              hasError ? 'border-tertiary' : 'border-quinary/25'
+            } ${!isEditable ? 'bg-quinary/5' : ''}`}
           />
         )}
         
-        {hasError && <p className="text-red-500 text-sm mt-1">{hasError}</p>}
+        {hasError && <p className="text-tertiary text-sm mt-1 text-paragraph">{hasError}</p>}
       </div>
     );
   };
@@ -396,7 +396,7 @@ const Settings: React.FC = () => {
   // Renderizar paso 1: Información Personal
   const renderStep1 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4">Información Personal</h3>
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Personal</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('name_user', 'Nombre', 'text', true)}
@@ -419,10 +419,10 @@ const Settings: React.FC = () => {
   // Renderizar paso 2: Dirección
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4">Dirección y Ubicación</h3>
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Dirección y Ubicación</h3>
       
       <div className="mb-6">
-        <label className="block text-sm font-medium text-quinary mb-2">
+        <label className="block text-sm font-medium text-quinary mb-2 text-paragraph">
           Selecciona tu ubicación en el mapa
         </label>
         <MapSelector
@@ -567,20 +567,20 @@ const Settings: React.FC = () => {
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8 font-primary">
         <div className="bg-quaternary rounded-lg shadow-lg p-6">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-quinary mb-2">Configuración de Perfil</h1>
-            <p className="text-gray-600">Gestiona tu información personal paso a paso</p>
+            <h1 className="text-3xl font-bold text-quinary mb-2 text-title">Configuración de Perfil</h1>
+            <p className="text-quinary text-paragraph">Gestiona tu información personal paso a paso</p>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-quinary">Paso {currentStep} de 5</span>
-              <span className="text-sm text-gray-500">{Math.round((currentStep / 5) * 100)}%</span>
+              <span className="text-sm font-medium text-quinary text-paragraph">Paso {currentStep} de 5</span>
+              <span className="text-sm text-quinary">{Math.round((currentStep / 5) * 100)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-quinary/25 rounded-full h-2">
               <div 
                 className="bg-secondary h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(currentStep / 5) * 100}%` }}
@@ -589,17 +589,17 @@ const Settings: React.FC = () => {
           </div>
 
           {/* Step Indicators */}
-          <div className="flex justify-between mb-8">
+          <div className="flex justify-between mb-8 flex-wrap">
             {[1, 2, 3, 4, 5].map((step) => (
               <div key={step} className="flex flex-col items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium text-paragraph ${
                   step <= currentStep 
                     ? 'bg-secondary text-quaternary' 
-                    : 'bg-gray-200 text-gray-500'
+                    : 'bg-quinary/10 text-quinary'
                 }`}>
                   {step}
                 </div>
-                <span className="text-xs mt-1 text-gray-500">
+                <span className="text-xs mt-1 text-quinary text-paragraph">
                   {step === 1 && 'Personal'}
                   {step === 2 && 'Dirección'}
                   {step === 3 && 'Laboral'}

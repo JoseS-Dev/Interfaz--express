@@ -6,8 +6,8 @@ import { LocationData } from '../types/user';
 
 // Configurar iconos por defecto
 let DefaultIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
+  iconUrl: "/src/assets/images/iconUrl.png",
+  shadowUrl: "/src/assets/images/shadowUrl.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
