@@ -235,6 +235,7 @@ export class UsersControllers{
             const { id_user } = req.params;
             const result = validateUpdateUser(req.body);
             if(!result.success){
+                console.log(result.error.errors);
                 return res.status(400).json({
                     message: 'Error en la validación',
                     error: result.error

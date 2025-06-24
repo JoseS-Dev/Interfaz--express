@@ -33,9 +33,14 @@ const COLORS = {
 const UserDetailsModal = ({ user, isOpen, onClose }) => {
     if (!isOpen || !user) return null;
 
-    const position: LatLngExpression = [
+    const personalPosition: LatLngExpression = [
         parseFloat(user.latitude_address) || 0,
         parseFloat(user.longitude_address) || 0,
+    ];
+
+    const companyPosition: LatLngExpression = [
+        parseFloat(user.company_latitude_user) || 0,
+        parseFloat(user.company_longitude_user) || 0,
     ];
 
     return (
@@ -114,10 +119,10 @@ const UserDetailsModal = ({ user, isOpen, onClose }) => {
                 <p><strong>MAC:</strong> {user.mac_address_user}</p>
             </div>
 
-            {/* Mapa Leaflet */}
+            {/* Dirección personal en Leaflet */}
             <div className="h-64 w-full rounded-md overflow-hidden border border-gray-300 mt-4">
                 <MapContainer
-                center={position}
+                center={personalPosition}
                 zoom={13}
                 scrollWheelZoom={false}
                 style={{ height: "100%", width: "100%" }}
@@ -126,11 +131,7 @@ const UserDetailsModal = ({ user, isOpen, onClose }) => {
                     attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position} icon={customMarkerIcon}>
-                    <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                <Marker position={personalPosition} icon={customMarkerIcon} />
                 </MapContainer>
             </div>
             </section>
@@ -170,6 +171,22 @@ const UserDetailsModal = ({ user, isOpen, onClose }) => {
                 <p><strong>País empresa:</strong> {user.company_country_user}</p>
             </div>
             </section>
+
+            {/* Dirección de empresa en Leaflet */}
+            <div className="h-64 w-full rounded-md overflow-hidden border border-gray-300 mt-4">
+                <MapContainer
+                center={companyPosition}
+                zoom={13}
+                scrollWheelZoom={false}
+                style={{ height: "100%", width: "100%" }}
+                >
+                <TileLayer
+                    attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={companyPosition} icon={customMarkerIcon} />
+                </MapContainer>
+            </div>
 
             {/* Sección Cripto Wallet */}
             <section>

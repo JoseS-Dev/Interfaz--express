@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import { axiosInstance } from '../../../context/axiosInstances';
 import UserDetailsModal from './UsersDetails';
 import { User } from './user.interface';
+import PdfDownloadButton from './PdfDownloadButton';
 
 const COLORS = {
     primary_color: "DFEEFF",
@@ -174,6 +175,10 @@ const UsersTable = () => {
                     },
                 }}
             />
+
+            <div className="my-4">
+                <PdfDownloadButton users={users} />
+            </div>
 
             <UserDetailsModal
                 user={selectedUser}

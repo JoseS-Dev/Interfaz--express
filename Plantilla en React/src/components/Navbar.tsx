@@ -1,24 +1,80 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from 'react-router-dom';
-
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
   const {logout} = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const onLogout = () => {
-    logout();
+    Swal.fire({
+      title: '¿Deseas cerrar sesión?',
+      text: 'Si cierras sesión, perderás acceso a tu perfil',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
   };
 
   const toggleLogin = () => {
     const modal = document.getElementById("loginModal");
     if (modal) {
       modal.classList.toggle("hidden");
+    }
+  };
+
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Si estamos en settings y el usuario hace clic en otro enlace, mostrar confirmación
+    if (location.pathname === '/settings' && href !== '/settings') {
+      e.preventDefault();
+      
+      Swal.fire({
+        title: '¿Deseas abandonar la página?',
+        text: 'Tienes cambios sin guardar. Si abandonas la página, tus cambios no serán efectivos.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, abandonar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Navegar a la página principal con el anchor correcto
+          navigate('/');
+          // Scroll al elemento después de un pequeño delay
+          setTimeout(() => {
+            const element = document.querySelector(href);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        }
+      });
+    } else if (location.pathname === '/settings') {
+      // Si estamos en settings y no hay confirmación, solo navegar
+      e.preventDefault();
+      navigate('/');
+      setTimeout(() => {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
   };
 
@@ -46,24 +102,28 @@ const Navbar = () => {
               <a
                 href="#inicio"
                 className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium scroll-smooth text-paragraph"
+                onClick={(e) => handleNavigation(e, '#inicio')}
               >
                 Inicio
               </a>
               <a
                 href="#servicios"
                 className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium scroll-smooth text-paragraph"
+                onClick={(e) => handleNavigation(e, '#servicios')}
               >
                 Servicios
               </a>
               <a
                 href="#galeria"
                 className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium scroll-smooth text-paragraph"
+                onClick={(e) => handleNavigation(e, '#galeria')}
               >
                 Galería
               </a>
               <a
                 href="#contacto"
                 className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium scroll-smooth text-paragraph"
+                onClick={(e) => handleNavigation(e, '#contacto')}
               >
                 Contacto
               </a>
@@ -75,7 +135,7 @@ const Navbar = () => {
                   Admin
                 </button>
               ) : (
-                <Link to={"/admin"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer" >
+                <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer" >
                   Settings
                 </Link>
               )}
@@ -97,28 +157,40 @@ const Navbar = () => {
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <a
             href="#inicio"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleNavigation(e, '#inicio');
+            }}
             className="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
           >
             Inicio
           </a>
           <a
             href="#servicios"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleNavigation(e, '#servicios');
+            }}
             className="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
           >
             Servicios
           </a>
           <a
             href="#galeria"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleNavigation(e, '#galeria');
+            }}
             className="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
           >
             Galería
           </a>
           <a
             href="#contacto"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={(e) => {
+              setIsMobileMenuOpen(false);
+              handleNavigation(e, '#contacto');
+            }}
             className="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
           >
             Contacto
@@ -131,7 +203,7 @@ const Navbar = () => {
               Admin
             </button>
           ) : (
-            <Link to={"/admin"} className="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph" >
+            <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer block" >
               Settings
             </Link>
           )}
