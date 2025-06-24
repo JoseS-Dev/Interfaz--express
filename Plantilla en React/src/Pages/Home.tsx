@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 const Home = () =>{
     const { isAuthenticated } = useAuth();
     return (
-        <div className="bg-primary">
+        <div>
             <Navbar />
             {!isAuthenticated && <LoginModal />}
             <Hero />
