@@ -98,7 +98,7 @@ const Gallery = () => {
   const renderDesktopSlide = (slideIndex: number) => {
     const startIndex = slideIndex * 3;
     return (
-      <div className="w-full flex-shrink-0 grid grid-cols-3 gap-4">
+      <div className="w-full flex-shrink-0 grid grid-cols-3 gap-4" key={slideIndex}>
         {images.slice(startIndex, startIndex + 3).map((image, index) => (
           <div key={index} className="aspect-w-16 aspect-h-12">
             <img 
