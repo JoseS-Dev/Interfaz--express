@@ -209,9 +209,9 @@ const MapSelector: React.FC<MapSelectorProps> = ({
       <div 
         ref={mapRef} 
         style={{ height }} 
-        className="w-full rounded-lg border border-gray-300"
+        className="w-full rounded-lg border border-quinary/5"
       />
-      <div className="mt-2 p-2 bg-gray-50 rounded text-sm text-gray-700">
+      <div className="mt-2 p-2 bg-quinary/5 rounded text-sm text-quinary">
         {locationInfo}
       </div>
     </div>

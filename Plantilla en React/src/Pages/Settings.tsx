@@ -357,7 +357,7 @@ const Settings: React.FC = () => {
             onClick={() => toggleFieldEdit(field)}
             className="text-secondary cursor-pointer"
           >
-            <i className={`fas fa-${isEditable ? 'save' : 'edit'}`}></i>
+            <i className={`text-paragraph fas fa-${isEditable ? 'save' : 'edit'}`}></i>
           </button>
         </div>
         
@@ -368,7 +368,7 @@ const Settings: React.FC = () => {
             disabled={!isEditable}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
-            } ${!isEditable ? 'bg-quinary/5' : ''}`}
+            } ${!isEditable ? 'bg-quinary/5' : 'bg-primary/50'}`}
           >
             {options?.map(option => (
               <option key={option.value} value={option.value}>
@@ -382,9 +382,9 @@ const Settings: React.FC = () => {
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
             disabled={!isEditable}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
+            className={`font-primary w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
-            } ${!isEditable ? 'bg-quinary/5' : ''}`}
+            } ${!isEditable ? 'bg-quinary/5' : 'bg-primary/50'}`}
           />
         )}
         
@@ -447,7 +447,7 @@ const Settings: React.FC = () => {
   // Renderizar paso 3: Información Laboral
   const renderStep3 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4">Información Laboral</h3>
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Laboral</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('company_name_user', 'Nombre de la Empresa', 'text', true)}
@@ -459,10 +459,10 @@ const Settings: React.FC = () => {
       </div>
 
       <div className="border-t pt-6">
-        <h4 className="text-md font-medium text-quinary mb-4">Dirección de la Empresa</h4>
+        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">Dirección de la Empresa</h4>
         
         <div className="mb-6">
-          <label className="block text-sm font-medium text-quinary mb-2">
+          <label className="block text-sm font-medium text-quinary mb-2 text-paragraph">
             Selecciona la ubicación de la empresa en el mapa
           </label>
           <MapSelector
@@ -488,7 +488,7 @@ const Settings: React.FC = () => {
   // Renderizar paso 4: Información Bancaria
   const renderStep4 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4">Información Bancaria</h3>
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Bancaria</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('card_number_user', 'Número de Tarjeta', 'text', true)}
@@ -503,7 +503,7 @@ const Settings: React.FC = () => {
   // Renderizar paso 5: Información Adicional
   const renderStep5 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4">Información Adicional</h3>
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Adicional</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('height_user', 'Altura (cm)', 'number')}
@@ -530,8 +530,8 @@ const Settings: React.FC = () => {
         ])}
       </div>
 
-      <div className="border-t pt-6">
-        <h4 className="text-md font-medium text-quinary mb-4">Información de Criptomonedas</h4>
+      <div className="border-t border-quinary pt-6">
+        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">Información de Criptomonedas</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {renderEditableField('coin_user', 'Moneda')}
           {renderEditableField('network_user', 'Red')}
@@ -620,10 +620,10 @@ const Settings: React.FC = () => {
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
-              className={`px-6 py-2 rounded-md font-medium ${
+              className={`px-6 py-2 rounded-md font-medium text-paragraph ${
                 currentStep === 1
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-500 text-quaternary hover:bg-gray-600'
+                  ? 'bg-quinary/20 text-quinary/50 cursor-not-allowed'
+                  : 'bg-quinary/75 text-quaternary hover:bg-quinary/85 cursor-pointer'
               }`}
             >
               Anterior
@@ -636,10 +636,10 @@ const Settings: React.FC = () => {
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className={`px-6 py-2 rounded-md font-medium ${
+                  className={`px-6 py-2 rounded-md font-medium font-paragraph ${
                     isSaving
-                      ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                      : 'bg-tertiary text-quaternary hover:bg-orange-600'
+                      ? 'bg-quinary/20 text-quinary cursor-not-allowed'
+                      : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
                   }`}
                 >
                   {isSaving ? 'Guardando...' : 'Guardar'}
@@ -648,7 +648,7 @@ const Settings: React.FC = () => {
                 // Si todos los campos están bloqueados, mostrar botón "Siguiente"
                 <button
                   onClick={nextStep}
-                  className="px-6 py-2 bg-secondary text-quaternary rounded-md font-medium hover:bg-blue-700"
+                  className="px-6 py-2 text-paragraph bg-secondary text-quaternary rounded-md font-medium hover:bg-secondary/80 cursor-pointer"
                 >
                   Siguiente
                 </button>
@@ -658,10 +658,10 @@ const Settings: React.FC = () => {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className={`px-6 py-2 rounded-md font-medium ${
+                className={`px-6 py-2 rounded-md font-medium text-paragraph ${
                   isSaving
-                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                    : 'bg-tertiary text-quaternary hover:bg-orange-600'
+                      ? 'bg-quinary/20 text-quinary cursor-not-allowed'
+                      : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
                 }`}
               >
                 {isSaving ? 'Guardando...' : 'Guardar Configuración'}
