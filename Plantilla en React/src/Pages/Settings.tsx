@@ -150,6 +150,7 @@ const Settings: React.FC = () => {
       company_longitude_user: location.lng
     }));
     setHasUnsavedChanges(true);
+    console.log('Ubicación de la empresa seleccionada:', location);
   };
 
   // Validar paso actual
@@ -532,6 +533,7 @@ const Settings: React.FC = () => {
           { value: 'admin', label: 'Administrador' },
           { value: 'moderator', label: 'Moderador' }
         ])}
+        {renderEditableField('image_user', 'Imagen de Perfil', 'file')}
       </div>
 
       <div className="border-t border-quinary pt-6">

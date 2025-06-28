@@ -21,10 +21,10 @@ export const schemaUser = zod.object({
         required_error: 'El nombre de usuario es requerido',
         invalid_type_error: 'El nombre de usuario debe ser una cadena de texto'
     }).min(3, 'El nombre de usuario debe tener al menos 3 caracteres'),
-    age_user: zod.number({
+    age_user: zod.string({
         required_error: 'La edad es requerida',
         invalid_type_error: 'La edad debe ser un número'
-    }).positive(),
+    }),
     phone_user: zod.string({
         required_error: 'El teléfono es requerido',
         invalid_type_error: 'El teléfono debe ser una cadena de texto'
@@ -50,14 +50,14 @@ export const schemaUser = zod.object({
         const validGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
         return validGroups.includes(value);
     }),
-    height_user: zod.number({
+    height_user: zod.string({
         required_error: 'La altura es requerida',
         invalid_type_error: 'La altura debe ser un número'
-    }).positive(),
-    weight_user: zod.number({
+    }),
+    weight_user: zod.string({
         required_error: 'El peso es requerido',
         invalid_type_error: 'El peso debe ser un número'
-    }).positive(),
+    }),
     eye_color_user: zod.string({
         required_error: 'El color de ojos es requerido',
         invalid_type_error: 'El color de ojos debe ser una cadena de texto'
