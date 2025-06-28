@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const {logout} = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -137,10 +137,25 @@ const Navbar = () => {
                   Admin
                 </button>
               ) : (
-                <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer" >
-                  Settings
-                </Link>
+                <>
+                  {user ? (
+                    user.role_user === 'admin' ? (
+                      <Link to={"/admin"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                        Admin
+                      </Link>
+                    ) : (
+                      <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                        Settings
+                      </Link>
+                    )
+                  ) : (
+                    <Link to={"/login"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                      Login
+                    </Link>
+                  )}
+                </> 
               )}
+              
               { isAuthenticated && (
                 <button className="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph" onClick={onLogout}>
                   Logout
