@@ -18,7 +18,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="servicios" className="py-16 bg-quartinary font-primary">
+    <section id="servicios" className="py-16 bg-quaternary font-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl text-subtitle md:text-title font-bold text-center text-secondary mb-12 font-secondary">Nuestros Servicios</h2>
         <div className="grid md:grid-cols-3 gap-8">

@@ -128,17 +128,17 @@ const LoginModal = () => {
   return (
     <div
       id="loginModal"
-      className="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+      className="hidden fixed inset-0 bg-quinary/75 z-50 flex items-center justify-center font-primary"
       onClick={handleModalClick}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 max-w-md">
+      <div className="bg-quaternary p-8 rounded-lg shadow-lg w-11/12 max-w-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-secondary">
+          <h2 className="text-2xl font-bold text-secondary text-subtitle">
             {isRegistering ? "Registro de Usuario" : "Acceso Administrador"}
           </h2>
           <button
             onClick={toggleLogin}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-quinary/50 hover:text-quinary cursor-pointer"
           >
             <i className="fas fa-times"></i>
           </button>
@@ -146,13 +146,13 @@ const LoginModal = () => {
         <form onSubmit={isRegistering ? onRegister : onLogin}>
           {isRegistering && (
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+              <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="username">
                 Nombre de Usuario
               </label>
               <input
                 type="text"
                 id="username"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-secondary"
+                className="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50"
                 value={username}
                 onChange={onUsernameChange}
                 placeholder="Ingrese su nombre de usuario"
@@ -161,13 +161,13 @@ const LoginModal = () => {
             </div>
           )}
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="email">
               Correo
             </label>
             <input
               type="email"
               id="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-secondary"
+              className="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50"
               value={correo}
               onChange={onCorreoChange}
               placeholder="Ingrese su correo"
@@ -175,13 +175,13 @@ const LoginModal = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="password">
               Contraseña
             </label>
             <input
               type="password"
               id="password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-secondary"
+              className="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50"
               value={password}
               onChange={onPasswordChange}
               placeholder="Ingrese su contraseña"
@@ -190,13 +190,13 @@ const LoginModal = () => {
           </div>
           {isRegistering && (
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
+              <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="confirmPassword">
                 Confirmar Contraseña
               </label>
               <input
                 type="password"
                 id="confirmPassword"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-secondary"
+                className="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary bg-primary/50"
                 value={confirmPassword}
                 onChange={onConfirmPasswordChange}
                 placeholder="Confirme su contraseña"
@@ -209,13 +209,13 @@ const LoginModal = () => {
             <button
               type="button"
               onClick={toggleLogin}
-              className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mb-2 sm:mb-0"
+              className="bg-quinary/75 text-quaternary px-4 py-2 rounded-md hover:bg-quinary mb-2 sm:mb-0"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-2 sm:mb-0"
+              className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary/85 mb-2 sm:mb-0"
             >
               {isRegistering ? "Registrarse" : "Ingresar"}
             </button>
@@ -226,7 +226,7 @@ const LoginModal = () => {
             )}
           </div>
           <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-quinary text-paragraph">
               {isRegistering ? (
                 <>
                   ¿Ya tienes cuenta?{" "}

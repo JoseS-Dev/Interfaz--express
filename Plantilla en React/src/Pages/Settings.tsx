@@ -372,7 +372,7 @@ const Settings: React.FC = () => {
           <select
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
             } bg-primary/50`}
           >
@@ -387,7 +387,7 @@ const Settings: React.FC = () => {
             type={type}
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className={`font-primary w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
+            className={`font-primary w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
             } bg-primary/50`}
           />
@@ -582,7 +582,7 @@ const Settings: React.FC = () => {
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-quinary text-paragraph">Paso {currentStep} de 5</span>
-              <span className="text-sm text-quinary">{Math.round((currentStep / 5) * 100)}%</span>
+              <span className="text-sm text-quinary text-paragraph">{Math.round((currentStep / 5) * 100)}%</span>
             </div>
             <div className="w-full bg-quinary/25 rounded-full h-2">
               <div 
