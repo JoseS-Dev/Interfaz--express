@@ -2,7 +2,7 @@ import React from "react";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const logoUrl = `${window.location.origin}/github-mark.png`; 
+const logoUrl = `${window.location.origin}/src/assets/icons/logo.png`; // URL del logo en tu proyecto
 
 const PdfDownloadButton = ({ users }) => {
     // Función para cargar imagen logo en base64

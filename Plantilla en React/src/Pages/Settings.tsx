@@ -6,6 +6,7 @@ import { UserProfile, LocationData } from '../types/user';
 import MapSelector from '../components/MapSelector';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 interface EditableFields {
   [key: string]: boolean;
@@ -313,6 +314,8 @@ const Settings: React.FC = () => {
             timer: 1200,
             showConfirmButton: false
           });
+          // Redirigir al perfil o a otra página si es necesario
+          
         } else {
           Swal.fire({
             title: 'Error',
