@@ -220,9 +220,23 @@ const Navbar = () => {
               Admin
             </button>
           ) : (
-            <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer block" >
-              Settings
-            </Link>
+            <>
+                  {user ? (
+                    user.role_user === 'admin' ? (
+                      <Link to={"/admin"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                        Admin
+                      </Link>
+                    ) : (
+                      <Link to={"/settings"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                        Settings
+                      </Link>
+                    )
+                  ) : (
+                    <Link to={"/login"} className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer">
+                      Login
+                    </Link>
+                  )}
+              </> 
           )}
           { isAuthenticated && (
             <button className="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph" onClick={onLogout}>
