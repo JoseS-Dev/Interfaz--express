@@ -21,8 +21,6 @@ const Settings: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [isFormLocked, setIsFormLocked] = useState(true);
-  const [editableFields, setEditableFields] = useState<EditableFields>({});
   const [errors, setErrors] = useState<FormErrors>({});
   const [originalData, setOriginalData] = useState<UserProfile | null>(null);
   const [formData, setFormData] = useState<UserProfile>({
@@ -98,17 +96,14 @@ const Settings: React.FC = () => {
   const handleDiscardChanges = useCallback(() => {
     if (originalData) {
       setFormData(originalData);
-      setEditableFields({});
-      setErrors({});
       setHasUnsavedChanges(false);
-      setIsFormLocked(true);
     }
   }, [originalData]);
 
   // Hook de navegación
   const { navigateWithConfirmation } = useNavigationGuard({
     hasUnsavedChanges,
-    isFormLocked,
+    isFormLocked: false,
     onDiscardChanges: handleDiscardChanges
   });
 
@@ -157,75 +152,123 @@ const Settings: React.FC = () => {
     setHasUnsavedChanges(true);
   };
 
-  // Toggle para editar campo
-  const toggleFieldEdit = (field: string) => {
-    setEditableFields(prev => ({
-      ...prev,
-      [field]: !prev[field]
-    }));
-  };
-
   // Validar paso actual
   const validateCurrentStep = (): boolean => {
-    // Si todos los campos están bloqueados, permitir avanzar
-    const hasEditableFields = Object.values(editableFields).some(isEditable => isEditable);
-    if (!hasEditableFields) {
-      return true;
-    }
-
     const newErrors: FormErrors = {};
-
-    switch (currentStep) {
-      case 1:
-        if (editableFields.name_user && !formData.name_user?.trim()) newErrors.name_user = 'El nombre es requerido';
-        if (editableFields.email_user && !formData.email_user?.trim()) newErrors.email_user = 'El email es requerido';
-        else if (editableFields.email_user && !/\S+@\S+\.\S+/.test(formData.email_user)) newErrors.email_user = 'Email inválido';
-        if (editableFields.phone_user && !formData.phone_user?.trim()) newErrors.phone_user = 'El teléfono es requerido';
-        break;
-      case 2:
-        if (editableFields.street_address && !formData.street_address?.trim()) newErrors.street_address = 'La dirección es requerida';
-        if (editableFields.city_address && !formData.city_address?.trim()) newErrors.city_address = 'La ciudad es requerida';
-        if (editableFields.state_address && !formData.state_address?.trim()) newErrors.state_address = 'El estado es requerido';
-        if (editableFields.postal_code_address && !formData.postal_code_address?.trim()) newErrors.postal_code_address = 'El código postal es requerido';
-        break;
-      case 3:
-        if (editableFields.company_name_user && !formData.company_name_user?.trim()) newErrors.company_name_user = 'El nombre de la empresa es requerido';
-        if (editableFields.company_title_user && !formData.company_title_user?.trim()) newErrors.company_title_user = 'El título es requerido';
-        if (editableFields.department_company_user && !formData.department_company_user?.trim()) newErrors.department_company_user = 'El departamento es requerido';
-        break;
-      case 4:
-        if (editableFields.card_number_user && !formData.card_number_user?.trim()) newErrors.card_number_user = 'El número de tarjeta es requerido';
-        if (editableFields.card_expire_user && !formData.card_expire_user?.trim()) newErrors.card_expire_user = 'La fecha de expiración es requerida';
-        if (editableFields.iban_user && !formData.iban_user?.trim()) newErrors.iban_user = 'El IBAN es requerido';
-        break;
-      case 5:
-        // Para el paso 5, no hay campos requeridos específicos
-        break;
-    }
-
+    const requiredFields = requiredFieldsByStep[currentStep] || [];
+    requiredFields.forEach(field => {
+      const value = formData[field as keyof UserProfile];
+      switch (field) {
+        case 'name_user':
+          if (!value || typeof value !== 'string' || value.trim().length < 2) {
+            newErrors[field] = 'El nombre debe tener al menos 2 caracteres';
+          } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(value.trim())) {
+            newErrors[field] = 'El nombre solo puede contener letras y espacios';
+          }
+          break;
+        case 'email_user':
+          if (!value || typeof value !== 'string' || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
+            newErrors[field] = 'Email inválido';
+          }
+          break;
+        case 'phone_user':
+          if (!value || typeof value !== 'string' || !/^\d{7,15}$/.test(value)) {
+            newErrors[field] = 'El teléfono debe ser numérico y tener entre 7 y 15 dígitos';
+          }
+          break;
+        case 'age_user':
+          if (value !== null && (isNaN(Number(value)) || Number(value) <= 0)) {
+            newErrors[field] = 'La edad debe ser un número positivo';
+          }
+          break;
+        case 'street_address':
+        case 'city_address':
+        case 'state_address':
+        case 'country_address':
+          if (!value || typeof value !== 'string' || value.trim().length < 2) {
+            newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
+          }
+          break;
+        case 'postal_code_address':
+          if (!value || typeof value !== 'string' || value.trim().length < 3) {
+            newErrors[field] = 'El código postal debe tener al menos 3 caracteres';
+          }
+          break;
+        case 'company_name_user':
+        case 'company_title_user':
+        case 'department_company_user':
+          if (!value || typeof value !== 'string' || value.trim().length < 2) {
+            newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
+          }
+          break;
+        case 'card_number_user':
+          if (!value || typeof value !== 'string' || !/^\d{12,19}$/.test(value)) {
+            newErrors[field] = 'El número de tarjeta debe ser numérico y tener entre 12 y 19 dígitos';
+          }
+          break;
+        case 'card_expire_user':
+          if (!value || typeof value !== 'string' || !/^(0[1-9]|1[0-2])\/\d{2,4}$/.test(value)) {
+            newErrors[field] = 'La fecha de expiración debe tener formato MM/AA o MM/AAAA';
+          }
+          break;
+        case 'iban_user':
+          if (!value || typeof value !== 'string' || value.trim().length < 8) {
+            newErrors[field] = 'El IBAN debe tener al menos 8 caracteres';
+          }
+          break;
+        default:
+          if (!value || (typeof value === 'string' && !value.trim())) {
+            newErrors[field] = 'Este campo es requerido';
+          }
+      }
+    });
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (Object.keys(newErrors).length > 0) {
+      const firstErrorField = Object.keys(newErrors)[0];
+      let fieldLabel = '';
+      switch (firstErrorField) {
+        case 'name_user': fieldLabel = 'Nombre'; break;
+        case 'email_user': fieldLabel = 'Email'; break;
+        case 'phone_user': fieldLabel = 'Teléfono'; break;
+        case 'age_user': fieldLabel = 'Edad'; break;
+        case 'street_address': fieldLabel = 'Dirección'; break;
+        case 'city_address': fieldLabel = 'Ciudad'; break;
+        case 'state_address': fieldLabel = 'Estado'; break;
+        case 'postal_code_address': fieldLabel = 'Código Postal'; break;
+        case 'country_address': fieldLabel = 'País'; break;
+        case 'company_name_user': fieldLabel = 'Nombre de la Empresa'; break;
+        case 'company_title_user': fieldLabel = 'Título'; break;
+        case 'department_company_user': fieldLabel = 'Departamento'; break;
+        case 'card_number_user': fieldLabel = 'Número de Tarjeta'; break;
+        case 'card_expire_user': fieldLabel = 'Fecha de Expiración'; break;
+        case 'iban_user': fieldLabel = 'IBAN'; break;
+        default: fieldLabel = firstErrorField;
+      }
+      Swal.fire({
+        title: 'Error de validación',
+        text: `El campo "${fieldLabel}" es inválido: ${newErrors[firstErrorField]}`,
+        icon: 'error',
+        confirmButtonColor: '#3085d6'
+      });
+      return false;
+    }
+    return true;
   };
 
-  // Verificar si hay campos editables en el paso actual
-  const hasEditableFieldsInCurrentStep = (): boolean => {
-    const stepFields = {
-      1: ['name_user', 'maiden_name_user', 'age_user', 'gender', 'birth_date_user', 'email_user', 'phone_user', 'username', 'password_user'],
-      2: ['street_address', 'city_address', 'state_address', 'state_code_address', 'postal_code_address', 'country_address'],
-      3: ['department_company_user', 'company_name_user', 'company_title_user', 'company_street_user', 'company_city_user', 'company_state_user', 'company_state_code_user', 'company_postal_code_user', 'company_country_user'],
-      4: ['card_number_user', 'card_expire_user', 'card_type_user', 'currency_user', 'iban_user'],
-      5: ['height_user', 'weight_user', 'blood_group_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user', 'user_agent_user', 'role_user', 'coin_user', 'network_user', 'wallet_address_user']
-    };
-
-    const currentStepFields = stepFields[currentStep as keyof typeof stepFields] || [];
-    return currentStepFields.some(field => editableFields[field]);
+  // Definir los campos requeridos por paso
+  const requiredFieldsByStep: { [key: number]: string[] } = {
+    1: ['name_user', 'email_user', 'phone_user'],
+    2: ['street_address', 'city_address', 'state_address', 'postal_code_address', 'country_address'],
+    3: ['company_name_user', 'company_title_user', 'department_company_user'],
+    4: ['card_number_user', 'card_expire_user', 'iban_user'],
+    5: []
   };
 
   // Navegar al siguiente paso
   const nextStep = () => {
-    // Solo permitir avanzar si todos los campos están bloqueados
-    if (!hasEditableFieldsInCurrentStep()) {
-      setCurrentStep(prev => Math.min(prev + 1, 5));
+    if (!validateCurrentStep()) return;
+    if (currentStep < 5) {
+      setCurrentStep(prev => prev + 1);
     } else {
       Swal.fire({
         title: 'Campos sin guardar',
@@ -242,77 +285,51 @@ const Settings: React.FC = () => {
   };
 
   // Guardar cambios
-  const handleSave = async () => {
-    // Solo validar campos que están desbloqueados
-    const newErrors: FormErrors = {};
-
-    // Validar solo los campos desbloqueados del paso actual
-    const stepFields = {
-      1: ['name_user', 'email_user', 'phone_user', 'maiden_name_user', 'age_user', 'gender', 'birth_date_user', 'username', 'password_user'],
-      2: ['street_address', 'city_address', 'state_address', 'state_code_address', 'postal_code_address', 'country_address'],
-      3: ['department_company_user', 'company_name_user', 'company_title_user', 'company_street_user', 'company_city_user', 'company_state_user', 'company_state_code_user', 'company_postal_code_user', 'company_country_user'],
-      4: ['card_number_user', 'card_expire_user', 'card_type_user', 'currency_user', 'iban_user'],
-      5: ['height_user', 'weight_user', 'blood_group_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user', 'user_agent_user', 'role_user', 'coin_user', 'network_user', 'wallet_address_user']
-    };
-
-    const currentStepFields = stepFields[currentStep as keyof typeof stepFields] || [];
-    
-    currentStepFields.forEach(field => {
-      if (editableFields[field]) {
-        const value = formData[field as keyof UserProfile];
-        if (!value || (typeof value === 'string' && !value.trim())) {
-          newErrors[field] = `El campo es requerido`;
-        } else if (field === 'email_user' && !/\S+@\S+\.\S+/.test(value as string)) {
-          newErrors[field] = 'Email inválido';
-        }
-      }
+  const handleSaveOrNext = async () => {
+    // Validar primero
+    if (!validateCurrentStep()) return; // Si hay error, el SweetAlert de error ya se muestra y no avanza
+    // Si todo es válido, mostrar SweetAlert de éxito y avanzar automáticamente
+    await Swal.fire({
+      title: 'Datos válidos',
+      text: 'Todos los campos han sido validados correctamente.',
+      icon: 'success',
+      timer: 1200,
+      showConfirmButton: false
     });
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length > 0) {
-      Swal.fire({
-        title: 'Error de validación',
-        text: 'Por favor, completa correctamente el campo desbloqueado antes de guardar',
-        icon: 'error',
-        confirmButtonColor: '#3085d6'
-      });
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      const result = await userProfileService.updateUserProfile(user!.id_user, formData);
-      
-      if (result.success) {
-        setOriginalData(formData);
-        setHasUnsavedChanges(false);
-        setIsFormLocked(true);
-        setEditableFields({});
-        
-        Swal.fire({
-          title: '¡Éxito!',
-          text: result.message,
-          icon: 'success',
-          confirmButtonColor: '#3085d6'
-        });
-      } else {
+    if (currentStep < 5) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      setIsSaving(true);
+      try {
+        const result = await userProfileService.updateUserProfile(user!.id_user, formData);
+        if (result.success) {
+          setOriginalData(formData);
+          setHasUnsavedChanges(false);
+          await Swal.fire({
+            title: '¡Éxito!',
+            text: result.message,
+            icon: 'success',
+            timer: 1200,
+            showConfirmButton: false
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: result.message,
+            icon: 'error',
+            confirmButtonColor: '#3085d6'
+          });
+        }
+      } catch (error) {
         Swal.fire({
           title: 'Error',
-          text: result.message,
+          text: 'Error al guardar los cambios',
           icon: 'error',
           confirmButtonColor: '#3085d6'
         });
+      } finally {
+        setIsSaving(false);
       }
-    } catch (error) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Error al guardar los cambios',
-        icon: 'error',
-        confirmButtonColor: '#3085d6'
-      });
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -342,33 +359,22 @@ const Settings: React.FC = () => {
     required: boolean = false,
     options?: { value: string; label: string }[]
   ) => {
-    const isEditable = editableFields[field];
     const hasError = errors[field];
     const value = formData[field as keyof UserProfile] || '';
-
     return (
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="block text-sm font-medium text-quinary/75 text-paragraph">
             {label} {required && '*'}
           </label>
-          <button
-            type="button"
-            onClick={() => toggleFieldEdit(field)}
-            className="text-secondary cursor-pointer"
-          >
-            <i className={`text-paragraph fas fa-${isEditable ? 'save' : 'edit'}`}></i>
-          </button>
         </div>
-        
         {type === 'select' ? (
           <select
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            disabled={!isEditable}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
-            } ${!isEditable ? 'bg-quinary/5' : 'bg-primary/50'}`}
+            } bg-primary/50`}
           >
             {options?.map(option => (
               <option key={option.value} value={option.value}>
@@ -381,13 +387,11 @@ const Settings: React.FC = () => {
             type={type}
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            disabled={!isEditable}
             className={`font-primary w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary ${
               hasError ? 'border-tertiary' : 'border-quinary/25'
-            } ${!isEditable ? 'bg-quinary/5' : 'bg-primary/50'}`}
+            } bg-primary/50`}
           />
         )}
-        
         {hasError && <p className="text-tertiary text-sm mt-1 text-paragraph">{hasError}</p>}
       </div>
     );
@@ -628,45 +632,17 @@ const Settings: React.FC = () => {
             >
               Anterior
             </button>
-
-            {/* Botón dinámico: Siguiente o Guardar */}
-            {currentStep < 5 ? (
-              hasEditableFieldsInCurrentStep() ? (
-                // Si hay campos editables, mostrar botón "Guardar"
-                <button
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className={`px-6 py-2 rounded-md font-medium font-paragraph ${
-                    isSaving
-                      ? 'bg-quinary/20 text-quinary cursor-not-allowed'
-                      : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
-                  }`}
-                >
-                  {isSaving ? 'Guardando...' : 'Guardar'}
-                </button>
-              ) : (
-                // Si todos los campos están bloqueados, mostrar botón "Siguiente"
-                <button
-                  onClick={nextStep}
-                  className="px-6 py-2 text-paragraph bg-secondary text-quaternary rounded-md font-medium hover:bg-secondary/80 cursor-pointer"
-                >
-                  Siguiente
-                </button>
-              )
-            ) : (
-              // En el último paso, siempre mostrar "Guardar Configuración"
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className={`px-6 py-2 rounded-md font-medium text-paragraph ${
-                  isSaving
-                      ? 'bg-quinary/20 text-quinary cursor-not-allowed'
-                      : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
-                }`}
-              >
-                {isSaving ? 'Guardando...' : 'Guardar Configuración'}
-              </button>
-            )}
+            <button
+              onClick={handleSaveOrNext}
+              disabled={isSaving}
+              className={`px-6 py-2 rounded-md font-medium font-paragraph ${
+                isSaving
+                  ? 'bg-quinary/20 text-quinary cursor-not-allowed'
+                  : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
+              }`}
+            >
+              {currentStep < 5 ? (isSaving ? 'Guardando...' : 'Guardar') : (isSaving ? 'Guardando...' : 'Guardar Configuración')}
+            </button>
           </div>
         </div>
       </div>
