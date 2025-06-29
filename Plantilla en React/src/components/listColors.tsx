@@ -1,62 +1,78 @@
-import { useState, useEffect } from 'react';
-import React from 'react';
-import { axiosInstance } from '../context/axiosInstances';
-const ListColors = ({refreshListColors}) =>{
-    const [colorsData, setColorsData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const loadColors = async () => {
-        setLoading(true);
-        setError(null);
-        try{
-            const response = await axiosInstance.get('/Colors');
-            setColorsData(response.data);
-        } 
-        catch (err) {
-            console.error('Error al obtener los colores:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
-    useEffect(() => {
-        loadColors();
-    }, [refreshListColors]);
-    const onSelectColor = async (id) => {
-        try {
-            const response = await axiosInstance.patch('/Colors/select', { id_colors: id });
-            loadColors();
-        }
-        catch (error) {
-            console.error('Error al seleccionar el color:', error);
-        }
-    }
-    const onDeleteColor = async (id) => {
-        try {
-            const selectedColor = (await axiosInstance.get('/Colors/selected')).data.data;
-            if (selectedColor.id_colors === id) {
-                const response = await axiosInstance.patch('/Colors/select', { id_colors: 1 });
-            }
+import { useState, useEffect } from "react";
+import React from "react";
+import { axiosInstance } from "../context/axiosInstances";
+import { confirmAction, successAlert } from "../utils/swalHelper";
 
-            const reponse = await axiosInstance.delete(`/Colors/${id}`);
-            loadColors();
-        } 
-        catch (error) {
-            console.error('Error al eliminar el color:', error);
-        }
+const ListColors = ({ refreshListColors }) => {
+  const [colorsData, setColorsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const loadColors = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axiosInstance.get("/Colors");
+      setColorsData(response.data);
+    } catch (err) {
+      console.error("Error al obtener los colores:", err);
+    } finally {
+      setLoading(false);
     }
-    return (
-        <article className="w-full my-2 overflow-y-auto flex flex-col items-center gap-2 max-h-140">
+  };
+  useEffect(() => {
+    loadColors();
+  }, [refreshListColors]);
+  const onSelectColor = async (id) => {
+    try {
+      await axiosInstance.patch("/Colors/select", { id_colors: id });
+      loadColors();
+      successAlert({
+        title: "¡Paleta cambiada!",
+        text: "La paleta activa se cambió correctamente.",
+        position: "center",
+      });
+    } catch (error) {
+      console.error("Error al seleccionar el color:", error);
+    }
+  };
+  const onDeleteColor = async (id) => {
+    const result = await confirmAction({
+      title: "¿Estás seguro?",
+      text: "¡Esta acción eliminará la paleta de colores y no se puede deshacer!",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) return;
+
+    try {
+      const selectedColor = (await axiosInstance.get("/Colors/selected")).data
+        .data;
+      if (selectedColor.id_colors === id) {
+        await axiosInstance.patch("/Colors/select", { id_colors: 1 });
+      }
+      await axiosInstance.delete(`/Colors/${id}`);
+      loadColors();
+      successAlert({
+        title: "¡Eliminado!",
+        text: "La paleta de colores ha sido eliminada.",
+      });
+    } catch (error) {
+      console.error("Error al eliminar el color:", error);
+    }
+  };
+  return (
+    <article className="w-full my-2 overflow-y-auto flex flex-col items-center gap-2 max-h-140">
       {colorsData.map((color: any) => {
         const isSelected = color.is_selected === 1;
         const baseClasses =
-          'flex items-center justify-around w-full border-b-2 border-blue-800 my-2 py-2 gap-2 rounded-md';
-        const selectedBg = 'bg-[#BFCEDF]';
+          "flex items-center justify-around w-full border-b-2 border-blue-800 my-2 py-2 gap-2 rounded-md";
+        const selectedBg = "bg-[#BFCEDF]";
         const clickHandler = () => onSelectColor(color.id_colors);
 
         return (
           <div
             key={color.id_colors}
-            className={`${baseClasses} ${isSelected ? selectedBg : ''}`}
+            className={`${baseClasses} ${isSelected ? selectedBg : ""}`}
             data-id_color={color.id_colors}
             onClick={clickHandler}
           >
@@ -65,7 +81,13 @@ const ListColors = ({refreshListColors}) =>{
             </h4>
 
             {/* Colores */}
-            {['primary_color', 'secondary_color', 'ternary_color', 'cuarternary_color', 'neutral_color'].map((key) => (
+            {[
+              "primary_color",
+              "secondary_color",
+              "ternary_color",
+              "cuarternary_color",
+              "neutral_color",
+            ].map((key) => (
               <div
                 key={key}
                 className="border-2 border-black rounded-full w-8 h-8"
@@ -124,7 +146,7 @@ const ListColors = ({refreshListColors}) =>{
         );
       })}
     </article>
-    )
-}
+  );
+};
 
 export default ListColors;

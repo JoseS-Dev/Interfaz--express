@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../context/axiosInstances";
 import loadListFonts from "../utils/loadListFonts";
+import { confirmAction, successAlert } from "../utils/swalHelper";
 
 const ListFonts = ({ refreshListFonts }: { refreshListFonts: boolean }) => {
   const [tipographyData, setTipographyData] = useState([]);
@@ -28,22 +29,35 @@ const ListFonts = ({ refreshListFonts }: { refreshListFonts: boolean }) => {
 
   const onSelectFont = async (id) => {
     try {
-      const response = await axiosInstance.patch("/Tipography/select", {
+      await axiosInstance.patch("/Tipography/select", {
         id_tipography: id,
       });
       loadFonts();
+      successAlert({
+        title: "¡Tipografía cambiada!",
+        text: "La tipografía activa se cambió correctamente.",
+        position: "center",
+      });
     } catch (error) {
       console.error("Error al seleccionar la fuente:", error);
     }
   };
 
   const onDeleteFont = async (id) => {
+    const result = await confirmAction({
+      title: "¿Estás seguro?",
+      text: "¡Esta acción eliminará la tipografía y no se puede deshacer!",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) return;
+
     const font: any = tipographyData.find(
       (font: any) => font.id_tipography === id
     );
     if (font && font.is_selected === 1) {
       try {
-        const response = await axiosInstance.patch("/Tipography/select", {
+        await axiosInstance.patch("/Tipography/select", {
           id_tipography: 1,
         });
       } catch (error) {
@@ -51,8 +65,12 @@ const ListFonts = ({ refreshListFonts }: { refreshListFonts: boolean }) => {
       }
     }
     try {
-      const response = await axiosInstance.delete(`/Tipography/${id}`);
+      await axiosInstance.delete(`/Tipography/${id}`);
       loadFonts();
+      successAlert({
+        title: "¡Eliminado!",
+        text: "La tipografía ha sido eliminada.",
+      });
     } catch (error) {
       console.error("Error al eliminar la fuente:", error);
     }
@@ -68,9 +86,10 @@ const ListFonts = ({ refreshListFonts }: { refreshListFonts: boolean }) => {
           tam_paragraph,
         } = font;
         const {
-            name_tipography_main,
-            name_tipography_secondary,
-        }: { name_tipography_main: string; name_tipography_secondary: string } = font;
+          name_tipography_main,
+          name_tipography_secondary,
+        }: { name_tipography_main: string; name_tipography_secondary: string } =
+          font;
         const fonts: any = savedFontsNames[id_tipography];
         const mainName =
           name_tipography_main.length <= 12
