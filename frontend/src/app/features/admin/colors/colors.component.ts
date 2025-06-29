@@ -5,19 +5,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ColorsFormComponent } from './colors-form.component';
 import { ColorsListComponent } from "./colors-list.component";
 import { IColorsPreview } from '../../../shared/interfaces/colors.interface';
+import { AdminNavbarComponent } from "../admin-navbar.component";
 
 @Component({
     standalone: true,
     selector: 'typography-view',
     imports: [
-        CommonModule,
-        ColorsCardComponent,
-        ReactiveFormsModule,
-        ColorsFormComponent,
-        ColorsListComponent
-    ],
+    CommonModule,
+    ColorsCardComponent,
+    ReactiveFormsModule,
+    ColorsFormComponent,
+    ColorsListComponent,
+    AdminNavbarComponent
+],
     template: `
-        <main class="w-full h-164 flex">
+        <admin-navbar />
+        <main class="w-full h-full flex">
         <section class="w-3/10 h-full border-r-2 border-gray-800 px-3 py-3">
             <colors-form
                 (formChanged)="handleFormChange($event)"

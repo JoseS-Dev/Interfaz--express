@@ -51,7 +51,7 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): {
                             @if (isRegisterMode) {
                                 Registro de Usuario
                             } @else {
-                                Acceso Administrador
+                                Inicio de Sesión
                             }
                         </h2>
                         <button (click)="toggleLogin()" class="text-quinary hover:text-secondary">
@@ -203,10 +203,10 @@ export class LoginComponent {
         emailControl?.updateValueAndValidity();
         passwordControl?.updateValueAndValidity();
         passwordConfirmationControl?.updateValueAndValidity();
-        this.authForm.updateValueAndValidity(); // Muy importante actualizar el FormGroup
+        this.authForm.updateValueAndValidity();
     }
 
-    // Inicializar los validadores cuando el componente se carga por primera vez
+    // Inicializar los validadores
     ngOnInit() {
         this.setFormValidators();
     }
@@ -226,8 +226,8 @@ export class LoginComponent {
             const { username, email, password } = this.authForm.value;
             const registerCredentials: RegisterCredentials = {
                 username: username || '',
-                email_user: email || '', // Asumiendo que el campo en tu interfaz es email_user
-                password_user: password || '' // Asumiendo que el campo en tu interfaz es password_user
+                email_user: email || '',
+                password_user: password || ''
             };
 
             this.authService.register(registerCredentials).subscribe({
@@ -258,7 +258,7 @@ export class LoginComponent {
                         text: "Inicio de sesión exitoso",
                         icon: "success"
                     });
-                    this.authForm.patchValue({ password: '', email: '' }); // Limpiar campos específicos
+                    this.authForm.patchValue({ password: '', email: '' }); 
                 },
                 error: (err) => {
                     Swal.fire({

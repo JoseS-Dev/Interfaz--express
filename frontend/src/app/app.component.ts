@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./shared/components/navbar.component";
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet],
+  styles: [
+    `
+    :host {
+      display: block;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+    `
+  ],
   template: `
-    <navbar />
     <router-outlet />
   `,
 })

@@ -9,12 +9,14 @@ import { environment } from '../../../environments/environment';
 import { ITypography } from '../../shared/interfaces/typography.interface';
 import { ColorsService } from '../../core/services/colors.service';
 import { IColors } from '../../shared/interfaces/colors.interface';
+import { NavbarComponent } from "../../shared/components/navbar.component";
 
 @Component({
   standalone: true,
   selector: 'home',
-  imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent],
+  imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent, NavbarComponent],
   template: `
+    <navbar />
     <banner />
     <image-carousel />
     <services />
