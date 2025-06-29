@@ -1,0 +1,143 @@
+@if (isOpen && user) {
+    <div
+        class="fixed inset-0 bg-black/25 flex items-center justify-center z-50"
+        (click)="onClose.emit()"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="user-details-title"
+    >
+        <div
+            class="bg-white rounded-lg shadow-lg max-w-5xl w-full p-6 relative overflow-y-auto max-h-[90vh]"
+            (click)="$event.stopPropagation()"
+        >
+            <button
+                class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-3xl font-bold"
+                (click)="onClose.emit()"
+                aria-label="Cerrar modal"
+                type="button"
+            >
+                &times;
+            </button>
+
+            <h3
+                id="user-details-title"
+                class="text-3xl font-semibold mb-6"
+                [style.color]="'#' + colors.secondary_color"
+            >
+                Detalles de Usuario: {{ user.username }}
+            </h3>
+
+            <section class="mb-6">
+                <h4 class="text-xl font-semibold mb-2">Información Personal</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <p><strong>Nombre completo:</strong> {{ user.name_user }} {{ user.maiden_name_user }}</p>
+                    <p><strong>Email:</strong> {{ user.email_user }}</p>
+                    <p><strong>Edad:</strong> {{ user.age_user }}</p>
+                    <p><strong>Fecha de nacimiento:</strong> {{ formatDate(user.birth_date_user) }}</p>
+                    <p><strong>Teléfono:</strong> {{ user.phone_user }}</p>
+                    <p><strong>Color de ojos:</strong> {{ user.eye_color_user }}</p>
+                    <p><strong>Color de cabello:</strong> {{ user.hair_user }}</p>
+                    <p><strong>Grupo sanguíneo:</strong> {{ user.blood_group_user }}</p>
+                    <p><strong>Altura (cm):</strong> {{ user.height_user }}</p>
+                    <p><strong>Peso (kg):</strong> {{ user.weight_user }}</p>
+                    <p><strong>Rol:</strong>
+                        <span
+                            class="ml-2 px-2 py-1 rounded text-xs font-semibold"
+                            [style.backgroundColor]="user.role_user === 'admin' ? '#' + colors.secondary_color + '20' : '#' + colors.primary_color"
+                            [style.color]="user.role_user === 'admin' ? '#' + colors.secondary_color : '#' + colors.neutral_color"
+                        >
+                            {{ user.role_user }}
+                        </span>
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h4 class="text-xl font-semibold mb-2">Dirección Personal</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <p><strong>Calle:</strong> {{ user.street_address }}</p>
+                    <p><strong>Ciudad:</strong> {{ user.city_address }}</p>
+                    <p><strong>Estado:</strong> {{ user.state_address }} ({{ user.state_code_address }})</p>
+                    <p><strong>Código postal:</strong> {{ user.postal_code_address }}</p>
+                    <p><strong>País:</strong> {{ user.country_address }}</p>
+                    <p><strong>IP:</strong> {{ user.ip_user }}</p>
+                    <p><strong>MAC:</strong> {{ user.mac_address_user }}</p>
+                </div>
+
+                <div class="h-64 w-full rounded-md overflow-hidden border border-gray-300 mt-4">
+                    @if (user.latitude_address && user.longitude_address && personalMapOptions) {
+                        <div leaflet
+                            [leafletOptions]="personalMapOptions"
+                            [leafletLayers]="personalMapLayers"
+                            class="w-full h-full"
+                        ></div>
+                    } @else {
+                        <div class="flex items-center justify-center h-full bg-gray-100 text-gray-500">
+                            Ubicación personal no disponible.
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h4 class="text-xl font-semibold mb-2">Información Académica</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <p><strong>Universidad:</strong> {{ user.university_user }}</p>
+                    <p><strong>Agente de usuario:</strong> {{ user.user_agent_user }}</p>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h4 class="text-xl font-semibold mb-2">Información Financiera</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <p><strong>Tipo de tarjeta:</strong> {{ user.card_type_user }}</p>
+                    <p><strong>Número de tarjeta:</strong> {{ user.card_number_user }}</p>
+                    <p><strong>Expiración tarjeta:</strong> {{ user.card_expire_user }}</p>
+                    <p><strong>Moneda:</strong> {{ user.currency_user }}</p>
+                    <p><strong>IBAN:</strong> {{ user.iban_user }}</p>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h4 class="text-xl font-semibold mb-2">Información de la Empresa</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <p><strong>Nombre empresa:</strong> {{ user.company_name_user }}</p>
+                    <p><strong>Departamento:</strong> {{ user.department_company_user }}</p>
+                    <p><strong>Título:</strong> {{ user.company_title_user }}</p>
+                    <p><strong>Calle empresa:</strong> {{ user.company_street_user }}</p>
+                    <p><strong>Ciudad empresa:</strong> {{ user.company_city_user }}</p>
+                    <p><strong>Estado empresa:</strong> {{ user.company_state_user }} ({{ user.company_state_code_user }})</p>
+                    <p><strong>Código postal empresa:</strong> {{ user.company_postal_code_user }}</p>
+                    <p><strong>País empresa:</strong> {{ user.company_country_user }}</p>
+                </div>
+
+                <div class="h-64 w-full rounded-md overflow-hidden border border-gray-300 mt-4">
+                    @if (user.company_latitude_user && user.company_longitude_user && companyMapOptions) {
+                        <div leaflet
+                            [leafletOptions]="companyMapOptions"
+                            [leafletLayers]="companyMapLayers"
+                            class="w-full h-full"
+                        ></div>
+                    } @else {
+                        <div class="flex items-center justify-center h-full bg-gray-100 text-gray-500">
+                            Ubicación de la empresa no disponible.
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section>
+                <h4 class="text-xl font-semibold mb-2">Cripto Wallet</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <p><strong>Moneda:</strong> {{ user.coin_user }}</p>
+                    <p><strong>Dirección Wallet:</strong> {{ user.wallet_address_user }}</p>
+                    <p><strong>Red:</strong> {{ user.network_user }}</p>
+                </div>
+            </section>
+
+            <div class="mt-6 text-right">
+                <button (click)="onClose.emit()" class="bg-secondary text-quaternary px-4 py-2 rounded-md hover:bg-opacity-75 font-primary text-paragraph">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}

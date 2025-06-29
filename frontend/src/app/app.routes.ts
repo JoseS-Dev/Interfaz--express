@@ -4,6 +4,7 @@ import { AdminComponent } from './features/admin/admin.component';
 import { ColorsComponent } from './features/admin/colors/colors.component'; 
 import { TypographyComponent } from './features/admin/typography/typography.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UsersComponent } from './features/admin/users/users.component';
 
 export const routes: Routes = [
     { 
@@ -17,6 +18,10 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
+                path: '',
+                component: AdminComponent, 
+            },
+            {
                 path: 'colors',
                 component: ColorsComponent
             },
@@ -25,8 +30,8 @@ export const routes: Routes = [
                 component: TypographyComponent
             },
             {
-                path: '',
-                component: AdminComponent, 
+                path: 'users',
+                component: UsersComponent
             },
         ]
     },
