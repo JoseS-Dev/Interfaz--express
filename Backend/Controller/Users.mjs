@@ -41,6 +41,7 @@ export class UsersControllers{
         try{
             const result = validateRegister(req.body);
             if(!result.success){
+                console.log(result.error.errors);
                 return res.status(400).json({
                     message: 'Error en la validación',
                     error: result.error

@@ -59,13 +59,26 @@ export class ModelsUsers{
                     INSERT INTO user_register (username, email_user, password_user, role_user)
                     VALUES (?, ?, ?, ?)
                     `,
-                    [username, email_user, hashedPassword, role_user] 
+                    [username, email_user, hashedPassword, role_user]
                 );
 
                 if (createUser.affectedRows > 0) {
-                    console.log("Registro Exitoso");
-                    // Retorna el resultado de la creación del usuario
-                    return createUser;
+                    // Obtener el id del usuario insertado
+                    const insertedId = createUser.insertId;
+
+                    // Consultar los datos del usuario recién creado
+                    const [newUserRows] = await connection.query(
+                        'SELECT id_user, username, email_user, role_user FROM user_register WHERE id_user = ?',
+                        [insertedId]
+                    );
+
+                    if (newUserRows.length > 0) {
+                        // Retornar los datos del usuario (sin contraseña)
+                        return newUserRows[0];
+                    } else {
+                        console.log('No se pudo obtener el usuario después de crear');
+                        return null;
+                    }
                 } else {
                     console.log('Error al crear el usuario');
                     return null;

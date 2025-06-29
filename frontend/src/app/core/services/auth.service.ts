@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LoginCredentials } from '../../shared/interfaces/login.interface';
+import { LoginCredentials, RegisterCredentials } from '../../shared/interfaces/login.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,25 @@ export class AuthService {
       }
     ).pipe(
       tap(result => {
+        localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('token', result.token);
+        this.authState.next(true);
+      })
+    );
+  }
+
+  // Login: guarda datos, actualiza estado
+  register(credentials: RegisterCredentials): Observable<any> {
+    return this.http.post<{ user: any; token: string }>(
+      `${this.baseUrl}/Users/register`,
+      credentials,
+      {
+        withCredentials: true,
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    ).pipe(
+      tap(result => {
+        console.log('Registro exitoso:', result);
         localStorage.setItem('user', JSON.stringify(result.user));
         localStorage.setItem('token', result.token);
         this.authState.next(true);
