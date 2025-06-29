@@ -10,8 +10,8 @@ export const RoutesColors = router;
 
 
 // GET
-RoutesColors.get('/', authMiddleware, colorsController.getAll);
-RoutesColors.get('/selected', authMiddleware, colorsController.getSelectedColors)
+RoutesColors.get('/', authMiddleware ,colorsController.getAll);
+RoutesColors.get('/selected', colorsController.getSelectedColors)
 RoutesColors.get('/:id_colors', colorsController.getByID);
 RoutesColors.get('/Primary/:primary_color', colorsController.getByPrimaryColor);
 RoutesColors.get('/Secondary/:secondary_color', colorsController.getBySecondaryColor);

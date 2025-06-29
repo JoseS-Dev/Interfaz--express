@@ -29,27 +29,6 @@ export class ModelsTypography {
             }
         }
     }
-    
-    // Obtener la tipografia seleccionada por el usuario
-    static async getSelectedTypography({ id_user }) {
-        const query = `
-            SELECT t.*
-            FROM typography t
-            JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
-            WHERE tr.id_user = ? AND t.is_selected = true
-        `;
-    
-        const [rows] = await connection.query(query, [id_user]);
-    
-        if (rows.length > 0) {
-            console.log('Tipografía encontrada');
-            return rows[0];
-        } else {
-            console.log('No se encontró la tipografía');
-            return null;
-        }
-    }
-    
 
     // Obtener una tipografia por su  tipografia principal
     static async getByMainName({ name_tipography_main }){
@@ -81,20 +60,7 @@ export class ModelsTypography {
         }
     }
 
-    // // Obtener una tipografia por su tamaño de font
-    // static async getByFontSize({ tam_font }){
-    //     if(tam_font){
-    //         const [tipographyFont] = await connection.query('SELECT * FROM typography WHERE tam_font = ?', [tam_font]);
-    //         if(tipographyFont.length > 0){
-    //             console.log('Tipografía encontrada por tamaño de fuente');
-    //             return tipographyFont;
-    //         }
-    //         else{
-    //             console.log('No se encontró la tipografía por tamaño de fuente');
-    //             return null;
-    //         }
-    //     }
-    // }
+    
 
     // Obtener una tipografia por su tamaño de font en los parrafos
     static async getByFontParagraph({ tam_paragraph }){
@@ -204,10 +170,10 @@ export class ModelsTypography {
     // Se crea una tipografia con su Tipografia principal y secundaria
     static async createTipography({ typography, id_user }){
         if(typography){
-            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary } = typography;
+            const { name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected,archive_font_main, archive_font_secondary } = typography;
             // Se crea la nueva tipografia
-            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, archive_font_main, archive_font_secondary]);
+            const [result] = await connection.query('INSERT INTO typography (name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle,is_selected,archive_font_main, archive_font_secondary) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                [name_tipography_main, name_tipography_secondary, tam_paragraph, tam_title, tam_subtitle, is_selected ,archive_font_main, archive_font_secondary]);
             if(result.affectedRows > 0){
                 // Se relaciona con la tabla de la relacion
                 const [relationResult] = await connection.query('INSERT INTO typography_relationship (id_tipography,id_user) VALUES (?,?)', [result.insertId, id_user]);
@@ -305,23 +271,21 @@ export class ModelsTypography {
     }
 
     // Seleccionar una tipografía para un usuario
-    static async selectTypography({ id_user, id_tipography }) {
+    static async selectTypography({ id_tipography }) {
         // Deseleccionar todas las tipografías relacionadas con el usuario
         await connection.query(
             `UPDATE typography t
-             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
-             SET t.is_selected = false
-             WHERE tr.id_user = ?`,
-            [id_user]
+            JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+            SET t.is_selected = false`
         );
     
         // Seleccionar la tipografía indicada para el usuario
         const [result] = await connection.query(
             `UPDATE typography t
-             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
-             SET t.is_selected = true
-             WHERE tr.id_user = ? AND t.id_tipography = ?`,
-            [id_user, id_tipography]
+            JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+            SET t.is_selected = true
+            WHERE t.id_tipography = ?`,
+            [id_tipography]
         );
 
         if (result.affectedRows > 0) {
@@ -335,12 +299,12 @@ export class ModelsTypography {
         }
     }
     
-    static async getSelectedTypography({ id_user }) {
+    static async getSelectedTypography() {
+        const id_user = 1; // esto debe ser el id del usuario actual
         const [rows] = await connection.query(
             `SELECT t.* FROM typography t
-             JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
-             WHERE tr.id_user = ? AND t.is_selected = true`,
-            [id_user]
+            JOIN typography_relationship tr ON t.id_tipography = tr.id_tipography
+            WHERE t.is_selected = true`,
         );
         if (rows.length > 0) {
             return rows[0];

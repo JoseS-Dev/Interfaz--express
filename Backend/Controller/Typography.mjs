@@ -41,25 +41,6 @@ export class TypographyController {
         }
     }
     
-    // Obtener una tipografia seleccionada por el usuario
-    getSelectedTypography = async ( req, res ) => {
-        try{
-            const { id_user } = req.params;
-
-            if (!id_user) return res.status(400).json({ error: 'ID de usuario no proporcionado' });
-
-            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
-            return res.status(200).json({
-                message: 'Tipografía encontrada correctamente',
-                data: typography
-            });
-        }
-        catch(error){
-            console.error('Error al obtener la tipografía seleccionada:', error);
-            return res.status(500).json({ error: 'Error al obtener la tipografía seleccionada' });
-        }
-    }
-    
     // Obtener una tipografia por su tipografía principal
     getByMainName = async ( req , res ) => {
         try{
@@ -102,26 +83,6 @@ export class TypographyController {
         }
     }
     
-    // Obtener una tipografia por su tamaño de font
-    getByFontSize = async ( req, res ) => {
-        try{
-            const { tam_font } = req.params;
-            if(tam_font){
-                const typegraphFontSize = await this.ModelsTypography.getByFontSize({tam_font});
-                return res.status(200).json({
-                    message: 'Tipografía por tamaño de fuente obtenida correctamente',
-                    data: typegraphFontSize
-                });
-            }
-            else{
-                return res.status(400).json({ error: 'Tamaño de fuente no proporcionado' });
-            }
-        }
-        catch(error){
-            console.error('Error al obtener la tipografía por tamaño de fuente:', error);
-            return res.status(500).json({ error: 'Error al obtener la tipografía por tamaño de fuente' });
-        }
-    }
     
     // Obtener una tipografia por su tamaño en los parrafos
     getByFontParagraph = async ( req, res ) => {
@@ -281,7 +242,8 @@ export class TypographyController {
                 tam_title: parseInt(req.body.tam_title),
                 tam_subtitle: parseInt(req.body.tam_subtitle),
                 archive_font_main: mainFont.path,
-                archive_font_secondary: secondaryFont.path
+                archive_font_secondary: secondaryFont.path,
+                is_selected: req.body.is_selected === 'true'
             }
             const result = validateTipography(body);
             const id_user = req.user.id;
@@ -312,7 +274,8 @@ export class TypographyController {
             ...req.body,
             tam_paragraph: req.body.tam_paragraph ? parseInt(req.body.tam_paragraph) : undefined,
             tam_title: req.body.tam_title ? parseInt(req.body.tam_title) : undefined,
-            tam_subtitle: req.body.tam_subtitle ? parseInt(req.body.tam_subtitle) : undefined
+            tam_subtitle: req.body.tam_subtitle ? parseInt(req.body.tam_subtitle) : undefined,
+            is_selected: req.body.is_selected === 'true'
           };
       
           // Si se envió archivo main_font, agregar propiedades relacionadas
@@ -376,14 +339,13 @@ export class TypographyController {
     selectTypography = async (req, res) => {
         try {
             const { id_tipography } = req.body;
-            const id_user = req.user.id;
             console.log('Datos recibidos para seleccionar tipografía:', req.body);
     
-            if (!id_user || !id_tipography) {
-                return res.status(400).json({ error: 'ID de usuario y ID de tipografía son requeridos' });
+            if (!id_tipography) {
+                return res.status(400).json({ error: 'ID de tipografía son requeridos' });
             }
     
-            const updatedTypography = await this.ModelsTypography.selectTypography({ id_user, id_tipography });
+            const updatedTypography = await this.ModelsTypography.selectTypography({ id_tipography });
     
             if (updatedTypography) {
                 return res.status(200).json({
@@ -401,8 +363,7 @@ export class TypographyController {
     
     getSelectedTypography = async ( req, res ) => {
         try {
-            const id_user = req.user.id;
-            const typography = await this.ModelsTypography.getSelectedTypography({ id_user });
+            const typography = await this.ModelsTypography.getSelectedTypography();
             return res.status(200).json({
                 message: 'Tipografía encontrada correctamente',
                 data: typography

@@ -16,7 +16,6 @@ export function Auth(user){
 
 export const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-    
     // Verificar formato del header
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ 

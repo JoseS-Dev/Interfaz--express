@@ -9,12 +9,11 @@ const typographycontroller = new TypographyController({ModelsTypography: ModelsT
 export const RoutesTipography = router;
 
 /// GET
-RoutesTipography.get('/', authMiddleware, typographycontroller.getAll);
-RoutesTipography.get('/selected', authMiddleware, typographycontroller.getSelectedTypography);
+RoutesTipography.get('/', authMiddleware ,typographycontroller.getAll);
+RoutesTipography.get('/selected', typographycontroller.getSelectedTypography);
 RoutesTipography.get('/:id_tipography', typographycontroller.getByID);
 RoutesTipography.get('/NameMain/:name_tipography_main', typographycontroller.getByMainName);
 RoutesTipography.get('/NameSeco/:name_tipography_secondary', typographycontroller.getBySecondaryName);
-RoutesTipography.get('/TamFont/:tam_font', typographycontroller.getByFontSize);
 RoutesTipography.get('/TamParagraph/:tam_paragraph', typographycontroller.getByFontParagraph);
 RoutesTipography.get('/TamTitle/:tam_title', typographycontroller.getByFontTitle);
 RoutesTipography.get('/TamSubtitle/:tam_subtitle', typographycontroller.getByFontSubTitle);
