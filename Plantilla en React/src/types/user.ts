@@ -13,7 +13,6 @@ export interface UserProfile {
   name_user: string;
   maiden_name_user: string;
   email_user: string;
-  password_user: string;
   username: string;
   role_user: string;
   age_user: number | null;

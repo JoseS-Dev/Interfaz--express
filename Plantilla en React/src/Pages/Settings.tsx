@@ -6,17 +6,47 @@ import { UserProfile, LocationData } from '../types/user';
 import MapSelector from '../components/MapSelector';
 import Navbar from '../components/Navbar';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-
-interface EditableFields {
-  [key: string]: boolean;
-}
+import { data, useNavigate } from 'react-router-dom';
 
 interface FormErrors {
   [key: string]: string;
 }
 
+const formatCardExpirationForBackend = (dateString: string | null): string | null => {
+    if (!dateString) return null;
+
+    // Primero, intenta validar si ya está en formato YYYY-MM-DD (o similar que Date() constructor acepta)
+    const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (isoDateRegex.test(dateString)) {
+        // Si ya parece ser AAAA-MM-DD, lo retornamos directamente.
+        const parsed = new Date(dateString);
+        if (!isNaN(parsed.getTime())) {
+            return dateString; 
+        }
+    }
+
+    // Si no es un AAAA-MM-DD, intenta parsear como MM/AA o MM/AAAA
+    const mmYyMatch = dateString.match(/^(0[1-9]|1[0-2])\/(\d{2,4})$/);
+    if (mmYyMatch) {
+        let [_, month, yearStr] = mmYyMatch;
+        let year = parseInt(yearStr);
+
+        if (yearStr.length === 2) {
+            // Lógica para inferir el siglo (ej. '25' -> 2025, '98' -> 1998)
+            const currentFullYear = new Date().getFullYear();
+            // Si el año de dos dígitos es hasta 10 años en el futuro del 'XX' actual, se asume 20XX
+            // Si no, se asume 19XX. Esto es una heurística común.
+            year += (year > (currentFullYear % 100) + 10) ? 1900 : 2000;
+        }
+        return `${year}-${month}-01`; // Convertir a YYYY-MM-01
+    }
+
+    // Si no coincide con ninguno de los formatos esperados, retorna null
+    return null;
+};
+
 const Settings: React.FC = () => {
+  const navigate = useNavigate()
   const { user, logout } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +59,6 @@ const Settings: React.FC = () => {
     name_user: '',
     maiden_name_user: '',
     email_user: '',
-    password_user: '',
     username: '',
     role_user: '',
     age_user: null,
@@ -93,21 +122,6 @@ const Settings: React.FC = () => {
     loadUserProfile();
   }, [user]);
 
-  // Función para descartar cambios
-  const handleDiscardChanges = useCallback(() => {
-    if (originalData) {
-      setFormData(originalData);
-      setHasUnsavedChanges(false);
-    }
-  }, [originalData]);
-
-  // Hook de navegación
-  const { navigateWithConfirmation } = useNavigationGuard({
-    hasUnsavedChanges,
-    isFormLocked: false,
-    onDiscardChanges: handleDiscardChanges
-  });
-
   // Manejar cambios en los campos
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -158,72 +172,111 @@ const Settings: React.FC = () => {
   const validateCurrentStep = (): boolean => {
     const newErrors: FormErrors = {};
     const requiredFields = requiredFieldsByStep[currentStep] || [];
+    
     requiredFields.forEach(field => {
-      const value = formData[field as keyof UserProfile];
-      switch (field) {
-        case 'name_user':
-          if (!value || typeof value !== 'string' || value.trim().length < 2) {
-            newErrors[field] = 'El nombre debe tener al menos 2 caracteres';
-          } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(value.trim())) {
-            newErrors[field] = 'El nombre solo puede contener letras y espacios';
-          }
-          break;
-        case 'email_user':
-          if (!value || typeof value !== 'string' || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
-            newErrors[field] = 'Email inválido';
-          }
-          break;
-        case 'phone_user':
-          if (!value || typeof value !== 'string' || !/^\d{7,15}$/.test(value)) {
-            newErrors[field] = 'El teléfono debe ser numérico y tener entre 7 y 15 dígitos';
-          }
-          break;
-        case 'age_user':
-          if (value !== null && (isNaN(Number(value)) || Number(value) <= 0)) {
-            newErrors[field] = 'La edad debe ser un número positivo';
-          }
-          break;
-        case 'street_address':
-        case 'city_address':
-        case 'state_address':
-        case 'country_address':
-          if (!value || typeof value !== 'string' || value.trim().length < 2) {
-            newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
-          }
-          break;
-        case 'postal_code_address':
-          if (!value || typeof value !== 'string' || value.trim().length < 3) {
-            newErrors[field] = 'El código postal debe tener al menos 3 caracteres';
-          }
-          break;
-        case 'company_name_user':
-        case 'company_title_user':
-        case 'department_company_user':
-          if (!value || typeof value !== 'string' || value.trim().length < 2) {
-            newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
-          }
-          break;
-        case 'card_number_user':
-          if (!value || typeof value !== 'string' || !/^\d{12,19}$/.test(value)) {
-            newErrors[field] = 'El número de tarjeta debe ser numérico y tener entre 12 y 19 dígitos';
-          }
-          break;
-        case 'card_expire_user':
-          if (!value || typeof value !== 'string' || !/^(0[1-9]|1[0-2])\/\d{2,4}$/.test(value)) {
-            newErrors[field] = 'La fecha de expiración debe tener formato MM/AA o MM/AAAA';
-          }
-          break;
-        case 'iban_user':
-          if (!value || typeof value !== 'string' || value.trim().length < 8) {
-            newErrors[field] = 'El IBAN debe tener al menos 8 caracteres';
-          }
-          break;
-        default:
-          if (!value || (typeof value === 'string' && !value.trim())) {
-            newErrors[field] = 'Este campo es requerido';
-          }
-      }
+        const value = formData[field as keyof UserProfile];
+        switch (field) {
+            case 'name_user':
+                if (!value || typeof value !== 'string' || value.trim().length < 2) {
+                    newErrors[field] = 'El nombre debe tener al menos 2 caracteres';
+                } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(value.trim())) {
+                    newErrors[field] = 'El nombre solo puede contener letras y espacios';
+                }
+                break;
+            case 'email_user':
+                if (!value || typeof value !== 'string' || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
+                    newErrors[field] = 'Email inválido';
+                }
+                break;
+            case 'phone_user':
+                if (!value || typeof value !== 'string' || !/^\d{7,15}$/.test(value)) {
+                    newErrors[field] = 'El teléfono debe ser numérico y tener entre 7 y 15 dígitos';
+                }
+                break;
+            case 'age_user':
+                if (value !== null && (isNaN(Number(value)) || Number(value) <= 0)) {
+                    newErrors[field] = 'La edad debe ser un número positivo';
+                }
+                break;
+            case 'street_address':
+            case 'city_address':
+            case 'state_address':
+            case 'country_address':
+                if (!value || typeof value !== 'string' || value.trim().length < 2) {
+                    newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
+                }
+                break;
+            case 'postal_code_address':
+                if (!value || typeof value !== 'string' || value.trim().length < 3) {
+                    newErrors[field] = 'El código postal debe tener al menos 3 caracteres';
+                }
+                break;
+            case 'state_code_address':
+                if (!value || typeof value !== 'string' || !/^[A-Z]{2}$/.test(value)) {
+                    newErrors[field] = 'El código de estado debe ser de 2 letras mayúsculas (ej. NY)';
+                }
+                break;
+
+            case 'company_name_user':
+            case 'company_title_user':
+            case 'department_company_user':
+                if (!value || typeof value !== 'string' || value.trim().length < 2) {
+                    newErrors[field] = 'Este campo debe tener al menos 2 caracteres';
+                }
+                break;
+            case 'company_state_code_user':
+                if (!value || typeof value !== 'string' || !/^[A-Z]{2}$/.test(value)) {
+                    newErrors[field] = 'El código de estado de la empresa debe ser de 2 letras mayúsculas (ej. CA)';
+                }
+                break;
+
+            case 'card_number_user':
+                if (!value || typeof value !== 'string' || !/^\d{12,19}$/.test(value)) {
+                    newErrors[field] = 'El número de tarjeta debe ser numérico y tener entre 12 y 19 dígitos';
+                }
+                break;
+            case 'card_expire_user':
+                if (!value || typeof value !== 'string' || !/^(0[1-9]|1[0-2])\/\d{2,4}$/.test(value)) {
+                    newErrors[field] = 'La fecha de expiración debe tener formato MM/AAAA';
+                } else {
+                    const [month, yearStr] = value.split('/');
+                    const currentYear = new Date().getFullYear() % 100; 
+                    const currentMonth = new Date().getMonth() + 1; 
+
+                    let year = parseInt(yearStr);
+                    if (yearStr.length === 2) {
+                        year += (currentYear > year) ? 2000 : 1900; 
+                    }
+
+                    if (year < new Date().getFullYear() || (year === new Date().getFullYear() && parseInt(month) < currentMonth)) {
+                        newErrors[field] = 'La tarjeta ha expirado';
+                    }
+                }
+                break;
+            case 'iban_user':
+                if (!value || typeof value !== 'string' || !/^[A-Z]{2}\d{2}[A-Z0-9]{1,30}$/.test(value)) {
+                    newErrors[field] = 'El IBAN es inválido (ej. ESxx xxxx xxxx xxxx xxxx)';
+                }
+                break;
+            case 'currency_user':
+                const validCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY'];
+                if (!value || typeof value !== 'string' || !validCurrencies.includes(value)) {
+                    newErrors[field] = 'Moneda inválida. Selecciona una de las opciones: USD, EUR, GBP, JPY, CNY.';
+                }
+                break;
+            case 'wallet_address_user':
+                if (!value || typeof value !== 'string' || !/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(value)) {
+                    newErrors[field] = 'La dirección de la billetera es inválida (ej. dirección Bitcoin)';
+                }
+                break;
+
+            default:
+                if (requiredFields.includes(field) && (!value || (typeof value === 'string' && !value.trim()))) {
+                    newErrors[field] = 'Este campo es requerido';
+                }
+        }
     });
+
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
       const firstErrorField = Object.keys(newErrors)[0];
@@ -244,6 +297,10 @@ const Settings: React.FC = () => {
         case 'card_number_user': fieldLabel = 'Número de Tarjeta'; break;
         case 'card_expire_user': fieldLabel = 'Fecha de Expiración'; break;
         case 'iban_user': fieldLabel = 'IBAN'; break;
+        case 'state_code_address': fieldLabel = 'Código de Estado'; break;
+        case 'company_state_code_user': fieldLabel = 'Código de Estado de la Empresa'; break;
+        case 'currency_user': fieldLabel = 'Moneda'; break;
+        case 'wallet_address_user': fieldLabel = 'Dirección de Billetera'; break;
         default: fieldLabel = firstErrorField;
       }
       Swal.fire({
@@ -259,26 +316,11 @@ const Settings: React.FC = () => {
 
   // Definir los campos requeridos por paso
   const requiredFieldsByStep: { [key: number]: string[] } = {
-    1: ['name_user', 'email_user', 'phone_user'],
-    2: ['street_address', 'city_address', 'state_address', 'postal_code_address', 'country_address'],
-    3: ['company_name_user', 'company_title_user', 'department_company_user'],
-    4: ['card_number_user', 'card_expire_user', 'iban_user'],
-    5: []
-  };
-
-  // Navegar al siguiente paso
-  const nextStep = () => {
-    if (!validateCurrentStep()) return;
-    if (currentStep < 5) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      Swal.fire({
-        title: 'Campos sin guardar',
-        text: 'Debes guardar los cambios antes de continuar al siguiente paso',
-        icon: 'warning',
-        confirmButtonColor: '#3085d6'
-      });
-    }
+    1: ['name_user', 'email_user', 'phone_user'], // Maiden name and username not added as required based on original form's behavior, but Zod requires them.
+    2: ['street_address', 'city_address', 'state_address', 'postal_code_address', 'country_address', 'state_code_address'], // Added state_code_address as required
+    3: ['company_name_user', 'company_title_user', 'department_company_user', 'company_state_code_user'], // Added company_state_code_user as required. Note: Zod schema requires all company address fields too.
+    4: ['card_number_user', 'card_expire_user', 'iban_user', 'currency_user'], // Added currency_user as required. Note: Zod also requires card_type_user which has no input.
+    5: ['blood_group_user', 'height_user', 'weight_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user', 'user_agent_user', 'role_user', 'coin_user', 'wallet_address_user', 'network_user'] // Added all fields from Step 5 that Zod marks as required.
   };
 
   // Navegar al paso anterior
@@ -290,7 +332,24 @@ const Settings: React.FC = () => {
   const handleSaveOrNext = async () => {
     // Validar primero
     if (!validateCurrentStep()) return; // Si hay error, el SweetAlert de error ya se muestra y no avanza
-    // Si todo es válido, mostrar SweetAlert de éxito y avanzar automáticamente
+    
+const dataToSend = { ...formData };
+
+    // Format card_expire_user for backend
+    if (dataToSend.card_expire_user) {
+      console.log(dataToSend.card_expire_user);
+        dataToSend.card_expire_user = formatCardExpirationForBackend(dataToSend.card_expire_user);
+        if (!dataToSend.card_expire_user) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Error interno al formatear la fecha de expiración.',
+                icon: 'error',
+                confirmButtonColor: '#3085d6'
+            });
+            return;
+        }
+    }
+
     await Swal.fire({
       title: 'Datos válidos',
       text: 'Todos los campos han sido validados correctamente.',
@@ -298,12 +357,13 @@ const Settings: React.FC = () => {
       timer: 1200,
       showConfirmButton: false
     });
+
     if (currentStep < 5) {
       setCurrentStep(prev => prev + 1);
     } else {
       setIsSaving(true);
       try {
-        const result = await userProfileService.updateUserProfile(user!.id_user, formData);
+        const result = await userProfileService.updateUserProfile(user!.id_user, dataToSend);
         if (result.success) {
           setOriginalData(formData);
           setHasUnsavedChanges(false);
@@ -337,24 +397,6 @@ const Settings: React.FC = () => {
     }
   };
 
-  // Manejar logout con confirmación
-  const handleLogout = () => {
-    Swal.fire({
-      title: '¿Deseas cerrar sesión?',
-      text: 'Si cierras sesión, perderás acceso a tu perfil',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, cerrar sesión',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        logout();
-      }
-    });
-  };
-
   // Renderizar campo con icono de edición
   const renderEditableField = (
     field: string,
@@ -380,6 +422,7 @@ const Settings: React.FC = () => {
               hasError ? 'border-tertiary' : 'border-quinary/25'
             } bg-primary/50`}
           >
+            {!options?.some(option => option.value === '') && !required && <option value="">Seleccionar...</option>}
             {options?.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -408,18 +451,17 @@ const Settings: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('name_user', 'Nombre', 'text', true)}
-        {renderEditableField('maiden_name_user', 'Apellido de Soltera')}
-        {renderEditableField('age_user', 'Edad', 'number')}
+        {renderEditableField('maiden_name_user', 'Apellido de Soltera', 'text', false)}
+        {renderEditableField('age_user', 'Edad', 'number', false)} 
         {renderEditableField('gender', 'Género', 'select', false, [
           { value: 'female', label: 'Femenino' },
           { value: 'male', label: 'Masculino' },
           { value: 'other', label: 'Otro' }
         ])}
-        {renderEditableField('birth_date_user', 'Fecha de Nacimiento', 'date')}
+        {renderEditableField('birth_date_user', 'Fecha de Nacimiento', 'date', false)} 
         {renderEditableField('email_user', 'Email', 'email', true)}
         {renderEditableField('phone_user', 'Teléfono', 'tel', true)}
-        {renderEditableField('username', 'Nombre de Usuario')}
-        {renderEditableField('password_user', 'Contraseña', 'password')}
+        {renderEditableField('username', 'Nombre de Usuario', 'text', false)}
       </div>
     </div>
   );
@@ -445,7 +487,7 @@ const Settings: React.FC = () => {
         {renderEditableField('street_address', 'Dirección', 'text', true)}
         {renderEditableField('city_address', 'Ciudad', 'text', true)}
         {renderEditableField('state_address', 'Estado', 'text', true)}
-        {renderEditableField('state_code_address', 'Código de Estado')}
+        {renderEditableField('state_code_address', 'Código de Estado', 'text', true)}
         {renderEditableField('postal_code_address', 'Código Postal', 'text', true)}
         {renderEditableField('country_address', 'País', 'text', true)}
       </div>
@@ -461,9 +503,9 @@ const Settings: React.FC = () => {
         {renderEditableField('company_name_user', 'Nombre de la Empresa', 'text', true)}
         {renderEditableField('company_title_user', 'Título', 'text', true)}
         {renderEditableField('department_company_user', 'Departamento', 'text', true)}
-        {renderEditableField('university_user', 'Universidad')}
-        {renderEditableField('ein_user', 'EIN')}
-        {renderEditableField('ssn_user', 'SSN')}
+        {renderEditableField('university_user', 'Universidad', 'text', false)}
+        {renderEditableField('ein_user', 'EIN', 'text', false)}
+        {renderEditableField('ssn_user', 'SSN', 'text', false)}
       </div>
 
       <div className="border-t pt-6">
@@ -482,12 +524,12 @@ const Settings: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderEditableField('company_street_user', 'Dirección')}
-          {renderEditableField('company_city_user', 'Ciudad')}
-          {renderEditableField('company_state_user', 'Estado')}
-          {renderEditableField('company_state_code_user', 'Código de Estado')}
-          {renderEditableField('company_postal_code_user', 'Código Postal')}
-          {renderEditableField('company_country_user', 'País')}
+          {renderEditableField('company_street_user', 'Dirección', 'text', false)}
+          {renderEditableField('company_city_user', 'Ciudad', 'text', false)}
+          {renderEditableField('company_state_user', 'Estado', 'text', false)}
+          {renderEditableField('company_state_code_user', 'Código de Estado', 'text', true)}
+          {renderEditableField('company_postal_code_user', 'Código Postal', 'text', false)}
+          {renderEditableField('company_country_user', 'País', 'text', false)}
         </div>
       </div>
     </div>
@@ -500,10 +542,16 @@ const Settings: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('card_number_user', 'Número de Tarjeta', 'text', true)}
-        {renderEditableField('card_expire_user', 'Fecha de Expiración', 'text', true)}
-        {renderEditableField('card_type_user', 'Tipo de Tarjeta')}
-        {renderEditableField('currency_user', 'Moneda')}
-        {renderEditableField('iban_user', 'IBAN', 'text', true)}
+        {renderEditableField('card_expire_user', 'Fecha de Expiración (MM/AA o MM/AAAA)', 'text', true)}
+        {renderEditableField('card_type_user', 'Tipo de Tarjeta', 'text', false)}
+        {renderEditableField('currency_user', 'Moneda', 'select', true, [ 
+          { value: 'USD', label: 'USD' },
+          { value: 'EUR', label: 'EUR' },
+          { value: 'GBP', label: 'GBP' },
+          { value: 'JPY', label: 'JPY' },
+          { value: 'CNY', label: 'CNY' }
+        ])}
+        {renderEditableField('iban_user', 'IBAN', 'text', true)} 
       </div>
     </div>
   );
@@ -514,8 +562,8 @@ const Settings: React.FC = () => {
       <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Adicional</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {renderEditableField('height_user', 'Altura (cm)', 'number')}
-        {renderEditableField('weight_user', 'Peso (kg)', 'number')}
+        {renderEditableField('height_user', 'Altura (cm)', 'number', false)}
+        {renderEditableField('weight_user', 'Peso (kg)', 'number', false)}
         {renderEditableField('blood_group_user', 'Grupo Sanguíneo', 'select', false, [
           { value: 'A+', label: 'A+' },
           { value: 'A-', label: 'A-' },
@@ -526,25 +574,25 @@ const Settings: React.FC = () => {
           { value: 'O+', label: 'O+' },
           { value: 'O-', label: 'O-' }
         ])}
-        {renderEditableField('eye_color_user', 'Color de Ojos')}
-        {renderEditableField('hair_user', 'Color de Cabello')}
-        {renderEditableField('ip_user', 'IP')}
-        {renderEditableField('mac_address_user', 'Dirección MAC')}
-        {renderEditableField('user_agent_user', 'User Agent')}
+        {renderEditableField('eye_color_user', 'Color de Ojos', 'text', false)}
+        {renderEditableField('hair_user', 'Color de Cabello', 'text', false)}
+        {renderEditableField('ip_user', 'IP', 'text', false)}
+        {renderEditableField('mac_address_user', 'Dirección MAC', 'text', false)}
+        {renderEditableField('user_agent_user', 'User Agent', 'text', false)}
         {renderEditableField('role_user', 'Rol', 'select', false, [
           { value: 'user', label: 'Usuario' },
           { value: 'admin', label: 'Administrador' },
           { value: 'moderator', label: 'Moderador' }
         ])}
-        {renderEditableField('image_user', 'Imagen de Perfil', 'file')}
+        {renderEditableField('image_user', 'Imagen de Perfil', 'file', false)} 
       </div>
 
       <div className="border-t border-quinary pt-6">
         <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">Información de Criptomonedas</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {renderEditableField('coin_user', 'Moneda')}
-          {renderEditableField('network_user', 'Red')}
-          {renderEditableField('wallet_address_user', 'Wallet')}
+          {renderEditableField('coin_user', 'Moneda', 'text', false)}
+          {renderEditableField('network_user', 'Red', 'text', false)}
+          {renderEditableField('wallet_address_user', 'Wallet', 'text', true)}
         </div>
       </div>
     </div>
@@ -597,7 +645,6 @@ const Settings: React.FC = () => {
             </div>
           </div>
 
-          {/* Step Indicators */}
           <div className="flex justify-between mb-8 flex-wrap">
             {[1, 2, 3, 4, 5].map((step) => (
               <div key={step} className="flex flex-col items-center">
@@ -619,12 +666,10 @@ const Settings: React.FC = () => {
             ))}
           </div>
 
-          {/* Form Content */}
           <div className="mb-8">
             {renderCurrentStep()}
           </div>
 
-          {/* Navigation Buttons */}
           <div className="flex justify-between">
             <button
               onClick={prevStep}
@@ -654,5 +699,4 @@ const Settings: React.FC = () => {
     </div>
   );
 };
-
-export default Settings; 
+export default Settings;

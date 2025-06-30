@@ -266,7 +266,7 @@ export const registerSchema = zod.object({
     })
     .max(100, {
         message: "La contraseña no debe exceder los 100 caracteres.",
-    }),
+    }).optional(),
     role_user: zod.string({
         invalid_type_error: "El rol debe ser una cadena de texto"
     }).refine(value => {
