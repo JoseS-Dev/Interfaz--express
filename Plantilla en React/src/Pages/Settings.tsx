@@ -403,7 +403,8 @@ const dataToSend = { ...formData };
     label: string,
     type: string = "text",
     required: boolean = false,
-    options?: { value: string; label: string }[]
+    options?: { value: string; label: string }[],
+    disabled: boolean = false
   ) => {
     const hasError = errors[field];
     const value = formData[field as keyof UserProfile] || "";
@@ -418,6 +419,7 @@ const dataToSend = { ...formData };
           <select
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
+            disabled={disabled}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
               hasError ? "border-tertiary" : "border-quinary/25"
             } bg-primary/50`}
@@ -584,8 +586,15 @@ const dataToSend = { ...formData };
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('card_number_user', 'Número de Tarjeta', 'text', true)}
         {renderEditableField('card_expire_user', 'Fecha de Expiración (MM/AA o MM/AAAA)', 'text', true)}
-        {renderEditableField('card_type_user', 'Tipo de Tarjeta', 'text', false)}
+        {renderEditableField('card_type_user', 'Tipo de Tarjeta', 'select', true, [
+          { value: '', label: 'Seleccionar...' },
+          { value: 'Visa', label: 'Visa' },
+          { value: 'MasterCard', label: 'MasterCard' },
+          { value: 'American Express', label: 'American Express' },
+          { value: 'Discover', label: 'Discover' },
+        ])}
         {renderEditableField('currency_user', 'Moneda', 'select', true, [ 
+          { value: '', label: 'Seleccionar...' },
           { value: 'USD', label: 'USD' },
           { value: 'EUR', label: 'EUR' },
           { value: 'GBP', label: 'GBP' },
@@ -626,7 +635,7 @@ const dataToSend = { ...formData };
           { value: 'user', label: 'Usuario' },
           { value: 'admin', label: 'Administrador' },
           { value: 'moderator', label: 'Moderador' }
-        ])}
+        ], true)}
         {renderEditableField('image_user', 'Imagen de Perfil', 'file', false)} 
       </div>
 
