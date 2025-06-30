@@ -64,6 +64,7 @@ const Settings: React.FC = () => {
     age_user: null,
     phone_user: null,
     birth_date_user: null,
+    gender_user: null,
     image_user: null,
     blood_group_user: null,
     height_user: null,
