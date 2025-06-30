@@ -269,6 +269,7 @@ const Settings: React.FC = () => {
                     newErrors[field] = 'La dirección de la billetera es inválida (ej. dirección Bitcoin)';
                 }
                 break;
+                
 
             default:
                 if (requiredFields.includes(field) && (!value || (typeof value === 'string' && !value.trim()))) {
@@ -442,6 +443,15 @@ const dataToSend = { ...formData };
                 reader.readAsDataURL(file);
               }
             }}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
+              hasError ? "border-tertiary" : "border-quinary/25"
+            } bg-primary/50`}
+          />
+        ) : type === "date" ? (
+          <input
+            type="date"
+            value={value as string}
+            onChange={(e) => handleInputChange(field, e.target.value)}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
               hasError ? "border-tertiary" : "border-quinary/25"
             } bg-primary/50`}
