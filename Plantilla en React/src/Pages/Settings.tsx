@@ -102,7 +102,7 @@ const Settings: React.FC = () => {
     company_country_user: null,
     coin_user: null,
     wallet_address_user: null,
-    network_user: null
+    network_user: null,
   });
 
   // Cargar datos del usuario al montar el componente
@@ -124,12 +124,12 @@ const Settings: React.FC = () => {
 
   // Manejar cambios en los campos
   const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     setHasUnsavedChanges(true);
-    
+
     // Limpiar error del campo si existe
     if (errors[field]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
@@ -139,7 +139,7 @@ const Settings: React.FC = () => {
 
   // Manejar selección de ubicación del mapa
   const handleLocationSelect = (location: LocationData) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       street_address: location.address,
       city_address: location.city,
@@ -147,14 +147,14 @@ const Settings: React.FC = () => {
       country_address: location.country,
       postal_code_address: location.postalCode,
       latitude_address: location.lat,
-      longitude_address: location.lng
+      longitude_address: location.lng,
     }));
     setHasUnsavedChanges(true);
   };
 
   // Manejar selección de ubicación de la empresa
   const handleCompanyLocationSelect = (location: LocationData) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       company_street_user: location.address,
       company_city_user: location.city,
@@ -162,10 +162,10 @@ const Settings: React.FC = () => {
       company_country_user: location.country,
       company_postal_code_user: location.postalCode,
       company_latitude_user: location.lat,
-      company_longitude_user: location.lng
+      company_longitude_user: location.lng,
     }));
     setHasUnsavedChanges(true);
-    console.log('Ubicación de la empresa seleccionada:', location);
+    console.log("Ubicación de la empresa seleccionada:", location);
   };
 
   // Validar paso actual
@@ -280,7 +280,7 @@ const Settings: React.FC = () => {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
       const firstErrorField = Object.keys(newErrors)[0];
-      let fieldLabel = '';
+      let fieldLabel = "";
       switch (firstErrorField) {
         case 'name_user': fieldLabel = 'Nombre'; break;
         case 'email_user': fieldLabel = 'Email'; break;
@@ -304,10 +304,10 @@ const Settings: React.FC = () => {
         default: fieldLabel = firstErrorField;
       }
       Swal.fire({
-        title: 'Error de validación',
+        title: "Error de validación",
         text: `El campo "${fieldLabel}" es inválido: ${newErrors[firstErrorField]}`,
-        icon: 'error',
-        confirmButtonColor: '#3085d6'
+        icon: "error",
+        confirmButtonColor: "#3085d6",
       });
       return false;
     }
@@ -325,7 +325,7 @@ const Settings: React.FC = () => {
 
   // Navegar al paso anterior
   const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 1));
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
   // Guardar cambios
@@ -351,15 +351,15 @@ const dataToSend = { ...formData };
     }
 
     await Swal.fire({
-      title: 'Datos válidos',
-      text: 'Todos los campos han sido validados correctamente.',
-      icon: 'success',
+      title: "Datos válidos",
+      text: "Todos los campos han sido validados correctamente.",
+      icon: "success",
       timer: 1200,
-      showConfirmButton: false
+      showConfirmButton: false,
     });
 
     if (currentStep < 5) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     } else {
       setIsSaving(true);
       try {
@@ -368,28 +368,27 @@ const dataToSend = { ...formData };
           setOriginalData(formData);
           setHasUnsavedChanges(false);
           await Swal.fire({
-            title: '¡Éxito!',
+            title: "¡Éxito!",
             text: result.message,
-            icon: 'success',
+            icon: "success",
             timer: 1200,
-            showConfirmButton: false
+            showConfirmButton: false,
           });
-          // Redirigir al perfil o a otra página si es necesario
-          
+          navigate("/"); // Redirigir al perfil o a otra página si es necesario
         } else {
           Swal.fire({
-            title: 'Error',
+            title: "Error",
             text: result.message,
-            icon: 'error',
-            confirmButtonColor: '#3085d6'
+            icon: "error",
+            confirmButtonColor: "#3085d6",
           });
         }
       } catch (error) {
         Swal.fire({
-          title: 'Error',
-          text: 'Error al guardar los cambios',
-          icon: 'error',
-          confirmButtonColor: '#3085d6'
+          title: "Error",
+          text: "Error al guardar los cambios",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
         });
       } finally {
         setIsSaving(false);
@@ -401,25 +400,25 @@ const dataToSend = { ...formData };
   const renderEditableField = (
     field: string,
     label: string,
-    type: string = 'text',
+    type: string = "text",
     required: boolean = false,
     options?: { value: string; label: string }[]
   ) => {
     const hasError = errors[field];
-    const value = formData[field as keyof UserProfile] || '';
+    const value = formData[field as keyof UserProfile] || "";
     return (
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="block text-sm font-medium text-quinary/75 text-paragraph">
-            {label} {required && '*'}
+            {label} {required && "*"}
           </label>
         </div>
-        {type === 'select' ? (
+        {type === "select" ? (
           <select
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
-              hasError ? 'border-tertiary' : 'border-quinary/25'
+              hasError ? "border-tertiary" : "border-quinary/25"
             } bg-primary/50`}
           >
             {!options?.some(option => option.value === '') && !required && <option value="">Seleccionar...</option>}
@@ -435,11 +434,15 @@ const dataToSend = { ...formData };
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
             className={`font-primary w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
-              hasError ? 'border-tertiary' : 'border-quinary/25'
+              hasError ? "border-tertiary" : "border-quinary/25"
             } bg-primary/50`}
           />
         )}
-        {hasError && <p className="text-tertiary text-sm mt-1 text-paragraph">{hasError}</p>}
+        {hasError && (
+          <p className="text-tertiary text-sm mt-1 text-paragraph">
+            {hasError}
+          </p>
+        )}
       </div>
     );
   };
@@ -447,8 +450,10 @@ const dataToSend = { ...formData };
   // Renderizar paso 1: Información Personal
   const renderStep1 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Personal</h3>
-      
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">
+        Información Personal
+      </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('name_user', 'Nombre', 'text', true)}
         {renderEditableField('maiden_name_user', 'Apellido de Soltera', 'text', false)}
@@ -469,8 +474,10 @@ const dataToSend = { ...formData };
   // Renderizar paso 2: Dirección
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Dirección y Ubicación</h3>
-      
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">
+        Dirección y Ubicación
+      </h3>
+
       <div className="mb-6">
         <label className="block text-sm font-medium text-quinary mb-2 text-paragraph">
           Selecciona tu ubicación en el mapa
@@ -497,8 +504,10 @@ const dataToSend = { ...formData };
   // Renderizar paso 3: Información Laboral
   const renderStep3 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Laboral</h3>
-      
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">
+        Información Laboral
+      </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('company_name_user', 'Nombre de la Empresa', 'text', true)}
         {renderEditableField('company_title_user', 'Título', 'text', true)}
@@ -509,8 +518,10 @@ const dataToSend = { ...formData };
       </div>
 
       <div className="border-t pt-6">
-        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">Dirección de la Empresa</h4>
-        
+        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">
+          Dirección de la Empresa
+        </h4>
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-quinary mb-2 text-paragraph">
             Selecciona la ubicación de la empresa en el mapa
@@ -538,8 +549,10 @@ const dataToSend = { ...formData };
   // Renderizar paso 4: Información Bancaria
   const renderStep4 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Bancaria</h3>
-      
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">
+        Información Bancaria
+      </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('card_number_user', 'Número de Tarjeta', 'text', true)}
         {renderEditableField('card_expire_user', 'Fecha de Expiración (MM/AA o MM/AAAA)', 'text', true)}
@@ -559,8 +572,10 @@ const dataToSend = { ...formData };
   // Renderizar paso 5: Información Adicional
   const renderStep5 = () => (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">Información Adicional</h3>
-      
+      <h3 className="text-lg font-semibold text-quinary mb-4 text-subtitle">
+        Información Adicional
+      </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('height_user', 'Altura (cm)', 'number', false)}
         {renderEditableField('weight_user', 'Peso (kg)', 'number', false)}
@@ -588,7 +603,9 @@ const dataToSend = { ...formData };
       </div>
 
       <div className="border-t border-quinary pt-6">
-        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">Información de Criptomonedas</h4>
+        <h4 className="text-md font-medium text-quinary mb-4 text-subtitle">
+          Información de Criptomonedas
+        </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {renderEditableField('coin_user', 'Moneda', 'text', false)}
           {renderEditableField('network_user', 'Red', 'text', false)}
@@ -601,12 +618,18 @@ const dataToSend = { ...formData };
   // Renderizar paso actual
   const renderCurrentStep = () => {
     switch (currentStep) {
-      case 1: return renderStep1();
-      case 2: return renderStep2();
-      case 3: return renderStep3();
-      case 4: return renderStep4();
-      case 5: return renderStep5();
-      default: return renderStep1();
+      case 1:
+        return renderStep1();
+      case 2:
+        return renderStep2();
+      case 3:
+        return renderStep3();
+      case 4:
+        return renderStep4();
+      case 5:
+        return renderStep5();
+      default:
+        return renderStep1();
     }
   };
 
@@ -627,18 +650,26 @@ const dataToSend = { ...formData };
       <div className="max-w-4xl mx-auto px-4 py-8 font-primary">
         <div className="bg-quaternary rounded-lg shadow-lg p-6">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-quinary mb-2 text-title">Configuración de Perfil</h1>
-            <p className="text-quinary text-paragraph">Gestiona tu información personal paso a paso</p>
+            <h1 className="text-3xl font-bold text-quinary mb-2 text-title">
+              Configuración de Perfil
+            </h1>
+            <p className="text-quinary text-paragraph">
+              Gestiona tu información personal paso a paso
+            </p>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-quinary text-paragraph">Paso {currentStep} de 5</span>
-              <span className="text-sm text-quinary text-paragraph">{Math.round((currentStep / 5) * 100)}%</span>
+              <span className="text-sm font-medium text-quinary text-paragraph">
+                Paso {currentStep} de 5
+              </span>
+              <span className="text-sm text-quinary text-paragraph">
+                {Math.round((currentStep / 5) * 100)}%
+              </span>
             </div>
             <div className="w-full bg-quinary/25 rounded-full h-2">
-              <div 
+              <div
                 className="bg-secondary h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(currentStep / 5) * 100}%` }}
               ></div>
@@ -648,19 +679,21 @@ const dataToSend = { ...formData };
           <div className="flex justify-between mb-8 flex-wrap">
             {[1, 2, 3, 4, 5].map((step) => (
               <div key={step} className="flex flex-col items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium text-paragraph ${
-                  step <= currentStep 
-                    ? 'bg-secondary text-quaternary' 
-                    : 'bg-quinary/10 text-quinary'
-                }`}>
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium text-paragraph ${
+                    step <= currentStep
+                      ? "bg-secondary text-quaternary"
+                      : "bg-quinary/10 text-quinary"
+                  }`}
+                >
                   {step}
                 </div>
                 <span className="text-xs mt-1 text-quinary text-paragraph">
-                  {step === 1 && 'Personal'}
-                  {step === 2 && 'Dirección'}
-                  {step === 3 && 'Laboral'}
-                  {step === 4 && 'Bancaria'}
-                  {step === 5 && 'Adicional'}
+                  {step === 1 && "Personal"}
+                  {step === 2 && "Dirección"}
+                  {step === 3 && "Laboral"}
+                  {step === 4 && "Bancaria"}
+                  {step === 5 && "Adicional"}
                 </span>
               </div>
             ))}
@@ -676,8 +709,8 @@ const dataToSend = { ...formData };
               disabled={currentStep === 1}
               className={`px-6 py-2 rounded-md font-medium text-paragraph ${
                 currentStep === 1
-                  ? 'bg-quinary/20 text-quinary/50 cursor-not-allowed'
-                  : 'bg-quinary/75 text-quaternary hover:bg-quinary/85 cursor-pointer'
+                  ? "bg-quinary/20 text-quinary/50 cursor-not-allowed"
+                  : "bg-quinary/75 text-quaternary hover:bg-quinary/85 cursor-pointer"
               }`}
             >
               Anterior
@@ -687,11 +720,17 @@ const dataToSend = { ...formData };
               disabled={isSaving}
               className={`px-6 py-2 rounded-md font-medium font-paragraph ${
                 isSaving
-                  ? 'bg-quinary/20 text-quinary cursor-not-allowed'
-                  : 'bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer'
+                  ? "bg-quinary/20 text-quinary cursor-not-allowed"
+                  : "bg-tertiary/80 text-quaternary hover:bg-tertiary cursor-pointer"
               }`}
             >
-              {currentStep < 5 ? (isSaving ? 'Guardando...' : 'Guardar') : (isSaving ? 'Guardando...' : 'Guardar Configuración')}
+              {currentStep < 5
+                ? isSaving
+                  ? "Guardando..."
+                  : "Guardar"
+                : isSaving
+                ? "Guardando..."
+                : "Guardar Configuración"}
             </button>
           </div>
         </div>

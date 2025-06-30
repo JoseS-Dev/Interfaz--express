@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { axiosInstance } from "../context/axiosInstances";
+import { confirmAction, successAlert } from "../utils/swalHelper";
+
 const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
   const [primaryInputFont, setPrimaryInputFont] = useState("");
   const [secondaryInputFont, setSecondaryInputFont] = useState("");
@@ -55,7 +57,7 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
     const id = event.target.id;
     if (event.target.value[0] === "-" || event.target.value[0] === "0") {
       event.target.value = "1";
-      
+
       if (id === "tam_paragraph") {
         setParagraphInputSize(event.target.value);
       } else if (id === "tam_title") {
@@ -68,8 +70,10 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
       primaryFont: primaryInputFont,
       secondaryFont: secondaryInputFont,
       textTitle: id === "tam_title" ? event.target.value : titleInputSize,
-      textSubtitle: id === "tam_subtitle" ? event.target.value : subtitleInputSize,
-      textParagraph: id === "tam_paragraph" ? event.target.value : paragraphInputSize,
+      textSubtitle:
+        id === "tam_subtitle" ? event.target.value : subtitleInputSize,
+      textParagraph:
+        id === "tam_paragraph" ? event.target.value : paragraphInputSize,
     });
   };
   const onSaveFonts = async (event: React.FormEvent) => {
@@ -84,6 +88,14 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
       setInvalidData(true);
       return;
     }
+
+    const result = await confirmAction({
+      title: "¿Estás seguro?",
+      text: "¡Vas a crear una nueva tipografía!",
+      confirmButtonText: "Sí, crear",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) return;
 
     const mainInputFile = document.getElementById(
       "primaryFont"
@@ -121,6 +133,10 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
       });
       mainInputFile.value = "";
       secondaryInputFile.value = "";
+      successAlert({
+        title: "¡Tipografía creada!",
+        text: "La tipografía se creó correctamente.",
+      });
     } catch (error) {
       console.error("Error al guardar las fuentes:", error);
     }
@@ -137,6 +153,15 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
       setInvalidData(true);
       return;
     }
+
+    const result = await confirmAction({
+      title: "¿Estás seguro?",
+      text: "¡Vas a editar la tipografía seleccionada!",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar",
+    });
+    if (!result.isConfirmed) return;
+
     const formData = new FormData();
     const mainInputFile = document.getElementById(
       "primaryFont"
@@ -156,9 +181,8 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
     }
     try {
       const selectedTipography = (
-        await axiosInstance.get("/Tipography/selected", )
+        await axiosInstance.get("/Tipography/selected")
       ).data.data;
-      console.log('tipografia seleccionada', selectedTipography);
       const response = await axiosInstance.patch(
         `/Tipography/${selectedTipography.id_tipography}`,
         formData,
@@ -181,6 +205,10 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
       });
       mainInputFile.value = "";
       secondaryInputFile.value = "";
+      successAlert({
+        title: "¡Tipografía editada!",
+        text: "La tipografía se editó correctamente.",
+      });
     } catch (error) {
       console.error("Error al guardar las fuentes:", error);
     }

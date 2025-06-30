@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext"; // Asume que esta ruta es correcta.
+import { successAlert } from "../utils/swalHelper";
 
 const LoginModal = () => {
   const [correo, setCorreo] = useState("");
@@ -25,7 +26,9 @@ const LoginModal = () => {
     setUsername(event.target.value);
     setError(false);
   };
-  const onConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setConfirmPassword(event.target.value);
     setError(false);
   };
@@ -72,6 +75,10 @@ const LoginModal = () => {
       const data = await response.json();
       if (response.ok) {
         login(data.user, data.token);
+        await successAlert({
+          title: "¡Bienvenido!",
+          text: "Has iniciado sesión correctamente.",
+        });
         toggleLogin(); // Cerrar modal al iniciar sesión exitosamente
       } else {
         console.error("Login failed:", data.message);
@@ -111,12 +118,18 @@ const LoginModal = () => {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Registro exitoso:", data.message || "Usuario registrado con éxito.");
+        console.log(
+          "Registro exitoso:",
+          data.message || "Usuario registrado con éxito."
+        );
         // **NUEVO: Llama a la función login del AuthContext**
         login(data.user, data.token); // Asume que 'data' contiene 'user' y 'token'
         toggleLogin(); // Cierra el modal después de registrarse y loguearse automáticamente
       } else {
-        console.error("Registro fallido:", data.message || "Error desconocido al registrar.");
+        console.error(
+          "Registro fallido:",
+          data.message || "Error desconocido al registrar."
+        );
         setError(true);
       }
     } catch (err) {
@@ -146,7 +159,10 @@ const LoginModal = () => {
         <form onSubmit={isRegistering ? onRegister : onLogin}>
           {isRegistering && (
             <div className="mb-4">
-              <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="username">
+              <label
+                className="block text-quinary text-sm font-bold mb-2 text-paragraph"
+                htmlFor="username"
+              >
                 Nombre de Usuario
               </label>
               <input
@@ -161,7 +177,10 @@ const LoginModal = () => {
             </div>
           )}
           <div className="mb-4">
-            <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="email">
+            <label
+              className="block text-quinary text-sm font-bold mb-2 text-paragraph"
+              htmlFor="email"
+            >
               Correo
             </label>
             <input
@@ -175,7 +194,10 @@ const LoginModal = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="password">
+            <label
+              className="block text-quinary text-sm font-bold mb-2 text-paragraph"
+              htmlFor="password"
+            >
               Contraseña
             </label>
             <input
@@ -190,7 +212,10 @@ const LoginModal = () => {
           </div>
           {isRegistering && (
             <div className="mb-6">
-              <label className="block text-quinary text-sm font-bold mb-2 text-paragraph" htmlFor="confirmPassword">
+              <label
+                className="block text-quinary text-sm font-bold mb-2 text-paragraph"
+                htmlFor="confirmPassword"
+              >
                 Confirmar Contraseña
               </label>
               <input
@@ -221,7 +246,9 @@ const LoginModal = () => {
             </button>
             {error && (
               <span className="text-quinary text-paragraph pt-1 block w-full text-center mt-0.5">
-                {isRegistering ? "Error en el registro. Las contraseñas pueden no coincidir o el usuario/correo ya existe." : "Credenciales inválidas"}
+                {isRegistering
+                  ? "Error en el registro. Las contraseñas pueden no coincidir o el usuario/correo ya existe."
+                  : "Credenciales inválidas"}
               </span>
             )}
           </div>
