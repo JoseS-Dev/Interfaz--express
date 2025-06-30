@@ -428,6 +428,24 @@ const dataToSend = { ...formData };
               </option>
             ))}
           </select>
+        ) : type === "file" ? (
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  handleInputChange(field, reader.result as string);
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${
+              hasError ? "border-tertiary" : "border-quinary/25"
+            } bg-primary/50`}
+          />
         ) : (
           <input
             type={type}

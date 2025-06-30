@@ -143,12 +143,20 @@ const Navbar = () => {
                 <>
                   {user ? (
                     user.role_user === "admin" ? (
-                      <Link
-                        to={"/admin"}
-                        className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
-                      >
-                        Admin
-                      </Link>
+                      <>
+                        <Link
+                          to={"/admin"}
+                          className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
+                        >
+                          Admin
+                        </Link>
+                        <Link
+                          to={"/settings"}
+                          className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
+                        >
+                          Settings
+                        </Link>
+                      </>
                     ) : (
                       <Link
                         to={"/settings"}
@@ -238,12 +246,20 @@ const Navbar = () => {
             <>
               {user ? (
                 user.role_user === "admin" ? (
-                  <Link
-                    to={"/admin"}
-                    className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
-                  >
-                    Admin
-                  </Link>
+                  <>
+                    <Link
+                      to={"/admin"}
+                      className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
+                    >
+                      Admin
+                    </Link>
+                      <Link
+                        to={"/settings"}
+                        className="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph cursor-pointer"
+                      >
+                          Settings
+                      </Link>
+                    </>
                 ) : (
                   <Link
                     to={"/settings"}

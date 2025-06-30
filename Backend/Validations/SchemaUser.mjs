@@ -21,7 +21,7 @@ export const schemaUser = zod.object({
         required_error: 'El nombre de usuario es requerido',
         invalid_type_error: 'El nombre de usuario debe ser una cadena de texto'
     }).min(3, 'El nombre de usuario debe tener al menos 3 caracteres'),
-    age_user: zod.string({
+    age_user: zod.number({
         required_error: 'La edad es requerida',
         invalid_type_error: 'La edad debe ser un número'
     }),
@@ -39,10 +39,7 @@ export const schemaUser = zod.object({
     image_user: zod.string({
         required_error: 'La imagen es requerida',
         invalid_type_error: 'La imagen debe ser una cadena de texto'
-    }).url('La imagen debe ser una URL válida').refine((url) => {
-        const validExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-        return validExtensions.some(ext => url.endsWith(ext));
-    }),
+    }).url('La imagen debe ser una URL válida'),
     blood_group_user: zod.string({
         required_error: 'El grupo sanguíneo es requerido',
         invalid_type_error: 'El grupo sanguíneo debe ser una cadena de texto'
@@ -50,11 +47,11 @@ export const schemaUser = zod.object({
         const validGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
         return validGroups.includes(value);
     }),
-    height_user: zod.string({
+    height_user: zod.number({
         required_error: 'La altura es requerida',
         invalid_type_error: 'La altura debe ser un número'
     }),
-    weight_user: zod.string({
+    weight_user: zod.number({
         required_error: 'El peso es requerido',
         invalid_type_error: 'El peso debe ser un número'
     }),

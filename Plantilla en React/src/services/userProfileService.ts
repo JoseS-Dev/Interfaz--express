@@ -15,7 +15,6 @@ export const userProfileService = {
           name_user: userData.name_user || '',
           maiden_name_user: userData.maiden_name_user || '',
           email_user: userData.email_user || '',
-          password_user: userData.password_user || '',
           username: userData.username || '',
           role_user: userData.role_user || '',
           age_user: userData.age_user || null,
