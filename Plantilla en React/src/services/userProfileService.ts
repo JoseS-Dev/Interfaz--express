@@ -19,6 +19,7 @@ export const userProfileService = {
           role_user: userData.role_user || '',
           age_user: userData.age_user || null,
           phone_user: userData.phone_user || null,
+          gender_user: userData.gender_user || null,
           birth_date_user: userData.birth_date_user || null,
           image_user: userData.image_user || null,
           blood_group_user: userData.blood_group_user || null,

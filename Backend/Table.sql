@@ -27,6 +27,7 @@ CREATE TABLE info_user(
     ein_user VARCHAR(255) NOT NULL,
     ssn_user VARCHAR(255) NOT NULL,
     user_agent_user VARCHAR(255) NOT NULL,
+    gender_user VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
 );
 

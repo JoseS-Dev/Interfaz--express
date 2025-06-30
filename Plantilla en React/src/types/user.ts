@@ -19,6 +19,7 @@ export interface UserProfile {
   phone_user: string | null;
   birth_date_user: string | null;
   image_user: string | null;
+  gender_user: string | null;
   blood_group_user: string | null;
   height_user: number | null;
   weight_user: number | null;

@@ -36,6 +36,10 @@ export const schemaUser = zod.object({
         const parseDate = new Date(date);
         return !isNaN(parseDate.getTime());
     }),
+    gender_user: zod.string({
+        required_error: 'El genero del usuario es requerido',
+        invalid_type_error: 'El genero debe ser un string'
+    }),
     image_user: zod.string({
         required_error: 'La imagen es requerida',
         invalid_type_error: 'La imagen debe ser una cadena de texto'
@@ -269,6 +273,10 @@ export const schemaUserUpdate = zod.object({
     }).refine(date => {
         const parseDate = new Date(date);
         return !isNaN(parseDate.getTime());
+    }),
+    gender_user: zod.string({
+        required_error: 'El genero del usuario es requerido',
+        invalid_type_error: 'El genero debe ser un string'
     }),
     image_user: zod.string({
         required_error: 'La imagen es requerida',

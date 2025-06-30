@@ -274,7 +274,7 @@ export class ModelsUsers{
             // Datos de info_user
             age_user, phone_user, birth_date_user, image_user, blood_group_user,
             height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
-            university_user, ein_user, ssn_user, user_agent_user,
+            university_user, ein_user, ssn_user, user_agent_user,gender_user,
             // Datos de address_user
             street_address, city_address, state_address, state_code_address,
             postal_code_address, latitude_address, longitude_address, country_address,
@@ -378,12 +378,12 @@ export class ModelsUsers{
             const infoUserFields = [
                 'age_user', 'phone_user', 'birth_date_user', 'image_user', 'blood_group_user',
                 'height_user', 'weight_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user',
-                'university_user', 'ein_user', 'ssn_user', 'user_agent_user'
+                'university_user', 'ein_user', 'ssn_user', 'user_agent_user', 'gender_user'
             ];
             const infoUserValues = [
                 age_user, phone_user, birth_date_user, image_user, blood_group_user,
                 height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
-                university_user, ein_user, ssn_user, user_agent_user
+                university_user, ein_user, ssn_user, user_agent_user, gender_user
             ];
             const infoUserResult = await upsertTable('info_user', infoUserFields, infoUserValues);
             if (infoUserResult.affectedRows > 0) {
