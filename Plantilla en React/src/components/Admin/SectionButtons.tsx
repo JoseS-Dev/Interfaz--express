@@ -14,7 +14,7 @@ const SectionButtons = () => {
             </article>
         </section>
         <section className="w-full lg:w-3/4 flex flex-col items-center justify-center bg-white py-8">
-            <article className="w-full flex flex-col md:flex-row items-center justify-around gap-8">
+            <article className="w-full flex flex-col md:flex-row flex-wrap items-center justify-around gap-8">
                 <Link to={'/admin/colors'} className="border-2 border-black max-w-lg md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
                     Cambiar Colores
                     <svg
