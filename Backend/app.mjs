@@ -13,7 +13,7 @@ app.use(cors({
   origin: '*',
   credentials: true,
 }));
-app.use(json());
+app.use(json({limit: '100mb' }));
 app.use(cookieParser());
 app.use('/font',express.static('uploads/fonts'));
 

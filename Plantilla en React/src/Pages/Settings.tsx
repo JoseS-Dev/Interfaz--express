@@ -267,7 +267,7 @@ const Settings: React.FC = () => {
                 break;
             case 'wallet_address_user':
                 if (!value || typeof value !== 'string' || !/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(value)) {
-                    newErrors[field] = 'La dirección de la billetera es inválida (ej. dirección Bitcoin)';
+                    newErrors[field] = 'La dirección de la billetera es inválida (ej. 1BoatSLRHtKNngkdXEeobR76b53LETtpyT)';
                 }
                 break;
                 
@@ -332,10 +332,12 @@ const Settings: React.FC = () => {
 
   // Guardar cambios
   const handleSaveOrNext = async () => {
+    console.log("dentro de funcion guardar: ", validateCurrentStep())
     // Validar primero
     if (!validateCurrentStep()) return; // Si hay error, el SweetAlert de error ya se muestra y no avanza
     
-const dataToSend = { ...formData };
+  const dataToSend = { ...formData }; 
+  console.log({formData})
 
     // Format card_expire_user for backend
     if (dataToSend.card_expire_user) {
@@ -368,6 +370,7 @@ const dataToSend = { ...formData };
         dataToSend.age_user = dataToSend.age_user ? Number(dataToSend.age_user) : null;
         dataToSend.height_user = dataToSend.height_user ? Number(dataToSend.height_user) : null;
         dataToSend.weight_user = dataToSend.weight_user ? Number(dataToSend.weight_user) : null;
+        console.log({dataToSend})
         const result = await userProfileService.updateUserProfile(user!.id_user, dataToSend);
         if (result.success) {
           setOriginalData(formData);
