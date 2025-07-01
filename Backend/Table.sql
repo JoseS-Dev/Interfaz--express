@@ -1,3 +1,6 @@
+drop database if exists users;
+create database users;
+use users;
 CREATE TABLE user_register(
     id_user INT PRIMARY KEY AUTO_INCREMENT,
     name_user VARCHAR(255) NOT NULL DEFAULT '',
@@ -8,6 +11,7 @@ CREATE TABLE user_register(
     is_active_user BOOLEAN NOT NULL DEFAULT TRUE,
     role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user'
 );
+ALTER TABLE info_user MODIFY image_user LONGTEXT;
 
 CREATE TABLE info_user(
     id_info_user INT PRIMARY KEY AUTO_INCREMENT,

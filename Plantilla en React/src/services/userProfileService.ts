@@ -74,6 +74,7 @@ export const userProfileService = {
   // Actualizar perfil del usuario
   updateUserProfile: async (userId: number, profileData: Partial<UserProfile>): Promise<{ success: boolean; message: string }> => {
     try {
+      console.log(profileData)
       const response = await axiosInstance.patch(`/Users/${userId}`, profileData);
       return {
         success: true,
