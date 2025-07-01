@@ -4,6 +4,7 @@ import { axiosInstance } from '../../../context/axiosInstances';
 import UserDetailsModal from './UsersDetails';
 import { User } from './user.interface';
 import PdfDownloadButton from './PdfDownloadButton';
+import ExcelDownloadButton from './ExcelDownloadButton';
 
 const COLORS = {
     primary_color: "DFEEFF",
@@ -176,8 +177,9 @@ const UsersTable = () => {
                 }}
             />
 
-            <div className="my-4">
+            <div className="my-4 flex justify-start gap-4">
                 <PdfDownloadButton users={users} />
+                <ExcelDownloadButton users={users} />
             </div>
 
             <UserDetailsModal
