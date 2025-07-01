@@ -365,6 +365,9 @@ const dataToSend = { ...formData };
     } else {
       setIsSaving(true);
       try {
+        dataToSend.age_user = dataToSend.age_user ? Number(dataToSend.age_user) : null;
+        dataToSend.height_user = dataToSend.height_user ? Number(dataToSend.height_user) : null;
+        dataToSend.weight_user = dataToSend.weight_user ? Number(dataToSend.weight_user) : null;
         const result = await userProfileService.updateUserProfile(user!.id_user, dataToSend);
         if (result.success) {
           setOriginalData(formData);
@@ -489,7 +492,8 @@ const dataToSend = { ...formData };
         {renderEditableField('name_user', 'Nombre', 'text', true)}
         {renderEditableField('maiden_name_user', 'Apellido de Soltera', 'text', false)}
         {renderEditableField('age_user', 'Edad', 'number', false)} 
-        {renderEditableField('gender', 'Género', 'select', false, [
+        {renderEditableField('gender_user', 'Género', 'select', false, [
+          { value: '', label: 'Seleccionar...' },
           { value: 'female', label: 'Femenino' },
           { value: 'male', label: 'Masculino' },
           { value: 'other', label: 'Otro' }
@@ -586,7 +590,7 @@ const dataToSend = { ...formData };
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {renderEditableField('card_number_user', 'Número de Tarjeta', 'text', true)}
-        {renderEditableField('card_expire_user', 'Fecha de Expiración (MM/AA o MM/AAAA)', 'text', true)}
+        {renderEditableField('card_expire_user', 'Fecha de Expiración (MM/AAAA)', 'text', true)}
         {renderEditableField('card_type_user', 'Tipo de Tarjeta', 'select', true, [
           { value: '', label: 'Seleccionar...' },
           { value: 'Visa', label: 'Visa' },
