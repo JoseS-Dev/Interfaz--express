@@ -11,7 +11,6 @@ CREATE TABLE user_register(
     is_active_user BOOLEAN NOT NULL DEFAULT TRUE,
     role_user ENUM('admin', 'user') NOT NULL DEFAULT 'user'
 );
-ALTER TABLE info_user MODIFY image_user LONGTEXT;
 
 CREATE TABLE info_user(
     id_info_user INT PRIMARY KEY AUTO_INCREMENT,
@@ -19,7 +18,7 @@ CREATE TABLE info_user(
     age_user INT NOT NULL,
     phone_user VARCHAR(255) NOT NULL,
     birth_date_user DATE NOT NULL,
-    image_user VARCHAR(255) NOT NULL,
+    image_user LONGTEXT NOT NULL,
     blood_group_user VARCHAR(10) NOT NULL,
     height_user DECIMAL(5,2) NOT NULL,
     weight_user DECIMAL(5,2) NOT NULL,
