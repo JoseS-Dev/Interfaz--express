@@ -1,0 +1,255 @@
+### Verificar si un usuario esta autenticado
+GET http://localhost:3500/Users/verify/
+
+### Obtener todos los usuarios
+GET http://localhost:3500/Users
+
+### Obtener un usuario por id
+GET http://localhost:3500/Users/1
+
+### Obtener un usuario por su email
+GET http://localhost:3500/Users/Email/joseasantana05@gmail.com
+
+### Obtener un usuario por su nombre de usuario
+GET http://localhost:3500/Users/Username/SenkuJS
+
+### Obtener a un usuario por su rol
+GET http://localhost:3500/Users/Role/admin
+
+### Actualizar un usuario
+PATCH http://localhost:3500/Users/1
+Content-Type: application/json
+
+{
+    "name_user": "Jose Angel",
+    "maiden_name_user": "Santana",
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06...",
+    "username": "senkuJS",
+    "age_user": 30,
+    "phone_user": "+1234567890",
+    "birth_date_user": "1993-01-01",
+    "gender_user": "Masculino"
+    "image_user": "http://example.com/image.jpg",
+    "blood_group_user": "O+",
+    "height_user": 180,
+    "weight_user": 75,
+    "eye_color_user": "blue",
+    "hair_user": "brown",
+    "ip_user": "192.168.1.1",
+    "mac_address_user": "00:1A:2B:3C:4D:5E",
+    "university_user": "Example University",
+    "ein_user": "12-3456789",
+    "ssn_user": "123-45-6789",
+    "user_agent_user": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "role_user": "admin",
+    "street_address": "123 Main St",
+    "city_address": "Anytown",
+    "state_address": "CA",
+    "state_code_address": "CA",
+    "postal_code_address": "12345",
+    "latitude_address": 34.0522,
+    "longitude_address": -118.2437,
+    "country_address": "USA",
+    "card_expire_user": "12/25",
+    "card_number_user": "4111-1111-1111-1111",
+    "card_type_user": "Visa",
+    "currency_user": "USD",
+    "iban_user": "US12345678901234567890",
+    "department_company_user": "Engineering",
+    "company_name_user": "Example Corp",
+    "company_title_user": "Software Engineer",
+    "company_street_user": "456 Corporate Blvd",
+    "company_city_user": "Business City",
+    "company_state_user": "NY",
+    "company_state_code_user": "NY",
+    "company_postal_code_user": "67890",
+    "company_latitude_user": 40.7128,
+    "company_longitude_user": -74.0060,
+    "company_country_user": "USA",
+    "coin_user": "Bitcoin",
+    "wallet_address_user": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+    "network_user": "Mainnet"
+}
+
+### Logear usuario
+POST http://localhost:3500/Users/login
+Content-Type: application/json
+
+{
+  "email_user": "joseasantana05@gmail.com",
+  "password_user": "JSa06..."
+}
+
+### Crear usuario
+POST http://localhost:3500/Users/register
+Content-Type: application/json
+
+{
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06...",
+    "username": "johndoe",
+    "role_user": "admin"
+}
+
+
+### Cerrar sesion
+POST http://localhost:3500/Users/logout
+Content-Type: application/json
+
+{
+  "email_user": "joseasantana05@gmail.com",
+  "password_user": "JSa06..."
+}
+
+### Obtener todas las tipografias
+GET http://localhost:3500/Tipography
+
+### Obtener tipografia por id
+GET http://localhost:3500/Tipography/1
+
+### Obtener una tipografia por su fuente principal
+GET http://localhost:3500/Tipography/NameMain/Roboto
+
+### Obtener una tipografia por su fuente secundaria
+GET http://localhost:3500/Tipography/NameSeco/Serif
+
+### Obtener una tipografia por su tamaño de fuente
+GET http://localhost:3500/Tipography/TamFont/16
+
+### Obtener una tipografia por su tamaño en los parrafos
+GET http://localhost:3500/Tipography/TamParagraph/16
+
+### Obtener una Tipografia por su tamaño de fuente en los titulos
+GET http://localhost:3500/Tipography/TamTitle/24
+
+### Obtener una tipografia pór su tamaño de fuente en los subtitulos
+GET http://localhost:3500/Tipography/TamSubtitle/20
+
+### Crear una tipografia
+POST http://localhost:3500/Tipography/1
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="main_font"; filename="Roboto.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Roboto.ttf
+--CustomBoundary
+Content-Disposition: form-data; name="secondary_font"; filename="San-serif.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/San-serif.ttf
+--CustomBoundary--
+
+
+### Crear una tipografia con su fuente principal
+POST http://localhost:3500/Tipography/Main/1
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="archive_font"; filename="Roboto.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Roboto.ttf
+--CustomBoundary--
+
+### Crear una tipografia con su fuente secundaria
+POST http://localhost:3500/Tipography/Secondary/1
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="tam_font"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_paragraph"
+
+16
+--CustomBoundary
+Content-Disposition: form-data; name="tam_title"
+
+24
+--CustomBoundary
+Content-Disposition: form-data; name="tam_subtitle"
+
+20
+--CustomBoundary
+Content-Disposition: form-data; name="archive_font"; filename="Serif.ttf"
+Content-Type: application/x-font-ttf
+
+< ../font/Serif.ttf
+--CustomBoundary--
+
+
+
+### Borrar una tipografia
+DELETE http://localhost:3500/Tipography/6
+
+### Obtener todos los conjuntos de colores
+GET http://localhost:3500/Colors
+
+### Obtener un conjunto de colores por id
+GET http://localhost:3500/Colors/3
+
+### Obtener un conjunto de colores por su color primario
+GET http://localhost:3500/Colors/Primary/f00
+
+### Obtener un conjunto de colores por su color secundario
+GET http://localhost:3500/Colors/Secondary/0f0
+### Obtener un conjunto de colores por su color terciario
+GET http://localhost:3500/Colors/Ternary/00f
+
+### Obtener un conjunto de colores por su color cuaternario
+GET http://localhost:3500/Colors/Cuaternary/ff0
+
+### Obtener un conjunto de colores por su color neutral
+GET http://localhost:3500/Colors/Neutral/000
+
+### Crear un conjunto de colores
+POST http://localhost:3500/Colors
+Content-Type: application/json
+
+{
+  "primary_color": "f00",
+  "secondary_color": "0f0",
+  "ternary_color": "00f",
+  "cuarternary_color": "ff0",
+  "neutral_color": "000",
+  "is_selected": true
+}
+
+### Borrar un conjunto de colores
+DELETE http://localhost:3500/Colors/6
