@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienestar Total - Tu salud es nuestra prioridad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#E8F4F8', // 60% - Azul muy claro
+                        secondary: '#2563EB', // 30% - Azul
+                        tertiary: '#F97316', // 10% - Naranja
+                        quaternary: '#FFFFFF', // Blanco
+                        quinary: '#374151', // Gris claro
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="bg-primary">
+    <!-- Navbar -->
+    <nav class="bg-quaternary shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-secondary">Bienestar Total</h1>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-quinary hover:text-secondary focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+                <!-- Desktop menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#inicio" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium">Inicio</a>
+                        <a href="#servicios" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium">Servicios</a>
+                        <a href="#galeria" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium">Galería</a>
+                        <a href="#contacto" class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium">Contacto</a>
+                        <button onclick="toggleLogin()" class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium">Admin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu, show/hide based on menu state -->
+        <div id="mobile-menu" class="hidden md:hidden bg-quaternary">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#inicio" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium">Inicio</a>
+                <a href="#servicios" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium">Servicios</a>
+                <a href="#galeria" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium">Galería</a>
+                <a href="#contacto" class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium">Contacto</a>
+                <button onclick="toggleLogin()" class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75">Admin</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-quaternary p-8 rounded-lg shadow-lg w-11/12 max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-secondary">Acceso Administrador</h2>
+                <button onclick="toggleLogin()" class="text-quinary hover:text-secondary">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-quinary text-sm font-bold mb-2">Usuario</label>
+                    <input type="text" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-quinary text-sm font-bold mb-2">Contraseña</label>
+                    <input type="password" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="toggleLogin()" class="bg-quinary bg-opacity-70 text-quaternary px-4 py-2 rounded-md hover:bg-opacity-50">Cancelar</button>
+                    <button type="submit" class="bg-secondary text-quaternary px-4 py-2 rounded-md hover:bg-opacity-75">Ingresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header/Banner -->
+    <section id="inicio" class="relative bg-cover bg-center" style="background-image: url('./assets/img/banner-image.webp');">
+        <div class="absolute inset-0 bg-secondary bg-opacity-50"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-[500px] md:min-h-[600px] px-4">
+            <div class="text-center text-quaternary">
+                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">Tu Bienestar es Nuestra Prioridad</h1>
+                <p class="text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto">Servicios de salud integral para toda la familia</p>
+                <button class="mt-8 bg-tertiary text-quaternary font-medium py-3 px-6 rounded-md transition-colors">
+                    Agendar Cita
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-16 bg-quaternary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-secondary mb-12">Nuestros Servicios</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Servicio 1 -->
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-lg">
+                        <img src="./assets/img/img1.avif" alt="Consulta Médica" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Consulta Médica</h3>
+                    <p class="text-quinary">Atención médica personalizada con profesionales especializados</p>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-lg">
+                        <img src="./assets/img/img2.avif" alt="Terapia Física" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Terapia Física</h3>
+                    <p class="text-quinary">Rehabilitación y tratamiento para mejorar tu movilidad</p>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-lg">
+                        <img src="./assets/img/img3.avif" alt="Nutrición" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Nutrición</h3>
+                    <p class="text-quinary">Planes alimenticios personalizados para tu bienestar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrusel de Imágenes -->
+<section id="galeria" class="py-16 bg-primary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center text-secondary mb-12">Nuestras Instalaciones</h2>
+        
+        <!-- Carrusel Desktop (3 en 3) -->
+        <div class="hidden lg:block relative">
+            <div id="carousel-desktop" class="overflow-hidden rounded-lg shadow-lg">
+                <div id="carousel-inner-desktop" class="flex transition-transform duration-500 ease-in-out">
+                    <!-- Slide 1 - Grupo de 3 imágenes -->
+                    <div class="w-full flex-shrink-0 grid grid-cols-3 gap-4">
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img4.avif" alt="Recepción moderna" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img5.avif" alt="Sala de espera" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img6.avif" alt="Consultorio médico" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                    </div>
+                    <!-- Slide 2 - Grupo de 3 imágenes -->
+                    <div class="w-full flex-shrink-0 grid grid-cols-3 gap-4">
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img7.jpeg" alt="Laboratorio" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img8.avif" alt="Sala de rehabilitación" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img9.avif" alt="Área de nutrición" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                    </div>
+                    <!-- Slide 3 - Grupo de 3 imágenes -->
+                    <div class="w-full flex-shrink-0 grid grid-cols-3 gap-4">
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img10.avif" alt="Quirófano" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img11.avif" alt="Farmacia" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-12">
+                            <img src="./assets/img/img12.avif" alt="Jardín terapéutico" class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="prevSlideDesktop()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10">
+                <i class="fas fa-chevron-left text-secondary text-xl"></i>
+            </button>
+            <button onclick="nextSlideDesktop()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10">
+                <i class="fas fa-chevron-right text-secondary text-xl"></i>
+            </button>
+            <!-- Indicadores Desktop -->
+            <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                <button onclick="goToSlideDesktop(0)" class="h-2 w-8 rounded-full bg-quaternary bg-opacity-60 hover:bg-opacity-100 transition-all" id="indicator-desktop-0"></button>
+                <button onclick="goToSlideDesktop(1)" class="h-2 w-8 rounded-full bg-quaternary bg-opacity-60 hover:bg-opacity-100 transition-all" id="indicator-desktop-1"></button>
+                <button onclick="goToSlideDesktop(2)" class="h-2 w-8 rounded-full bg-quaternary bg-opacity-60 hover:bg-opacity-100 transition-all" id="indicator-desktop-2"></button>
+            </div>
+        </div>
+
+        <!-- Carrusel Mobile/Tablet (1 en 1) -->
+        <div class="lg:hidden relative">
+            <!-- Contador de slides para móvil -->
+            <div class="absolute z-10 top-4 right-4 bg-quinary bg-opacity-50 text-quaternary px-3 py-1 rounded-full text-sm">
+                <span id="slide-counter">1 / 9</span>
+            </div>
+            <div id="carousel-mobile" class="overflow-hidden rounded-lg shadow-lg">
+                <div id="carousel-inner-mobile" class="flex transition-transform duration-500 ease-in-out">
+                    <!-- Imagen 1 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img4.avif" alt="Recepción moderna" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 2 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img5.avif" alt="Sala de espera" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 3 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img6.avif" alt="Consultorio médico" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 4 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img7.jpeg" alt="Laboratorio" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 5 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img8.avif" alt="Sala de rehabilitación" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 6 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img9.avif" alt="Área de nutrición" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 7 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img10.avif" alt="Quirófano" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 8 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img11.avif" alt="Farmacia" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                    <!-- Imagen 9 -->
+                    <div class="w-full flex-shrink-0">
+                        <img src="./assets/img/img12.avif" alt="Jardín terapéutico" class="w-full h-64 sm:h-80 object-cover rounded-lg">
+
+                    </div>
+                </div>
+            </div>
+            <button onclick="prevSlideMobile()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-quaternary bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10">
+                <i class="fas fa-chevron-left text-secondary text-xl"></i>
+            </button>
+            <button onclick="nextSlideMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-quaternary bg-opacity-80 hover:bg-opacity-100 rounded-full p-3 shadow-md focus:outline-none z-10">
+                <i class="fas fa-chevron-right text-secondary text-xl"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+    <!-- Formulario de Contacto -->
+    <section id="contacto" class="py-16 bg-quaternary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-secondary mb-12">Contáctanos</h2>
+            <div class="max-w-2xl mx-auto">
+                <form class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-quinary mb-2">Nombre</label>
+                            <input type="text" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-quinary mb-2">Teléfono</label>
+                            <input type="tel" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-quinary mb-2">Email</label>
+                        <input type="email" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-quinary mb-2">Mensaje</label>
+                        <textarea rows="4" class="w-full px-3 py-2 border border-quinary/25 rounded-md focus:outline-none focus:border-secondary resize-none"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="bg-tertiary text-quaternary px-8 py-3 rounded-md font-medium hover:bg-tertiary/75 transition-colors">
+                            Enviar Mensaje
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-quaternary py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Bienestar Total</h3>
+                    <p class="text-quaternary/75">Tu salud y bienestar son nuestra prioridad. Ofrecemos servicios médicos de calidad.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contacto</h3>
+                    <p class="text-quaternary/75"><i class="fas fa-map-marker-alt mr-2"></i> Av. Principal 123, Ciudad</p>
+                    <p class="text-quaternary/75"><i class="fas fa-phone mr-2"></i> (555) 123-4567</p>
+                    <p class="text-quaternary/75"><i class="fas fa-envelope mr-2"></i> info@bienestartotal.com</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Horarios</h3>
+                    <p class="text-quaternary/75">Lunes - Viernes: 8:00 - 18:00</p>
+                    <p class="text-quaternary/75">Sábados: 9:00 - 14:00</p>
+                    <p class="text-quaternary/75">Domingos: Cerrado</p>
+                </div>
+            </div>
+            <div class="border-t border-primary mt-8 pt-8 text-center">
+                <div class="flex justify-center space-x-4 mb-4">
+                    <a href="#" class="text-quaternary hover:text-quaternary/75"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-quaternary hover:text-quaternary/75"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-quaternary hover:text-quaternary/75"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-quaternary hover:text-quaternary/75"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="text-quaternary/75">&copy; 2024 Bienestar Total. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Carrusel Desktop (3 en 3)
+let currentSlideDesktop = 0;
+const totalSlidesDesktop = 3;
+
+function nextSlideDesktop() {
+    currentSlideDesktop = (currentSlideDesktop + 1) % totalSlidesDesktop;
+    updateCarouselDesktop();
+}
+
+function prevSlideDesktop() {
+    currentSlideDesktop = (currentSlideDesktop - 1 + totalSlidesDesktop) % totalSlidesDesktop;
+    updateCarouselDesktop();
+}
+
+function goToSlideDesktop(slideIndex) {
+    currentSlideDesktop = slideIndex;
+    updateCarouselDesktop();
+}
+
+function updateCarouselDesktop() {
+    const carousel = document.getElementById('carousel-inner-desktop');
+    if (carousel) {
+        carousel.style.transform = `translateX(-${currentSlideDesktop * 100}%)`;
+        
+        // Actualizar indicadores desktop
+        for (let i = 0; i < totalSlidesDesktop; i++) {
+            const indicator = document.getElementById(`indicator-desktop-${i}`);
+            if (indicator) {
+                if (i === currentSlideDesktop) {
+                    indicator.classList.add('bg-secondary');
+                    indicator.classList.remove('bg-quaternary', 'bg-opacity-60');
+                } else {
+                    indicator.classList.remove('bg-secondary');
+                    indicator.classList.add('bg-quaternary', 'bg-opacity-60');
+                }
+            }
+        }
+    }
+}
+
+// Carrusel Mobile (1 en 1)
+let currentSlideMobile = 0;
+const totalSlidesMobile = 9;
+
+function nextSlideMobile() {
+    currentSlideMobile = (currentSlideMobile + 1) % totalSlidesMobile;
+    updateCarouselMobile();
+}
+
+function prevSlideMobile() {
+    currentSlideMobile = (currentSlideMobile - 1 + totalSlidesMobile) % totalSlidesMobile;
+    updateCarouselMobile();
+}
+
+function goToSlideMobile(slideIndex) {
+    currentSlideMobile = slideIndex;
+    updateCarouselMobile();
+}
+
+function updateCarouselMobile() {
+    const carousel = document.getElementById('carousel-inner-mobile');
+    const counter = document.getElementById('slide-counter');
+    if (carousel) {
+        carousel.style.transform = `translateX(-${currentSlideMobile * 100}%)`;
+    }
+    if (counter) {
+        counter.textContent = `${currentSlideMobile + 1} / ${totalSlidesMobile}`;
+    }
+}
+
+// Auto-play para ambos carruseles
+let carouselIntervalDesktop = setInterval(nextSlideDesktop, 6000);
+let carouselIntervalMobile = setInterval(nextSlideMobile, 4000);
+
+// Pausar auto-play cuando el usuario interactúa con el carrusel desktop
+const carouselDesktop = document.getElementById('carousel-desktop');
+if (carouselDesktop) {
+    carouselDesktop.addEventListener('mouseenter', function() {
+        clearInterval(carouselIntervalDesktop);
+    });
+
+    carouselDesktop.addEventListener('mouseleave', function() {
+        carouselIntervalDesktop = setInterval(nextSlideDesktop, 6000);
+    });
+}
+
+// Pausar auto-play cuando el usuario interactúa con el carrusel mobile
+const carouselMobile = document.getElementById('carousel-mobile');
+if (carouselMobile) {
+    carouselMobile.addEventListener('touchstart', function() {
+        clearInterval(carouselIntervalMobile);
+    });
+
+    carouselMobile.addEventListener('touchend', function() {
+        carouselIntervalMobile = setInterval(nextSlideMobile, 4000);
+    });
+}
+
+// Inicializar carruseles
+updateCarouselDesktop();
+updateCarouselMobile();
+
+        // Modal de login
+        function toggleLogin() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        // Smooth scroll para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Ajustar el desplazamiento para tener en cuenta la barra de navegación fija
+                    const navbarHeight = document.querySelector('nav').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Inicializar carrusel
+        updateCarousel();
+    </script>
+</body>
+</html>
