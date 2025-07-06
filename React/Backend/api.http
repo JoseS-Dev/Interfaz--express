@@ -29,6 +29,7 @@ Content-Type: application/json
     "age_user": 30,
     "phone_user": "+1234567890",
     "birth_date_user": "1993-01-01",
+    "gender_user": "Masculino"
     "image_user": "http://example.com/image.jpg",
     "blood_group_user": "O+",
     "height_user": 180,
