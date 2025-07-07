@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IUser } from './users.interface';
+import { IUser } from '../../../shared/interfaces/user.interface';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Map, tileLayer, marker, LatLngExpression, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -69,8 +69,8 @@ export class UsersDetailsComponent implements OnChanges {
         const defaultLng = 0;
 
         // Posición personal
-        const personalLat = parseFloat(this.user.latitude_address) || defaultLat;
-        const personalLng = parseFloat(this.user.longitude_address) || defaultLng;
+        const personalLat = this.user.latitude_address || defaultLat;
+        const personalLng = this.user.longitude_address || defaultLng;
         const personalPosition: LatLngExpression = [personalLat, personalLng];
 
         this.personalMapOptions = {
@@ -88,8 +88,8 @@ export class UsersDetailsComponent implements OnChanges {
         ];
 
         // Posición de la empresa
-        const companyLat = parseFloat(this.user.company_latitude_user) || defaultLat;
-        const companyLng = parseFloat(this.user.company_longitude_user) || defaultLng;
+        const companyLat = this.user.company_latitude_user || defaultLat;
+        const companyLng = this.user.company_longitude_user || defaultLng;
         const companyPosition: LatLngExpression = [companyLat, companyLng];
 
         this.companyMapOptions = {

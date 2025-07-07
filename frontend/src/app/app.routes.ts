@@ -6,6 +6,7 @@ import { ColorsComponent } from './features/admin/colors/colors.component';
 import { TypographyComponent } from './features/admin/typography/typography.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UsersComponent } from './features/admin/users/users.component';
+import { ProfileComponent } from './features/profile/profile.component';
 
 export const routes: Routes = [
     { 
@@ -35,6 +36,12 @@ export const routes: Routes = [
                 component: UsersComponent
             },
         ]
+    },
+    {
+        path: 'profile',
+        title: 'Completación de datos',
+        canActivate: [AuthGuard],
+        component: ProfileComponent,
     },
     { 
         path: '**', 

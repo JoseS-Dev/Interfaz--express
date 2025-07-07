@@ -118,7 +118,7 @@ export class ModelsUsers{
     static async getAllUsers() {
         const [users] = await connection.query(`
             SELECT 
-            a.id_user AS user_id,
+            a.id_user,
             a.name_user,
             a.maiden_name_user,
             a.email_user,
@@ -219,7 +219,7 @@ export class ModelsUsers{
             );
             if(userID.length > 0){
                 console.log("Usuario encontrado con el ID solicitado");
-                return userID;
+                return userID[0];
             }
             else{
                 console.log("Usuario no encontrado");

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../../core/services/users.service'; 
-import { IUser } from './users.interface';
+import { IUser } from '../../../shared/interfaces/user.interface'; 
 import { UsersDetailsComponent } from './users-details.component';
 import { UsersDownloadButtonComponent } from './users-download.component';
 import Swal from 'sweetalert2';
@@ -38,7 +38,7 @@ export class UsersTableComponent implements OnInit {
     paginatedUsers: IUser[] = [];
 
     // Para el ordenamiento manual
-    sortColumn: string = 'user_id';
+    sortColumn: string = 'id_user';
     sortDirection: 'asc' | 'desc' = 'asc';
 
     constructor(private usersService: UsersService) { }
@@ -127,11 +127,11 @@ export class UsersTableComponent implements OnInit {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                this.usersService.toggleUserActive(user.user_id, user.is_active_user).subscribe({
+                this.usersService.toggleUserActive(user.id_user, user.is_active_user).subscribe({
                     next: () => {
                         // Actualizar localmente el estado del usuario
                         this.users = this.users.map(u =>
-                            u.user_id === user.user_id
+                            u.id_user === user.id_user
                                 ? { ...u, is_active_user: u.is_active_user === 1 ? 0 : 1 }
                                 : u
                         );
