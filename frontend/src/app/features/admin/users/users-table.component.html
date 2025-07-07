@@ -12,9 +12,9 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead [style.backgroundColor]="'#' + colors.primary_color" [style.color]="'#' + colors.neutral_color">
                     <tr>
-                        <th (click)="sortTable('user_id')" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider cursor-pointer">
+                        <th (click)="sortTable('id_user')" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider cursor-pointer">
                             ID
-                            @if (sortColumn === 'user_id') {
+                            @if (sortColumn === 'id_user') {
                                 <span>{{ sortDirection === 'asc' ? ' ▲' : ' ▼' }}</span>
                             }
                         </th>
@@ -54,11 +54,11 @@
                     </tr>
                 </thead>
                 <tbody [style.backgroundColor]="'#' + colors.cuarternary_color" [style.color]="'#' + colors.neutral_color">
-                    @for (user of paginatedUsers; track user.user_id) {
+                    @for (user of paginatedUsers; track user.id_user) {
                         <tr class="hover:bg-opacity-80" [style.backgroundColor]="'#' + colors.cuarternary_color" [style.color]="'#' + colors.neutral_color"
                             [style.transition]="'background-color 0.2s ease-in-out'"
                             >
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ user.user_id }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ user.id_user }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">{{ user.name_user }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">{{ user.maiden_name_user }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">{{ user.email_user }}</td>

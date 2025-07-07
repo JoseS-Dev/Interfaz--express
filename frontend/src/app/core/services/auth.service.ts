@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoginCredentials, RegisterCredentials } from '../../shared/interfaces/login.interface';
+import { IUser } from '../../shared/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -76,4 +77,13 @@ export class AuthService {
   isAuthenticated(): Observable<boolean> {
     return this.authState.asObservable();
   }
+  
+  public get userId() : number | null {
+    return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}').id_user : null;
+  }
+
+  public get role() : string | null {
+    return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}').role_user : null;
+  }
+  
 }

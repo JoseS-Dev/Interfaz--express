@@ -1,6 +1,6 @@
 // src/app/shared/components/pdf-download-button/pdf-download-button.component.ts
 import { Component, Input } from '@angular/core';
-import { IUser } from './users.interface';
+import { IUser } from '../../../shared/interfaces/user.interface'; 
 import jsPDF from 'jspdf';
 import autotable from 'jspdf-autotable';
 
@@ -46,7 +46,7 @@ export class UsersDownloadButtonComponent {
 
         // Define columnas para la tabla (excluyendo datos de mapa)
         const columns = [
-        { header: "ID", dataKey: "user_id" },
+        { header: "ID", dataKey: "id_user" },
         { header: "Nombre", dataKey: "name_user" },
         { header: "Apellido", dataKey: "maiden_name_user" },
         { header: "Email", dataKey: "email_user" },
@@ -61,7 +61,7 @@ export class UsersDownloadButtonComponent {
 
         // Prepara filas con los datos de usuarios
         const rows = this.users.map((user) => ({
-            user_id: user.user_id,
+            id_user: user.id_user,
             name_user: user.name_user,
             maiden_name_user: user.maiden_name_user,
             email_user: user.email_user,

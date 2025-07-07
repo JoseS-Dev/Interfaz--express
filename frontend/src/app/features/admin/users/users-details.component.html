@@ -33,7 +33,7 @@
                     <p><strong>Nombre completo:</strong> {{ user.name_user }} {{ user.maiden_name_user }}</p>
                     <p><strong>Email:</strong> {{ user.email_user }}</p>
                     <p><strong>Edad:</strong> {{ user.age_user }}</p>
-                    <p><strong>Fecha de nacimiento:</strong> {{ formatDate(user.birth_date_user) }}</p>
+                    <p><strong>Fecha de nacimiento:</strong> {{ formatDate(user.birth_date_user || '') }}</p>
                     <p><strong>Teléfono:</strong> {{ user.phone_user }}</p>
                     <p><strong>Color de ojos:</strong> {{ user.eye_color_user }}</p>
                     <p><strong>Color de cabello:</strong> {{ user.hair_user }}</p>
