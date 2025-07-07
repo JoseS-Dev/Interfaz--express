@@ -9,9 +9,7 @@ import { RouterOutlet } from '@angular/router';
     `
     :host {
       display: block;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
+      min-height: 100vh;
     }
     `
   ],
