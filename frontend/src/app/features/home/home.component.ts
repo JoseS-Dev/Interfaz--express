@@ -10,25 +10,33 @@ import { ITypography } from '../../shared/interfaces/typography.interface';
 import { ColorsService } from '../../core/services/colors.service';
 import { IColors } from '../../shared/interfaces/colors.interface';
 import { NavbarComponent } from "../../shared/components/navbar.component";
+import { Tangram3dComponent } from '../tangram3d/tangram.component';
 
 @Component({
   standalone: true,
   selector: 'home',
-  imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent, NavbarComponent],
+  imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent, NavbarComponent, Tangram3dComponent],
   template: `
-    <navbar />
-    <banner />
-    <image-carousel />
-    <services />
-    <contact-form />
-    <footer-component />
+    @if (isLoading){
+      <tangram3d></tangram3d>
+    } @else {
+      <navbar />
+      <banner />
+      <image-carousel />
+      <services />
+      <contact-form />
+      <footer-component />
+    }
   `,
 })
 export class HomeComponent {
+
+  isLoading = true;
   constructor(
     private typographyService: TypographyService,
     private colorsService: ColorsService
   ) {
+    this.loadTangram3d();
     this.typographyService.getSelectedTypography().subscribe({
       next: (data) => {
         this.loadTypography(data)
@@ -50,32 +58,38 @@ export class HomeComponent {
     })
   }
 
+  loadTangram3d() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 24000);
+  }
+
   loadFont(nameFont: string): Promise<string> {
     return new Promise((resolve) => {
-        // Sanear el nombre: eliminar extensión y caracteres no permitidos
-        const sanitizedFontName = nameFont.replace(/\.[^/.]+$/, "") // Elimina extensión
-                                         .replace(/[^a-zA-Z0-9\-]/g, "-"); // Reemplaza caracteres inválidos
-        
-        const fontName = `Custom-${sanitizedFontName}-${Date.now()}`;
-        
-        // Agregar comillas simples a la URL
-        const url = `url('${environment.baseUrl}/font/${nameFont}')`;
-        
-        const fontFace = new FontFace(fontName, url, {
-            style: 'normal',
-            weight: '100 900',
-            display: 'swap',
-        });
-        
-        fontFace.load()
+      // Sanear el nombre: eliminar extensión y caracteres no permitidos
+      const sanitizedFontName = nameFont.replace(/\.[^/.]+$/, "") // Elimina extensión
+        .replace(/[^a-zA-Z0-9\-]/g, "-"); // Reemplaza caracteres inválidos
+
+      const fontName = `Custom-${sanitizedFontName}-${Date.now()}`;
+
+      // Agregar comillas simples a la URL
+      const url = `url('${environment.baseUrl}/font/${nameFont}')`;
+
+      const fontFace = new FontFace(fontName, url, {
+        style: 'normal',
+        weight: '100 900',
+        display: 'swap',
+      });
+
+      fontFace.load()
         .then((loadedFont) => {
-            document.fonts.add(loadedFont);
-            resolve(fontName);
+          document.fonts.add(loadedFont);
+          resolve(fontName);
         })
         .catch((error) => {
-            console.error('Error al cargar la fuente:', error);
-            // Fallback a fuente segura
-            resolve("Arial");
+          console.error('Error al cargar la fuente:', error);
+          // Fallback a fuente segura
+          resolve("Arial");
         });
     });
   };
