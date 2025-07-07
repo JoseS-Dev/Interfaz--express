@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
+import { Tangram3dComponent } from './features/tangram3d/tangram.component';
 import { AdminComponent } from './features/admin/admin.component';
 import { ColorsComponent } from './features/admin/colors/colors.component'; 
 import { TypographyComponent } from './features/admin/typography/typography.component';

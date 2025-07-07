@@ -22,6 +22,8 @@
     "@ng-icons/font-awesome": "^31.4.0",
     "@ng-icons/heroicons": "^31.4.0",
     "@tailwindcss/postcss": "^4.1.8",
+    "@types/dat.gui": "^0.7.13",
+    "@types/three": "^0.178.0",
     "axios": "^1.9.0",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
@@ -30,6 +32,7 @@
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.22.0",
     "tailwindcss": "^4.1.8",
+    "three": "^0.178.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
