@@ -22,131 +22,139 @@ L.Icon.Default.mergeOptions({
     imports: [ReactiveFormsModule, LeafletModule],
     template: `
         <div class="flex flex-col gap-4 py-4">
-        <h2 class="text-2xl text-subtitle font-bold text-quinary">Información de Dirección</h2>
+            <h2 class="text-2xl text-subtitle font-bold text-quinary">Información de Dirección</h2>
 
-        <form [formGroup]="addressInfoForm">
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="street_address" class="block text-sm font-medium text-quinary">Calle y Número:</label>
-                <input
-                id="street_address"
-                type="text"
-                formControlName="street_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('street_address')?.invalid && (addressInfoForm.get('street_address')?.dirty || addressInfoForm.get('street_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">La calle y número son requeridos.</div>
-                }
-            </div>
+            <form [formGroup]="addressInfoForm">
+                <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="street_address" class="block text-sm font-medium text-quinary">Calle y Número:</label>
+                        <input
+                        id="street_address"
+                        type="text"
+                        formControlName="street_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                        @if (addressInfoForm.get('street_address')?.invalid && (addressInfoForm.get('street_address')?.dirty || addressInfoForm.get('street_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">La calle y número son requeridos.</div>
+                        }
+                    </div>
 
-            <div>
-                <label for="city_address" class="block text-sm font-medium text-quinary">Ciudad:</label>
-                <input
-                id="city_address"
-                type="text"
-                formControlName="city_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('city_address')?.invalid && (addressInfoForm.get('city_address')?.dirty || addressInfoForm.get('city_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">La ciudad es requerida.</div>
-                }
-            </div>
-            </div>
+                    <div>
+                        <label for="city_address" class="block text-sm font-medium text-quinary">Ciudad:</label>
+                        <input
+                        id="city_address"
+                        type="text"
+                        formControlName="city_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                        @if (addressInfoForm.get('city_address')?.invalid && (addressInfoForm.get('city_address')?.dirty || addressInfoForm.get('city_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">La ciudad es requerida.</div>
+                        }
+                    </div>
+                </div>
 
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="state_address" class="block text-sm font-medium text-quinary">Estado/Provincia:</label>
-                <input
-                id="state_address"
-                type="text"
-                formControlName="state_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('state_address')?.invalid && (addressInfoForm.get('state_address')?.dirty || addressInfoForm.get('state_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">El estado/provincia es requerido.</div>
-                }
-            </div>
+                <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="state_address" class="block text-sm font-medium text-quinary">Estado/Provincia:</label>
+                        <input
+                        id="state_address"
+                        type="text"
+                        formControlName="state_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                        @if (addressInfoForm.get('state_address')?.invalid && (addressInfoForm.get('state_address')?.dirty || addressInfoForm.get('state_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">El estado/provincia es requerido.</div>
+                        }
+                    </div>
 
-            <div>
-                <label for="postal_code_address" class="block text-sm font-medium text-quinary">Código Postal:</label>
-                <input
-                id="postal_code_address"
-                type="text"
-                formControlName="postal_code_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('postal_code_address')?.invalid && (addressInfoForm.get('postal_code_address')?.dirty || addressInfoForm.get('postal_code_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">El código postal es requerido.</div>
-                }
-            </div>
-            </div>
+                    <div>
+                        <label for="postal_code_address" class="block text-sm font-medium text-quinary">Código Postal:</label>
+                        <input
+                        id="postal_code_address"
+                        type="text"
+                        formControlName="postal_code_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                        @if (addressInfoForm.get('postal_code_address')?.invalid && (addressInfoForm.get('postal_code_address')?.dirty || addressInfoForm.get('postal_code_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">El código postal es requerido.</div>
+                        }
+                    </div>
+                </div>
 
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="country_address" class="block text-sm font-medium text-quinary">País:</label>
-                <input
-                id="country_address"
-                type="text"
-                formControlName="country_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('country_address')?.invalid && (addressInfoForm.get('country_address')?.dirty || addressInfoForm.get('country_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">El país es requerido.</div>
-                }
-            </div>
+                <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="country_address" class="block text-sm font-medium text-quinary">País:</label>
+                        <input
+                        id="country_address"
+                        type="text"
+                        formControlName="country_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                        @if (addressInfoForm.get('country_address')?.invalid && (addressInfoForm.get('country_address')?.dirty || addressInfoForm.get('country_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">El país es requerido.</div>
+                        }
+                    </div>
 
-            <div>
-                <label for="state_code_address" class="block text-sm font-medium text-quinary">Código de Estado:</label>
-                <input
-                id="state_code_address"
-                type="text"
-                formControlName="state_code_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                @if (addressInfoForm.get('state_code_address')?.invalid && (addressInfoForm.get('state_code_address')?.dirty || addressInfoForm.get('state_code_address')?.touched)) {
-                    <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
-                }
-            </div>
-            </div>
+                    <div>
+                        <label for="state_code_address" class="block text-sm font-medium text-quinary">Código de Estado:</label>
+                        <input
+                        id="state_code_address"
+                        type="text"
+                        formControlName="state_code_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        >
+                        @if (addressInfoForm.get('state_code_address')?.invalid && (addressInfoForm.get('state_code_address')?.dirty || addressInfoForm.get('state_code_address')?.touched)) {
+                            <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
+                        }
+                        @if (addressInfoForm.get('state_code_address')?.hasError('pattern')) {
+                            <div class="text-red-600 text-sm mt-1">El código de estado debe ser de dos letras mayúsculas (ej. "VE").</div>
+                        }
+                    </div>
+                </div>
 
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="latitude_address" class="block text-sm font-medium text-quinary">Latitud:</label>
-                <input
-                id="latitude_address"
-                type="number"
-                formControlName="latitude_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
-                readonly
-                >
-            </div>
+                <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="latitude_address" class="block text-sm font-medium text-quinary">Latitud:</label>
+                        <input
+                        id="latitude_address"
+                        type="number"
+                        formControlName="latitude_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                    </div>
 
-            <div>
-                <label for="longitude_address" class="block text-sm font-medium text-quinary">Longitud:</label>
-                <input
-                id="longitude_address"
-                type="number"
-                formControlName="longitude_address"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
-                readonly
-                >
-            </div>
-            </div>
-        </form>
+                    <div>
+                        <label for="longitude_address" class="block text-sm font-medium text-quinary">Longitud:</label>
+                        <input
+                        id="longitude_address"
+                        type="number"
+                        formControlName="longitude_address"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        readonly
+                        >
+                    </div>
+                </div>
+            </form>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-quinary">Selecciona tu ubicación en el mapa:</label>
-            <div style="height: 300px; width: 100%; border-radius: 0.375rem; overflow: hidden;">
-            <div
-                leaflet
-                [leafletOptions]="mapOptions"
-                [leafletLayers]="mapLayers"
-                (leafletMapReady)="onMapReady($event)"
-                (leafletClick)="onMapClick($event)"
-                class="w-full h-full"
-            ></div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-quinary">Selecciona tu ubicación en el mapa:</label>
+                <div style="height: 300px; width: 100%; border-radius: 0.375rem; overflow: hidden;">
+                    <div
+                        leaflet
+                        [leafletOptions]="mapOptions"
+                        [leafletLayers]="mapLayers"
+                        (leafletMapReady)="onMapReady($event)"
+                        (leafletClick)="onMapClick($event)"
+                        class="w-full h-full"
+                    ></div>
+                </div>
             </div>
-        </div>
         </div>
     `,
 })
@@ -216,7 +224,7 @@ export class StepAddressComponent implements OnInit, OnDestroy {
         street_address: [loadedData?.street_address || '', Validators.required],
         city_address: [loadedData?.city_address || '', Validators.required],
         state_address: [loadedData?.state_address || '', Validators.required],
-        state_code_address: [loadedData?.state_code_address || '', Validators.required],
+        state_code_address: [loadedData?.state_code_address || '', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)]], 
         postal_code_address: [loadedData?.postal_code_address || '', Validators.required],
         latitude_address: [loadedData?.latitude_address || null, Validators.required],
         longitude_address: [loadedData?.longitude_address || null, Validators.required],
@@ -284,7 +292,7 @@ export class StepAddressComponent implements OnInit, OnDestroy {
         } else {
             console.warn('Map not yet ready, cannot update marker on click.');
         }
-        this.reverseGeocode(lat, lng);
+        this.reverseGeocode(lat, lng)
     }
 
     private updateMapMarker(lat: number, lng: number): void {
