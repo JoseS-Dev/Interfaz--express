@@ -181,7 +181,8 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder, private wizardService: WizardService) {
         effect(() => {
             const personalInfoDataFromService = this.wizardService.formData().personalInfo;
-            const isDataLoaded = this.wizardService.isDataLoaded();
+            let isDataLoaded = this.wizardService.isDataLoaded();
+
             if (this.personalInfoForm && personalInfoDataFromService && isDataLoaded) {
                 const currentFormValue = this.personalInfoForm.getRawValue() as StepPersonalData;
                 const formValueString = JSON.stringify(currentFormValue);

@@ -149,6 +149,20 @@ export class WizardService {
         return this.http.get<{message: string, user: IUser}>(`${this.apiUrl}/${this.userId}`).pipe(
             map(response => {
                 const user = response.user;
+
+                // Adaptar formato de fecha para el datepicker si es necesario
+                if (
+                    user &&
+                    typeof user.birth_date_user === 'string' &&
+                    user.birth_date_user.includes('T')
+                ) {
+                    const date = new Date(user.birth_date_user);
+                    const yyyy = date.getFullYear();
+                    const mm = String(date.getMonth() + 1).padStart(2, '0');
+                    const dd = String(date.getDate()).padStart(2, '0');
+                    user.birth_date_user = `${yyyy}-${mm}-${dd}`;
+                }
+
                 this._formData.set({
                     personalInfo: {
                         name_user: user.name_user,
@@ -210,8 +224,6 @@ export class WizardService {
                         network_user: user.network_user,
                     },
                 });
-                // ¡IMPORTANTE! Una vez que los datos de la BD están en _formData,
-                // actualizamos la bandera de carga.
                 this._isDataLoaded.set(true); 
                 return user;
             }),
