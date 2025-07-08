@@ -1,12 +1,11 @@
-// src/app/features/wizard/wizard.component.ts
-
 import { Component, computed, OnInit, Signal, WritableSignal, inject } from "@angular/core";
 import { WizardService } from "../../core/services/wizard.service";
 import { UsersService } from "../../core/services/users.service";
 import { IUser } from "../../shared/interfaces/user.interface";
 import { StepPersonalInfoComponent } from "./steps/personal-info.component";
 import { CommonModule } from "@angular/common";
-import { StepAddressComponent } from "./steps/address-info.component"; // Importar CommonModule para @switch y @if
+import { StepAddressComponent } from "./steps/address-info.component";
+import { StepMedicalComponent } from "./steps/medical-info.component"; // Importar CommonModule para @switch y @if
 
 @Component({
   selector: 'wizard',
@@ -14,7 +13,8 @@ import { StepAddressComponent } from "./steps/address-info.component"; // Import
   imports: [
     StepPersonalInfoComponent,
     CommonModule,
-    StepAddressComponent
+    StepAddressComponent,
+    StepMedicalComponent
 ],
   template: `
     <div class="wizard-container bg-white">
@@ -44,7 +44,7 @@ import { StepAddressComponent } from "./steps/address-info.component"; // Import
             <step-address-info />
           }
           @case (2) {
-            <p>Este es el Paso 3: Información Médica</p>
+            <step-medical-info />
           }
           @case (3) {
             <p>Este es el Paso 4: Información Profesional</p>
