@@ -1,5 +1,3 @@
-// src/app/features/wizard/steps/medical-info/medical-info.component.ts
-
 import { Component, OnInit, OnDestroy, effect } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';

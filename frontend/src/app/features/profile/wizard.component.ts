@@ -5,7 +5,9 @@ import { IUser } from "../../shared/interfaces/user.interface";
 import { StepPersonalInfoComponent } from "./steps/personal-info.component";
 import { CommonModule } from "@angular/common";
 import { StepAddressComponent } from "./steps/address-info.component";
-import { StepMedicalComponent } from "./steps/medical-info.component"; // Importar CommonModule para @switch y @if
+import { StepMedicalComponent } from "./steps/medical-info.component";
+import { StepProfessionalComponent } from "./steps/professional-info.component";
+import { StepCompanyComponent } from "./steps/company-info.component"; // Importar CommonModule para @switch y @if
 
 @Component({
   selector: 'wizard',
@@ -14,7 +16,9 @@ import { StepMedicalComponent } from "./steps/medical-info.component"; // Import
     StepPersonalInfoComponent,
     CommonModule,
     StepAddressComponent,
-    StepMedicalComponent
+    StepMedicalComponent,
+    StepProfessionalComponent,
+    StepCompanyComponent
 ],
   template: `
     <div class="wizard-container bg-white">
@@ -47,10 +51,10 @@ import { StepMedicalComponent } from "./steps/medical-info.component"; // Import
             <step-medical-info />
           }
           @case (3) {
-            <p>Este es el Paso 4: Información Profesional</p>
+            <step-professional-info />
           }
           @case (4) {
-            <p>Este es el Paso 5: Información de la Empresa</p>
+            <step-company-info />
           }
           @case (5) {
             <p>Este es el Paso 6: Información Financiera</p>
@@ -108,7 +112,6 @@ import { StepMedicalComponent } from "./steps/medical-info.component"; // Import
 export class WizardComponent implements OnInit {
   constructor(
     readonly wizardService: WizardService,
-    private usersService: UsersService,
   ) {}
 
   progress: Signal<string> = computed(() => {

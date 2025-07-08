@@ -41,7 +41,7 @@ interface NavbarOption {
                                     {{ option.label }}
                                 </a>
                             }
-
+                            
                             @if (isAuthenticated$ | async) {
                                 <a
                                 routerLink="/admin"
@@ -49,9 +49,14 @@ interface NavbarOption {
                                 >
                                     Ajustes
                                 </a>
-                            }
 
-                            @if (isAuthenticated$ | async) {
+                                <a
+                                routerLink="/profile"
+                                class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium font-primary text-paragraph cursor-pointer"
+                                >
+                                    Perfil
+                                </a>
+
                                 <button
                                 (click)="logout()"
                                 class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md font-medium font-primary text-paragraph"
@@ -79,7 +84,7 @@ interface NavbarOption {
                             {{ option.label }}
                         </a>
                     }
-                    
+
                     @if (isAuthenticated$ | async) {
                         <a
                         routerLink="/admin"
@@ -87,9 +92,14 @@ interface NavbarOption {
                         >
                             Ajustes
                         </a>
-                    }
 
-                    @if (isAuthenticated$ | async) {
+                        <a
+                        routerLink="/profile"
+                        class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium font-primary text-paragraph cursor-pointer"
+                        >
+                            Perfil
+                        </a>
+
                         <button
                         (click)="logout()"
                         class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md font-medium hover:bg-secondary/75 font-primary text-paragraph"

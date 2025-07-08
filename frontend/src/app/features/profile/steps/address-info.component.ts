@@ -109,10 +109,12 @@ L.Icon.Default.mergeOptions({
                         class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         >
                         @if (addressInfoForm.get('state_code_address')?.invalid && (addressInfoForm.get('state_code_address')?.dirty || addressInfoForm.get('state_code_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
-                        }
-                        @if (addressInfoForm.get('state_code_address')?.hasError('pattern')) {
-                            <div class="text-red-600 text-sm mt-1">El código de estado debe ser de dos letras mayúsculas (ej. "VE").</div>
+                            @if (addressInfoForm.get('state_code_address')?.errors?.['required']) {
+                                <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
+                            }
+                            @if (addressInfoForm.get('state_code_address')?.errors?.['pattern']) {
+                                <div class="text-red-600 text-sm mt-1">El código de estado debe ser de 2 letras mayúsculas (ej: CA, NY).</div>
+                            }
                         }
                     </div>
                 </div>
