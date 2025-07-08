@@ -59,26 +59,13 @@ export class ModelsUsers{
                     INSERT INTO user_register (username, email_user, password_user, role_user)
                     VALUES (?, ?, ?, ?)
                     `,
-                    [username, email_user, hashedPassword, role_user]
+                    [username, email_user, hashedPassword, role_user] 
                 );
 
                 if (createUser.affectedRows > 0) {
-                    // Obtener el id del usuario insertado
-                    const insertedId = createUser.insertId;
-
-                    // Consultar los datos del usuario recién creado
-                    const [newUserRows] = await connection.query(
-                        'SELECT id_user, username, email_user, role_user FROM user_register WHERE id_user = ?',
-                        [insertedId]
-                    );
-
-                    if (newUserRows.length > 0) {
-                        // Retornar los datos del usuario (sin contraseña)
-                        return newUserRows[0];
-                    } else {
-                        console.log('No se pudo obtener el usuario después de crear');
-                        return null;
-                    }
+                    console.log("Registro Exitoso");
+                    // Retorna el resultado de la creación del usuario
+                    return createUser;
                 } else {
                     console.log('Error al crear el usuario');
                     return null;
@@ -118,7 +105,7 @@ export class ModelsUsers{
     static async getAllUsers() {
         const [users] = await connection.query(`
             SELECT 
-            a.id_user,
+            a.id_user AS user_id,
             a.name_user,
             a.maiden_name_user,
             a.email_user,
@@ -219,7 +206,7 @@ export class ModelsUsers{
             );
             if(userID.length > 0){
                 console.log("Usuario encontrado con el ID solicitado");
-                return userID[0];
+                return userID;
             }
             else{
                 console.log("Usuario no encontrado");
@@ -287,7 +274,7 @@ export class ModelsUsers{
             // Datos de info_user
             age_user, phone_user, birth_date_user, image_user, blood_group_user,
             height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
-            university_user, ein_user, ssn_user, user_agent_user,
+            university_user, ein_user, ssn_user, user_agent_user,gender_user,
             // Datos de address_user
             street_address, city_address, state_address, state_code_address,
             postal_code_address, latitude_address, longitude_address, country_address,
@@ -391,12 +378,12 @@ export class ModelsUsers{
             const infoUserFields = [
                 'age_user', 'phone_user', 'birth_date_user', 'image_user', 'blood_group_user',
                 'height_user', 'weight_user', 'eye_color_user', 'hair_user', 'ip_user', 'mac_address_user',
-                'university_user', 'ein_user', 'ssn_user', 'user_agent_user'
+                'university_user', 'ein_user', 'ssn_user', 'user_agent_user', 'gender_user'
             ];
             const infoUserValues = [
                 age_user, phone_user, birth_date_user, image_user, blood_group_user,
                 height_user, weight_user, eye_color_user, hair_user, ip_user, mac_address_user,
-                university_user, ein_user, ssn_user, user_agent_user
+                university_user, ein_user, ssn_user, user_agent_user, gender_user
             ];
             const infoUserResult = await upsertTable('info_user', infoUserFields, infoUserValues);
             if (infoUserResult.affectedRows > 0) {

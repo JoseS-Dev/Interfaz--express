@@ -1,3 +1,6 @@
+drop database if exists users;
+create database users;
+use users;
 CREATE TABLE user_register(
     id_user INT PRIMARY KEY AUTO_INCREMENT,
     name_user VARCHAR(255) NOT NULL DEFAULT '',
@@ -15,7 +18,7 @@ CREATE TABLE info_user(
     age_user INT NOT NULL,
     phone_user VARCHAR(255) NOT NULL,
     birth_date_user DATE NOT NULL,
-    image_user VARCHAR(255) NOT NULL,
+    image_user LONGTEXT NOT NULL,
     blood_group_user VARCHAR(10) NOT NULL,
     height_user DECIMAL(5,2) NOT NULL,
     weight_user DECIMAL(5,2) NOT NULL,
@@ -27,6 +30,7 @@ CREATE TABLE info_user(
     ein_user VARCHAR(255) NOT NULL,
     ssn_user VARCHAR(255) NOT NULL,
     user_agent_user VARCHAR(255) NOT NULL,
+    gender_user VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
 );
 
