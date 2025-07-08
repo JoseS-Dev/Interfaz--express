@@ -5,15 +5,17 @@ import { WizardService } from "../../core/services/wizard.service";
 import { UsersService } from "../../core/services/users.service";
 import { IUser } from "../../shared/interfaces/user.interface";
 import { StepPersonalInfoComponent } from "./steps/personal-info.component";
-import { CommonModule } from "@angular/common"; // Importar CommonModule para @switch y @if
+import { CommonModule } from "@angular/common";
+import { StepAddressComponent } from "./steps/address-info.component"; // Importar CommonModule para @switch y @if
 
 @Component({
   selector: 'wizard',
   standalone: true,
   imports: [
     StepPersonalInfoComponent,
-    CommonModule
-  ],
+    CommonModule,
+    StepAddressComponent
+],
   template: `
     <div class="wizard-container bg-white">
       <div class="mb-8">
@@ -39,7 +41,7 @@ import { CommonModule } from "@angular/common"; // Importar CommonModule para @s
             <step-personal-info />
           }
           @case (1) {
-            <p>Este es el Paso 2: Información de Dirección</p>
+            <step-address-info />
           }
           @case (2) {
             <p>Este es el Paso 3: Información Médica</p>
