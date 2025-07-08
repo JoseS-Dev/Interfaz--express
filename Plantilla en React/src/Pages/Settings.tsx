@@ -459,6 +459,7 @@ const Settings: React.FC = () => {
         ) : type === "date" ? (
           <input
             type="date"
+            max={new Date().toISOString().split("T")[0]}
             value={value as string}
             onChange={(e) => handleInputChange(field, e.target.value)}
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary text-paragraph text-quinary ${

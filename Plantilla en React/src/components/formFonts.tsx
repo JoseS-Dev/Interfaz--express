@@ -107,7 +107,7 @@ const FormFonts = ({ onRefreshListFonts, onRefreshFontsPreview }) => {
     formData.append("tam_paragraph", paragraphInputSize);
     formData.append("tam_title", titleInputSize);
     formData.append("tam_subtitle", subtitleInputSize);
-    formData.append("is_selected", "true");
+    formData.append("is_selected", "false");
     if (mainInputFile.files && mainInputFile.files[0]) {
       formData.append("main_font", mainInputFile.files[0]);
     }
