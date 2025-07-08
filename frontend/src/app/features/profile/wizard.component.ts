@@ -25,7 +25,7 @@ import { StepCompanyComponent } from "./steps/company-info.component"; // Import
       <div class="mb-8">
         <div class="flex justify-between items-center mb-2">
           <span class="text-sm font-medium text-quinary text-paragraph">
-            Paso {{ wizardService.currentStepIndex() + 1 }} de 6
+            Paso {{ wizardService.currentStepIndex() + 1 }} de 7
           </span>
           <span class="text-sm text-quinary text-paragraph">
             {{ progress() }}%
@@ -34,7 +34,7 @@ import { StepCompanyComponent } from "./steps/company-info.component"; // Import
         <div class="w-full bg-quinary/25 rounded-full h-2">
           <div
             class="bg-secondary h-2 rounded-full transition-all duration-300"
-            [style.width]="(wizardService.currentStepIndex() / 5) * 100 + '%'"
+            [style.width]="(wizardService.currentStepIndex() / 6) * 100 + '%'"
           ></div>
         </div>
       </div>
@@ -116,7 +116,7 @@ export class WizardComponent implements OnInit {
 
   progress: Signal<string> = computed(() => {
     const currentStep = this.wizardService.currentStepIndex();
-    return ((currentStep / 6) * 100).toFixed(0);
+    return ((currentStep / 7) * 100).toFixed(0);
   });
 
   ngOnInit(): void {
