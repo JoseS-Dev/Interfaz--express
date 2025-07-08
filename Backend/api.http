@@ -68,7 +68,8 @@ Content-Type: application/json
     "company_country_user": "USA",
     "coin_user": "Bitcoin",
     "wallet_address_user": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-    "network_user": "Mainnet"
+    "network_user": "Mainnet",
+    "gender_user": "Masculino"
 }
 
 ### Logear usuario

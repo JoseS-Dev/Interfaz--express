@@ -10,6 +10,8 @@ export const RoutesUsers = router;
 
 // Obtener todos los usuarios
 RoutesUsers.get('/', userController.getAllUsers);
+// Verificar si el usuario está logueado
+RoutesUsers.get('/verify', authMiddleware, userController.getVerify);
 // Obtener a un usuario por su email
 RoutesUsers.get('/Email/:email_user', userController.getUserByEmail);
 // Obtener a un usuario por su username
@@ -26,8 +28,6 @@ RoutesUsers.post('/login', userController.getLogin);
 RoutesUsers.post('/register', userController.getRegister);
 // Cerrar sesión
 RoutesUsers.post('/logout', userController.getLogout);
-// Verificar si el usuario está logueado
-RoutesUsers.post('/verify', authMiddleware, userController.getVerify);
 
 // Actualizar un usuario
 RoutesUsers.patch('/:id_user', userController.updateUser);

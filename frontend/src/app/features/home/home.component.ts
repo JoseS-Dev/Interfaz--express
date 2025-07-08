@@ -31,12 +31,12 @@ import { Tangram3dComponent } from '../tangram3d/tangram.component';
 })
 export class HomeComponent {
 
-  isLoading = true;
+  isLoading = false;
   constructor(
     private typographyService: TypographyService,
     private colorsService: ColorsService
   ) {
-    this.loadTangram3d();
+    // this.loadTangram3d();
     this.typographyService.getSelectedTypography().subscribe({
       next: (data) => {
         this.loadTypography(data)

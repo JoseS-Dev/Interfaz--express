@@ -6,7 +6,7 @@ import { WizardComponent } from "./wizard.component";
     selector: 'profile-view',
     imports: [NavbarComponent, WizardComponent],
     template: `
-        <div class="min-h-screen bg-primary">
+        <div class="min-h-[calc(100vh-4rem)] bg-primary">
             <navbar />
             <div class="max-w-4xl mx-auto px-4 py-8 font-primary">
                 <div class="bg-quaternary rounded-lg shadow-lg p-6">

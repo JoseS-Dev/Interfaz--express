@@ -9,7 +9,7 @@ import { AdminNavbarComponent } from "./admin-navbar.component";
     template: `
         <div class="w-full h-full">
             <admin-navbar />
-            <main class="flex w-full border-2 border-black h-screen">
+            <main class="flex w-full border-2 border-black h-[calc(100vh-4rem)]">
                 <section class="border-r-2 border-blue-600 w-140 h-full flex flex-col items-center justify-center px-5 bg-gray-100">
                     <article class="text-center flex flex-col  gap-2 trancking-widese ">
                         <h1 class="text-2xl font-bold ">Panel Administrativo</h1>

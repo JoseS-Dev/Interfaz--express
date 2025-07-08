@@ -105,7 +105,7 @@ export class ModelsUsers{
     static async getAllUsers() {
         const [users] = await connection.query(`
             SELECT 
-            a.id_user AS user_id,
+            a.id_user,
             a.name_user,
             a.maiden_name_user,
             a.email_user,
@@ -185,7 +185,7 @@ export class ModelsUsers{
         if(id_user){
             const [userID] = await connection.query(
                 `SELECT a.id_user, a.name_user, a.maiden_name_user, a.email_user, a.username, a.password_user, a.role_user,
-                b.age_user, b.phone_user, b.birth_date_user, b.image_user, b.blood_group_user,
+                b.age_user, b.phone_user, b.birth_date_user, b.image_user, b.blood_group_user, b.gender_user,
                 b.height_user, b.weight_user, b.eye_color_user, b.hair_user, b.ip_user, b.mac_address_user,
                 b.university_user, b.ein_user, b.ssn_user, b.user_agent_user,
                 c.street_address, c.city_address, c.state_address, c.state_code_address,
@@ -206,7 +206,7 @@ export class ModelsUsers{
             );
             if(userID.length > 0){
                 console.log("Usuario encontrado con el ID solicitado");
-                return userID;
+                return userID[0];
             }
             else{
                 console.log("Usuario no encontrado");

@@ -187,11 +187,8 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
                 const formValueString = JSON.stringify(currentFormValue);
                 const serviceDataString = JSON.stringify(personalInfoDataFromService);
                 if (formValueString !== serviceDataString) {
-                    // Para el campo de archivo, es posible que quieras cargar una URL si el dato cargado es una URL previa,
-                    // o no hacer nada si solo quieres manejar cargas nuevas.
-                    // Aquí, simplemente no se parchea el campo 'image_user' ya que es un File.
-                    // Si 'image_user' en personalInfoDataFromService fuera una URL, podrías mostrarla como una vista previa.
                     const { image_user, ...rest } = personalInfoDataFromService;
+                    console.log('Updating form with data from service:', rest);
                     this.personalInfoForm.patchValue(rest, { emitEvent: false });
                     this.wizardService.updateStepData('personalInfo', this.personalInfoForm.value, this.personalInfoForm.valid);
                 }
