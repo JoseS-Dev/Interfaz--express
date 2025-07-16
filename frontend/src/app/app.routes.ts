@@ -7,6 +7,7 @@ import { TypographyComponent } from './features/admin/typography/typography.comp
 import { AuthGuard } from './core/guards/auth.guard';
 import { UsersComponent } from './features/admin/users/users.component';
 import { ProfileComponent } from './features/profile/profile.component';
+import { LoaderComponent } from './features/admin/loader/loader.component';
 
 export const routes: Routes = [
     { 
@@ -34,6 +35,10 @@ export const routes: Routes = [
             {
                 path: 'users',
                 component: UsersComponent
+            },
+            {
+                path: 'loader',
+                component: LoaderComponent
             },
         ]
     },

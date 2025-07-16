@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { ImageCarouselComponent } from './carousel.component';
 import { BannerComponent } from './banner.component';
 import { ContactFormComponent } from './contact-form.component';
@@ -11,13 +11,14 @@ import { ColorsService } from '../../core/services/colors.service';
 import { IColors } from '../../shared/interfaces/colors.interface';
 import { NavbarComponent } from "../../shared/components/navbar.component";
 import { Tangram3dComponent } from '../tangram3d/tangram.component';
+import { LoaderService } from '../../core/services/loader.service';
 
 @Component({
   standalone: true,
   selector: 'home',
   imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent, NavbarComponent, Tangram3dComponent],
   template: `
-    @if (isLoading){
+    @if (isLoading && !loaderIsHidden()){
       <tangram3d></tangram3d>
     } @else {
       <navbar />
@@ -31,12 +32,22 @@ import { Tangram3dComponent } from '../tangram3d/tangram.component';
 })
 export class HomeComponent {
 
-  isLoading = false;
+  isLoading = true;
+  loaderIsHidden: Signal<boolean>;
   constructor(
-    private typographyService: TypographyService,
-    private colorsService: ColorsService
+    private readonly typographyService: TypographyService,
+    private readonly colorsService: ColorsService,
+    private readonly loaderService: LoaderService
   ) {
-    // this.loadTangram3d();
+    this.loaderIsHidden = this.loaderService.isHidden;
+
+    console.log(this.loaderIsHidden())
+    if (!this.loaderIsHidden()) {
+      console.log(this.loaderIsHidden())
+      this.loadTangram3d();
+    }
+
+    this.loadTangram3d();
     this.typographyService.getSelectedTypography().subscribe({
       next: (data) => {
         this.loadTypography(data)
