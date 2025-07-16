@@ -3,22 +3,26 @@ import { WizardService } from "../../core/services/wizard.service";
 import { UsersService } from "../../core/services/users.service";
 import { IUser } from "../../shared/interfaces/user.interface";
 import { StepPersonalInfoComponent } from "./steps/personal-info.component";
-import { CommonModule } from "@angular/common";
 import { StepAddressComponent } from "./steps/address-info.component";
 import { StepMedicalComponent } from "./steps/medical-info.component";
 import { StepProfessionalComponent } from "./steps/professional-info.component";
-import { StepCompanyComponent } from "./steps/company-info.component"; // Importar CommonModule para @switch y @if
+import { StepCompanyComponent } from "./steps/company-info.component";
+import { StepFinancialComponent } from "./steps/financial-info.component";
+import { StepCryptoWalletComponent } from "./steps/crypto-info.component"; 
+import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'wizard',
   standalone: true,
   imports: [
     StepPersonalInfoComponent,
-    CommonModule,
     StepAddressComponent,
     StepMedicalComponent,
     StepProfessionalComponent,
-    StepCompanyComponent
+    StepCompanyComponent,
+    StepFinancialComponent,
+    StepCryptoWalletComponent
 ],
   template: `
     <div class="wizard-container bg-white">
@@ -57,10 +61,10 @@ import { StepCompanyComponent } from "./steps/company-info.component"; // Import
             <step-company-info />
           }
           @case (5) {
-            <p>Este es el Paso 6: Información Financiera</p>
+            <step-financial-info />
           }
           @case (6) {
-            <p>Este es el Paso 7: Cripto Billetera (Opcional)</p>
+            <step-crypto-info />
           }
           @default {
             <p>Paso no encontrado.</p>
@@ -114,9 +118,11 @@ export class WizardComponent implements OnInit {
     readonly wizardService: WizardService,
   ) {}
 
+  router = new Router();
+
   progress: Signal<string> = computed(() => {
     const currentStep = this.wizardService.currentStepIndex();
-    return ((currentStep / 7) * 100).toFixed(0);
+    return ((currentStep / 6) * 100).toFixed(0);
   });
 
   ngOnInit(): void {
@@ -137,10 +143,23 @@ export class WizardComponent implements OnInit {
         console.log('Wizard data submitted successfully:', response);
         alert('Perfil actualizado/creado con éxito!');
         this.wizardService.resetWizard();
+        this.router.navigate(['']);
+        Swal.fire({
+            icon: "success",
+            title: "¡Perfil actualizado!",
+            showConfirmButton: false,
+            timer: 1500
+        });
       },
       error: (error) => {
         console.error('Error submitting wizard data:', error);
-        alert('Error al guardar el perfil: ' + error.message);
+        this.router.navigate(['']);
+        Swal.fire({
+            icon: "error",
+            title: "Error al actualizar el perfil",
+            showConfirmButton: false,
+            timer: 1500
+        });
       }
     });
   }

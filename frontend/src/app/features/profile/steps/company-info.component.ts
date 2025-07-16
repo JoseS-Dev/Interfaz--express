@@ -415,13 +415,5 @@ export class StepCompanyComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
-        // Importante: Eliminar el mapa cuando el componente se destruye para evitar el error "Map container is being reused"
-        if (this.currentMap) {
-        this.currentMap.remove();
-        this.currentMap = undefined;
-        this.currentMarker = null;
-        this.mapLayers = [];
-        }
-        console.log('StepCompanyComponent: Destroyed.');
     }
 }

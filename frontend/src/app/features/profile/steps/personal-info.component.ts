@@ -177,6 +177,7 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     personalInfoForm!: FormGroup;
     private destroy$ = new Subject<void>();
     private selectedFile: File | null = null;
+    imageUrl: string | null = null; // Para mostrar la imagen seleccionada
 
     constructor(private fb: FormBuilder, private wizardService: WizardService) {
         effect(() => {
@@ -185,12 +186,16 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
 
             if (this.personalInfoForm && personalInfoDataFromService && isDataLoaded) {
                 const currentFormValue = this.personalInfoForm.getRawValue() as StepPersonalData;
-                const formValueString = JSON.stringify(currentFormValue);
-                const serviceDataString = JSON.stringify(personalInfoDataFromService);
-                if (formValueString !== serviceDataString) {
-                    const { image_user, ...rest } = personalInfoDataFromService;
-                    console.log('Updating form with data from service:', rest);
-                    this.personalInfoForm.patchValue(rest, { emitEvent: false });
+                
+                const { image_user, ...restCurrentFormValue } = currentFormValue;
+                const { image_user: serviceImageUser, ...restServiceData } = personalInfoDataFromService;
+
+                if (JSON.stringify(restCurrentFormValue) !== JSON.stringify(restServiceData)) {
+                    console.log('Updating form with data from service:', restServiceData);
+                    this.personalInfoForm.patchValue(restServiceData, { emitEvent: false });
+                    if (serviceImageUser && typeof serviceImageUser === 'string') {
+                        this.imageUrl = serviceImageUser;
+                    }
                     this.wizardService.updateStepData('personalInfo', this.personalInfoForm.value, this.personalInfoForm.valid);
                 }
             }
@@ -210,34 +215,55 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
             phone_user: [loadedData?.phone_user || '', [Validators.required, Validators.pattern(internationalPhoneNumberRegex)]],
             birth_date_user: [loadedData?.birth_date_user || '', Validators.required],
             gender_user: [loadedData?.gender_user || '', Validators.required],
-            // El valor inicial para un campo de tipo file es null o una cadena vacía
-            // Los validadores personalizados se aplicarán cuando se seleccione un archivo
-            image_user: [null, [this.fileTypeValidator, this.fileSizeValidator]],
+            image_user: [loadedData?.image_user || null, [this.fileTypeValidator, this.fileSizeValidator]],
         });
+
+        if (loadedData?.image_user && typeof loadedData.image_user === 'string') {
+            this.imageUrl = loadedData.image_user;
+        }
 
         this.personalInfoForm.valueChanges
             .pipe(takeUntil(this.destroy$))
             .subscribe((values: StepPersonalData) => {
-                // Si 'image_user' no es un URL o un string en el modelo de datos,
-                // deberás adaptarlo a cómo manejas el archivo en tu servicio.
-                // Por ejemplo, podrías querer enviar el File o una referencia a él.
-                this.wizardService.updateStepData('personalInfo', values, this.personalInfoForm.valid);
+                const dataToSave = { ...values };
+                // Si `image_user` en el formulario es un objeto File, lo convertimos a URL
+                if (this.selectedFile) {
+                    dataToSave.image_user = this.imageUrl; // Usamos la URL que ya generamos
+                } else if (values.image_user && typeof values.image_user === 'string') {
+                    // Si no se seleccionó un nuevo archivo pero ya había una URL, la mantenemos
+                    dataToSave.image_user = values.image_user;
+                } else {
+                    // Si no hay archivo ni URL, o se borró el archivo, se envía null
+                    dataToSave.image_user = null;
+                }
+                this.wizardService.updateStepData('personalInfo', dataToSave, this.personalInfoForm.valid);
             });
 
-        this.wizardService.updateStepData('personalInfo', this.personalInfoForm.value, this.personalInfoForm.valid);
+        // Asegúrate de que los datos iniciales se envíen al servicio
+        const initialDataToSave = { ...this.personalInfoForm.value };
+        if (loadedData?.image_user && typeof loadedData.image_user === 'string') {
+            initialDataToSave.image_user = loadedData.image_user;
+        } else {
+            initialDataToSave.image_user = null; // Asegura que si no hay imagen, se envíe null
+        }
+        this.wizardService.updateStepData('personalInfo', initialDataToSave, this.personalInfoForm.valid);
     }
 
     onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             this.selectedFile = input.files[0];
-            // Establece el valor del FormControl. No es el nombre del archivo, sino el objeto File.
-            // Esto permite que los validadores personalizados actúen sobre el objeto File.
+            // Crea una URL para el archivo seleccionado y la guarda para mostrarla y enviar
+            this.imageUrl = URL.createObjectURL(this.selectedFile);
+
+            // Establece el valor del FormControl al objeto File para que los validadores actúen sobre él.
             this.personalInfoForm.get('image_user')?.setValue(this.selectedFile);
             this.personalInfoForm.get('image_user')?.markAsDirty();
             this.personalInfoForm.get('image_user')?.updateValueAndValidity();
+
         } else {
             this.selectedFile = null;
+            this.imageUrl = null; // Limpia la URL si no hay archivo seleccionado
             this.personalInfoForm.get('image_user')?.setValue(null);
             this.personalInfoForm.get('image_user')?.markAsDirty();
             this.personalInfoForm.get('image_user')?.updateValueAndValidity();
@@ -245,8 +271,8 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     }
 
     fileTypeValidator(control: AbstractControl): ValidationErrors | null {
-        const file = control.value as File;
-        if (file) {
+        const file = control.value;
+        if (file instanceof File) { // Valida solo si el control contiene un objeto File
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/jpg'];
             if (!allowedTypes.includes(file.type)) {
                 return { fileType: true };
@@ -256,8 +282,8 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     }
 
     fileSizeValidator(control: AbstractControl): ValidationErrors | null {
-        const file = control.value as File;
-        if (file) {
+        const file = control.value;
+        if (file instanceof File) { // Valida solo si el control contiene un objeto File
             const maxSize = 5 * 1024 * 1024; // 5 MB
             if (file.size > maxSize) {
                 return { fileSize: true };
@@ -269,5 +295,8 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+        if (this.imageUrl) {
+            URL.revokeObjectURL(this.imageUrl);
+        }
     }
 }
