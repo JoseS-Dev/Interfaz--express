@@ -75,7 +75,7 @@ export class ControllerImages {
 
     // Crear una nueva imagen
     createImage = async (req, res) => {
-        const { id_user } = req.params;
+        const id_user = req.user.id;
         const imageData = {
             ...req.body,
             name_image: req.file ? req.file.originalname : 'default_image',
