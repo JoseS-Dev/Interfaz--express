@@ -128,3 +128,30 @@ CREATE TABLE typography_relationship(
     FOREIGN KEY(id_tipography) REFERENCES typography(id_tipography),
     FOREIGN KEY(id_user) REFERENCES user_register(id_user)
 );
+
+CREATE TABLE images(
+    id_image INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    name_image VARCHAR(255) NOT NULL,
+    format_image VARCHAR(50) NOT NULL,
+    size_image BIGINT NOT NULL,
+    dimension_image VARCHAR(50) NOT NULL,
+    url_image LONGTEXT NOT NULL,
+    is_selected BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+);
+
+CREATE TABLE videos(
+    id_video INT PRIMARY KEY AUTO_INCREMENT,
+    id_user INT,
+    name_video VARCHAR(255) NOT NULL,
+    format_video VARCHAR(50) NOT NULL,
+    duration_video INT NOT NULL,
+    audio_track_main_video VARCHAR(255) NOT NULL,
+    audio_track_secondary_video VARCHAR(255) NOT NULL,
+    subtitle_main_video VARCHAR(255) NOT NULL,
+    subtitle_secondary_video VARCHAR(255) NOT NULL,
+    url_video LONGTEXT NOT NULL,
+    is_selected BOOLEAN NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+);
