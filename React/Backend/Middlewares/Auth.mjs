@@ -8,30 +8,26 @@ export function Auth(user){
     const token = jwt.sign(
         {id: user.id_user, email: user.email_user},
         process.env.DB_JWT_SECRET,
-        {expiresIn: process.env.DB_JWT_EXPIRATION || '1h'}
+        {expiresIn: '1h'}
     )
     return token;
 
 }
 
-export const authMiddleware = async (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    // Verificar formato del header
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ 
-            error: 'Formato de autorización inválido. Usa Bearer token' 
-        });
+export const authMiddleware = (req, res, next) => {
+    console.log(process.env.DB_JWT_SECRET);
+    console.log(process.env.DB_JWT_EXPIRATION);
+    const token = req.cookies.token;
+    if(!token){
+        return res.status(401).json({ message: 'No token provided' });
     }
-
-    const token = authHeader.split(' ')[1];
-    
-    try {
+    try{
         const decoded = jwt.verify(token, process.env.DB_JWT_SECRET);
         req.user = decoded;
-        next(); 
-    } catch (error) {
-        return res.status(401).json({
-            error: `Token inválido o expirado: ${error.message}`
-        });
+        next();
+    }
+    catch(error){
+        res.clearCookie('token');
+        return res.status(403).json({ message: 'Invalid token' });
     }
 };

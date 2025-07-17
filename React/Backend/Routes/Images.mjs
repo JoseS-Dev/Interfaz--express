@@ -23,7 +23,7 @@ RoutesImages.post('/create', authMiddleware, uploadImages, controllerImages.crea
 
 // PATCH
 // Actualizar una imagen por su ID
-RoutesImages.patch('/update/:id_image', uploadImages, controllerImages.updateImage);
+RoutesImages.patch('/update/:id_image', controllerImages.updateImage);
 // Seleccionar una imagen por su ID
 RoutesImages.patch('/select/:id_image', authMiddleware, controllerImages.selectImage);
 

@@ -24,7 +24,7 @@ export const SchemaImages = zod.object({
         invalid_type_error: 'El tamaño de la imagen debe ser un número'
     }),
     
-    dimesion_image: zod.string({
+    dimension_image: zod.string({
         required_error: 'La dimensión de la imagen es requerida',
         invalid_type_error: 'La dimensión de la imagen debe ser una cadena de texto'
     }).regex(/^\d+x\d+$/, {
@@ -41,10 +41,10 @@ export const SchemaImages = zod.object({
 
 // Funcion para validar los datos de la imagen cuando se crea
 export function validateImageData(data) {
-    return SchemaImages.parse(data);
+    return SchemaImages.safeParse(data);
 }
 
 // Funcion para validar los datos de la imagen cuando se actualiza
 export function validateImageUpdateData(data) {
-    return SchemaImages.partial().parse(data);
+    return SchemaImages.partial().safeParse(data);
 }

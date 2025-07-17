@@ -38,9 +38,9 @@ export class ModelsImages {
     // Crear una nueva imagen
     static async createImage({image, id_user}){
         if(!image && !id_user) return {message: "La imagen es requerida"};
-        const { name_image, format_image, size_image, dimesion_image, url_image} = image;
+        const { name_image, format_image, size_image, dimension_image, url_image} = image;
         // Se verifica si el usuario esta loguado
-        const [ExistingUser] = await connection.query('SELECT * FROM users WHERE id_user = ?', [id_user]);
+        const [ExistingUser] = await connection.query('SELECT * FROM login_user  WHERE id_user = ?', [id_user]);
         if(ExistingUser.length > 0){
             console.log("Usuario encontrado, se procede a crear la imagen");
             // Primero se verifica si la image ya existe
@@ -52,13 +52,20 @@ export class ModelsImages {
             else{
                 // Se crea la imagen
                 const [result] = await connection.query(
-                    `INSERT INTO images (id_user, name_image, format_image, size_image, dimesion_image, url_image, is_selected)
+                    `INSERT INTO images (id_user, name_image, format_image, size_image, dimension_image, url_image, is_selected)
                     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-                    [id_user, name_image, format_image, size_image, dimesion_image, url_image, false]
+                    [id_user, name_image, format_image, size_image, dimension_image, url_image, false]
                 )
                 if(result.affectedRows < 0) return {message: "No se pudo crear la imagen"};
                 console.log("Imagen creada correctamente");
-                return result[0];
+                return {
+                    id_image: result.insertId,
+                    name_image,
+                    format_image,
+                    size_image,
+                    dimension_image,
+                    url_image 
+                };
             }
         }
 
@@ -67,19 +74,19 @@ export class ModelsImages {
     // Actualizar una imagen
     static async updateImage({id_image, image}){
         if(!id_image || !image) return {message: "El ID de la imagen y la imagen son requeridos"};
-        const {name_image, format_image, size_image, dimesion_image, url_image} = image;
+        const {name_image, format_image, size_image, dimension_image} = image;
         // Se verifica si la image existe
         const [ExistingImage] = await connection.query('SELECT * FROM images WHERE id_image = ?', [id_image]);
-        if(ExistingImage.length <= 0) return {message: "No se encontró la imagen con el ID proporcionado"};
+        if(ExistingImage.length === 0) return {message: "No se encontró la imagen con el ID proporcionado"};
 
         // Se actualiza la imagen
         const [result] = await connection.query(
-            `UPDATE images SET name_image = ?, format_image = ?, size_image = ?, dimesion_image = ?, url_image = ? WHERE id_image = ?`,
-            [name_image, format_image, size_image, dimesion_image, url_image, id_image]
+            `UPDATE images SET name_image = ?, format_image = ?, size_image = ?, dimension_image = ? WHERE id_image = ?`,
+            [name_image, format_image, size_image, dimension_image, id_image]
         )
-        if(result.affectedRows <= 0) return {message: "No se pudo actualizar la imagen"};
+        if(result.affectedRows === 0) return {message: "No se pudo actualizar la imagen"};
         console.log("Imagen actualizada correctamente");
-        return result[0];
+        return result;
     }
 
     // Eliminar una imagen por su ID
@@ -87,12 +94,13 @@ export class ModelsImages {
         if(!id_image) return {message: "El ID de la imagen es requerido"};
         // Se verifica si la imagen existe
         const [ExistingImage] = await connection.query('SELECT * FROM images WHERE id_image = ?', [id_image]);
-        if(ExistingImage.length <= 0) return {message: "No se encontró la imagen con el ID proporcionado"};
-        // Se elimina la imagen
-        const [result] = await connection.query('DELETE FROM images WHERE id_image = ?', [id_image]);
-        if(result.affectedRows <= 0) return {message: "No se pudo eliminar la imagen"};
-        console.log("Imagen eliminada correctamente");
-        return result.insertId;
+        if(ExistingImage.length > 0){
+             // Se elimina la imagen
+            const [result] = await connection.query('DELETE FROM images WHERE id_image = ?', [id_image]);
+            if(result.affectedRows <= 0) return {message: "No se pudo eliminar la imagen"};
+            console.log("Imagen eliminada correctamente");
+            return { message: "Imagen eliminada correctamente", id_image };
+        }
     }
 
     // Seleccionar una imagen por su ID

@@ -1,11 +1,11 @@
 ### Verificar si un usuario esta autenticado
-GET http://localhost:3500/Users/verify/
+GET http://localhost:3500/Users/verify
 
 ### Obtener todos los usuarios
 GET http://localhost:3500/Users
 
 ### Obtener un usuario por id
-GET http://localhost:3500/Users/1
+GET http://localhost:3500/Users/ID/1
 
 ### Obtener un usuario por su email
 GET http://localhost:3500/Users/Email/joseasantana05@gmail.com
@@ -253,3 +253,40 @@ Content-Type: application/json
 
 ### Borrar un conjunto de colores
 DELETE http://localhost:3500/Colors/6
+
+### Crear una imagen
+POST http://localhost:3500/Images/create
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="url_image"; filename="Fondo.jpg"  
+Content-Type: image/jpeg
+
+< C:\Users\yo-ar\OneDrive\Pictures/Fondo.jpg
+--CustomBoundary--
+
+### Obtener todas las imagenes
+GET http://localhost:3500/Images
+
+### Obtener una imagen por id
+GET http://localhost:3500/Images/12
+
+### Obtener una imagen por su formato
+GET http://localhost:3500/Images/Format/jpeg
+
+### Obtener una imagen por su tamaño
+GET http://localhost:3500/Images/Size/270982
+
+### Eliminar una imagen
+DELETE http://localhost:3500/Images/delete/11
+
+### Actualizar una imagen
+PATCH http://localhost:3500/Images/update/12
+Content-Type: application/json
+
+{
+    "name_image": "Updated Image",
+    "format_image": "png",
+    "size_image": 2048,
+    "dimension_image": "800x600"
+}

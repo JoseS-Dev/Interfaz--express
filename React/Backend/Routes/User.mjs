@@ -17,7 +17,9 @@ RoutesUsers.get('/Username/:username', userController.getUserByUsername);
 // Obtener a un usuario por su rol
 RoutesUsers.get('/Role/:role_user', userController.getUserByRole);
 // Obtener a un usuario por su ID
-RoutesUsers.get('/:id_user', userController.getUserByID);
+RoutesUsers.get('/ID/:id_user', userController.getUserByID);
+// Verificar si el usuario está autenticado
+RoutesUsers.get('/verify', authMiddleware, userController.getVerify);
 
 
 // Logear un usuario
@@ -26,8 +28,7 @@ RoutesUsers.post('/login', userController.getLogin);
 RoutesUsers.post('/register', userController.getRegister);
 // Cerrar sesión
 RoutesUsers.post('/logout', userController.getLogout);
-// Verificar si el usuario está logueado
-RoutesUsers.post('/verify', authMiddleware, userController.getVerify);
+
 
 // Actualizar un usuario
 RoutesUsers.patch('/:id_user', userController.updateUser);
@@ -35,3 +36,4 @@ RoutesUsers.patch('/:id_user', userController.updateUser);
 RoutesUsers.patch('/activate/:id_user', userController.activateUser);
 // Desactivar un usuario
 RoutesUsers.patch('/deactivate/:id_user', userController.deactivateUser);
+

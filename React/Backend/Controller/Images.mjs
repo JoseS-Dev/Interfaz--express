@@ -1,4 +1,5 @@
 import {validateImageData, validateImageUpdateData} from '../Validations/SchemaImages.mjs';
+import sharp from 'sharp';
 export class ControllerImages {
     constructor({ModelsImages}){
         this.ModelsImages = ModelsImages;
@@ -76,14 +77,21 @@ export class ControllerImages {
     // Crear una nueva imagen
     createImage = async (req, res) => {
         const id_user = req.user.id;
-        const imageData = {
-            ...req.body,
-            name_image: req.file ? req.file.originalname : 'default_image',
-            format_image: req.file ? req.file.mimetype.split('/')[1] : 'jpg',
-            size_image: req.file ? req.file.size : 0,
-            dimesion_image: req.body.dimesion_image || 'unknown',
-            url_image: req.file ? req.file.path : 'uploads/images/default_image.jpg'
+        if(!req.file){
+            return res.status(400).json({message: "No se ha subido ninguna imagen"});
         }
+        console.log("Imagen recibida:", req.file);
+        // Obtenemos las dimesiones de la imagen
+        const dimensions = await sharp(req.file.path).metadata();
+        
+        const imageData = {
+            name_image: req.file.originalname,
+            format_image: req.file.mimetype.split('/')[1],
+            size_image: req.file.size / 1024, // Convertir a MB
+            dimension_image: `${dimensions.width}x${dimensions.height}`,
+            url_image: req.file.path
+        }
+        console.log("Datos de la imagen:", imageData);
         const result = validateImageData(imageData);
         try{
             if(!result.success){
@@ -114,9 +122,6 @@ export class ControllerImages {
                     data: deletedImage
                 });
             }
-            else{
-                return res.status(404).json({message: "Imagen no encontrada"});
-            }
         }
         catch(error){
             console.error("Error al eliminar la imagen:", error);
@@ -127,15 +132,7 @@ export class ControllerImages {
     // Actualizar una imagen
     updateImage = async (req, res) => {
         const {id_image} = req.params;
-        const imageUpdateData = {
-            ...req.body,
-            name_image: req.file ? req.file.originalname : 'default_image',
-            format_image: req.file ? req.file.mimetype.split('/')[1] : 'jpg',
-            size_image: req.file ? req.file.size : 0,
-            dimesion_image: req.body.dimesion_image || 'unknown',
-            url_image: req.file ? req.file.path : 'uploads/images/default_image.jpg'
-        }
-        const result = validateImageUpdateData(imageUpdateData);
+        const result = validateImageUpdateData(req.body);
         try{
             if(!result.success){
                 return res.status(400).json({message: result.error.message});
@@ -146,9 +143,6 @@ export class ControllerImages {
                     message: "Imagen actualizada correctamente",
                     data: updatedImage
                 });
-            }
-            else{
-                return res.status(404).json({message: "Imagen no encontrada"});
             }
         }
         catch(error){

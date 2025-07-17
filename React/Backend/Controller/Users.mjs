@@ -8,18 +8,16 @@ export class UsersControllers{
     // Logear un usuario
     getLogin = async (req , res) => {
         try{
-            console.log(req.body);
             const result = validateLogin(req.body);
             const user = await this.ModelsUsers.Login({user: result.data});
             if(user){
                 return res
-                .cookie('Access--Token', Auth(user), {
+                .cookie('token', Auth(user), {
                     httpOnly: true
                 })
                 .status(200).json({
                     message: 'Usuario Logueado',
                     user,
-                    token: Auth(user)
                 })
             }
             else{
@@ -51,7 +49,6 @@ export class UsersControllers{
                 return res.status(201).json({
                     message: 'Usuario registrado',
                     user: Register,
-                    token: Auth(Register)
                 });
             }
             else{
@@ -73,7 +70,7 @@ export class UsersControllers{
         try{
             const user = await this.ModelsUsers.getLogout({user: req.body});
             return res
-            .clearCookie('Access--Token')
+            .clearCookie('token')
             .status(200).json({
                 message: 'Sesión cerrada',
                 userLoggedOut: user
@@ -88,7 +85,6 @@ export class UsersControllers{
     }
 
     getVerify = async (req, res) => {
-            
             console.log('Verificando usuario autenticado');
             if (!req.user) return res.status(401).json({
                 message: 'Usuario no autenticado',

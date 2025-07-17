@@ -34,4 +34,4 @@ const uploads = multer({
 
 })
 
-export const uploadImages = uploads.single('Image');
+export const uploadImages = uploads.single('url_image');
