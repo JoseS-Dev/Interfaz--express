@@ -153,5 +153,6 @@ CREATE TABLE videos(
     subtitle_secondary_video VARCHAR(255) NOT NULL,
     url_video LONGTEXT NOT NULL,
     is_selected BOOLEAN NOT NULL DEFAULT FALSE,
+    size_video BIGINT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
 );

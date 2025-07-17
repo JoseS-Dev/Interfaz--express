@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import { RoutesUsers } from './Routes/User.mjs';
 import { RoutesColors } from './Routes/Color.mjs';
 import { RoutesTipography } from './Routes/Typography.mjs';
+import { RoutesImages } from './Routes/Images.mjs';
+import { RoutesVideos } from './Routes/Videos.mjs';
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ app.use('/font',express.static('uploads/fonts'));
 app.use('/Users', RoutesUsers);
 app.use('/Colors', RoutesColors);
 app.use('/Tipography', RoutesTipography);
+app.use('/Images', RoutesImages);
+app.use('/Videos', RoutesVideos);
 
 
 app.listen(process.env.PORT, () => {
