@@ -17,7 +17,9 @@ app.use(cors({
 }));
 app.use(json({limit: '100mb' }));
 app.use(cookieParser());
+
 app.use('/font',express.static('uploads/fonts'));
+app.use('/imagen', express.static('uploads/images'));
 
 
 app.use('/Users', RoutesUsers);
