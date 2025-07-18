@@ -29,6 +29,8 @@ export const SchemaVideos = zod.object({
         invalid_type_error: 'La pista de audio principal del video debe ser una cadena de texto'
     }).url({
         message: 'La pista de audio principal del video debe ser una URL válida'
+    }).refine(value => {
+        const validTypes = ['mp3', 'wav'];
     }),
 
     audio_track_secondary_video: zod.string({
@@ -36,6 +38,8 @@ export const SchemaVideos = zod.object({
         invalid_type_error: 'La pista de audio secundaria del video debe ser una cadena de texto'
     }).url({
         message: 'La pista de audio secundaria del video debe ser una URL válida'
+    }).refine(value => {
+        const validTypes = ['mp3, wav']
     }),
 
     subtitle_main_video: zod.string({
@@ -43,6 +47,8 @@ export const SchemaVideos = zod.object({
         invalid_type_error: 'El subtítulo principal del video debe ser una cadena de texto'
     }).url({
         message: 'El subtítulo principal del video debe ser una URL válida'
+    }).refine(value => {
+        const validTypes = ['srt', 'vtt'];
     }),
 
     subtitle_secondary_video: zod.string({
@@ -50,6 +56,8 @@ export const SchemaVideos = zod.object({
         invalid_type_error: 'El subtítulo secundario del video debe ser una cadena de texto'
     }).url({
         message: 'El subtítulo secundario del video debe ser una URL válida'
+    }).refine(value => {
+        const validTypes = ['srt', 'vtt'];
     }),
 
     url_video: zod.string({
