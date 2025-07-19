@@ -1,13 +1,26 @@
 import * as THREE from 'three';
 
+
+const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim();
+const tertiaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-tertiary').trim();
+const quaternaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-quaternary').trim();
+const quinaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-quinary').trim();
+
+console.log('Primary Color:', primaryColor);
+console.log('Secondary Color:', secondaryColor);
+console.log('Tertiary Color:', tertiaryColor);
+console.log('Quaternary Color:', quaternaryColor);
+console.log('Quinary Color:', quinaryColor);
+
 export const SHAPES_DEFS = [
-  { id: 'largeBlue', color: "#0f82f2", points: [[-100, -50], [0, 50], [100, -50]] },
-  { id: 'largePink', color: "#cd0e66", points: [[100, -50], [0, 50], [-100, -50]] },
-  { id: 'mediumPurple', color: "#6d3bbf", points: [[-50, -50], [50, -50], [50, 50]] },
-  { id: 'squareGreen', color: "#22ab24", points: [[-50, 0], [0, -50], [50, 0], [0, 50]] },
-  { id: 'parallelogramOrange', color: "#fd8c00", points: [[-75, 25], [25, 25], [75, -25], [-25, -25]] },
-  { id: 'smallTurquoise1', color: "#009ea6", points: [[0, -25], [50, 25], [-50, 25]] },
-  { id: 'smallRed', color: "#eb4726", points: [[0, -25], [50, 25], [-50, 25]] }
+  { id: 'largeBlue', color: primaryColor , points: [[-100, -50], [0, 50], [100, -50]] },
+  { id: 'largePink', color: secondaryColor, points: [[100, -50], [0, 50], [-100, -50]] },
+  { id: 'mediumPurple', color: tertiaryColor, points: [[-50, -50], [50, -50], [50, 50]] },
+  { id: 'squareGreen', color: quaternaryColor, points: [[-50, 0], [0, -50], [50, 0], [0, 50]] },
+  { id: 'parallelogramOrange', color: quinaryColor, points: [[-75, 25], [25, 25], [75, -25], [-25, -25]] },
+  { id: 'smallTurquoise1', color: primaryColor, points: [[0, -25], [50, 25], [-50, 25]] },
+  { id: 'smallRed', color: secondaryColor, points: [[0, -25], [50, 25], [-50, 25]] }
 ];
 
 export const EXTRUDE_SETTINGS: THREE.ExtrudeGeometryOptions = {

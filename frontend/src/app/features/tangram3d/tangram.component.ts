@@ -2,7 +2,6 @@ import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild } from "@ang
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import {
-    SHAPES_DEFS,
     EXTRUDE_SETTINGS,
     CONFIGURATIONS,
     CONFIG_ORDER,
@@ -18,13 +17,14 @@ import {
 @Component({
     selector: 'tangram3d',
     template: `
-        <div class="m-0 overflow-hidden bg-red-600 font-primary">
+        <div class="m-0 overflow-hidden font-primary">
             <canvas class="block" #tangramCanvas></canvas>
         </div>
     `
 })
 export class Tangram3dComponent implements AfterViewInit, OnDestroy {
     @ViewChild('tangramCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+    private SHAPES_DEFS: { id: string, color: string, points: number[][] }[] = [];
     private scene!: THREE.Scene;
     private camera!: THREE.PerspectiveCamera;
     private renderer!: THREE.WebGLRenderer;
@@ -39,12 +39,29 @@ export class Tangram3dComponent implements AfterViewInit, OnDestroy {
 
 
     ngAfterViewInit(): void {
+        this.initShapes();
         this.initThreeJS();
         this.createShapes();
         this.initializeShapes();
         this.animate();
     }
 
+    initShapes(): void {
+        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+        const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim();
+        const tertiaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-tertiary').trim();
+        const quaternaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-quaternary').trim();
+        const quinaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-quinary').trim();
+        this.SHAPES_DEFS = [
+          { id: 'largeBlue', color: primaryColor , points: [[-100, -50], [0, 50], [100, -50]] },
+          { id: 'largePink', color: secondaryColor, points: [[100, -50], [0, 50], [-100, -50]] },
+          { id: 'mediumPurple', color: tertiaryColor, points: [[-50, -50], [50, -50], [50, 50]] },
+          { id: 'squareGreen', color: quaternaryColor, points: [[-50, 0], [0, -50], [50, 0], [0, 50]] },
+          { id: 'parallelogramOrange', color: quinaryColor, points: [[-75, 25], [25, 25], [75, -25], [-25, -25]] },
+          { id: 'smallTurquoise1', color: primaryColor, points: [[0, -25], [50, 25], [-50, 25]] },
+          { id: 'smallRed', color: secondaryColor, points: [[0, -25], [50, 25], [-50, 25]] }
+        ]
+    }
     ngOnDestroy(): void {
         cancelAnimationFrame(this.animationFrameId);
         window.removeEventListener('resize', this.onWindowResize);
@@ -127,7 +144,7 @@ export class Tangram3dComponent implements AfterViewInit, OnDestroy {
     }
 
     private createShapes(): void {
-        SHAPES_DEFS.forEach(def => {
+        this.SHAPES_DEFS.forEach(def => {
             const shape = new THREE.Shape();
             shape.moveTo(def.points[0][0], def.points[0][1]);
 
@@ -186,7 +203,7 @@ export class Tangram3dComponent implements AfterViewInit, OnDestroy {
 
         const movingTasks: any[] = [];
 
-        SHAPES_DEFS.forEach(def => {
+        this.SHAPES_DEFS.forEach(def => {
             const mesh = this.shapeMeshes[def.id];
             const fromState = fromConfig[def.id] || {
                 opacity: 0,
