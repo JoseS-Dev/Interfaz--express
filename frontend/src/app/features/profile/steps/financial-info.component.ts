@@ -71,6 +71,9 @@ import { takeUntil } from 'rxjs/operators';
                             @if (financialInfoForm.get('card_expire_user')?.errors?.['pattern']) {
                                 <div class="text-red-600 text-sm mt-1">Formato de fecha inválido (MM/AA).</div>
                             }
+                            @if (financialInfoForm.get('card_expire_user')?.errors?.['cardExpired']) {
+                                <div class="text-red-600 text-sm mt-1">La tarjeta ha expirado.</div>
+                            }
                         }
                     </div>
 
