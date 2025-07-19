@@ -106,7 +106,7 @@ L.Icon.Default.mergeOptions({
                         id="state_code_address"
                         type="text"
                         formControlName="state_code_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary"
                         >
                         @if (addressInfoForm.get('state_code_address')?.invalid && (addressInfoForm.get('state_code_address')?.dirty || addressInfoForm.get('state_code_address')?.touched)) {
                             @if (addressInfoForm.get('state_code_address')?.errors?.['required']) {
@@ -121,25 +121,29 @@ L.Icon.Default.mergeOptions({
 
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="latitude_address" class="block text-sm font-medium text-quinary text-paragraph">Latitud:</label>
+                        <label for="ip_user" class="block text-sm font-medium text-quinary text-paragraph">IP del Usuario:</label>
                         <input
-                        id="latitude_address"
-                        type="number"
-                        formControlName="latitude_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
-                        readonly
+                        id="ip_user"
+                        type="text"
+                        formControlName="ip_user"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary"
                         >
+                        @if (addressInfoForm.get('ip_user')?.invalid && (addressInfoForm.get('ip_user')?.dirty || addressInfoForm.get('ip_user')?.touched)) {
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">La IP del usuario es requerida.</div>
+                        }
                     </div>
 
                     <div>
-                        <label for="longitude_address" class="block text-sm font-medium text-quinary text-paragraph">Longitud:</label>
+                        <label for="mac_address_user" class="block text-sm font-medium text-quinary text-paragraph">Dirección MAC del Usuario:</label>
                         <input
-                        id="longitude_address"
-                        type="number"
-                        formControlName="longitude_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
-                        readonly
+                        id="mac_address_user"
+                        type="text"
+                        formControlName="mac_address_user"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary"
                         >
+                        @if (addressInfoForm.get('mac_address_user')?.invalid && (addressInfoForm.get('mac_address_user')?.dirty || addressInfoForm.get('mac_address_user')?.touched)) {
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">La dirección MAC del usuario es requerida.</div>
+                        }
                     </div>
                 </div>
             </form>
@@ -223,14 +227,16 @@ export class StepAddressComponent implements OnInit, OnDestroy {
         const loadedData = this.wizardService.formData().addressInfo;
 
         this.addressInfoForm = this.fb.group({
-        street_address: [loadedData?.street_address || '', Validators.required],
-        city_address: [loadedData?.city_address || '', Validators.required],
-        state_address: [loadedData?.state_address || '', Validators.required],
-        state_code_address: [loadedData?.state_code_address || '', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)]], 
-        postal_code_address: [loadedData?.postal_code_address || '', Validators.required],
-        latitude_address: [loadedData?.latitude_address || null, Validators.required],
-        longitude_address: [loadedData?.longitude_address || null, Validators.required],
-        country_address: [loadedData?.country_address || '', Validators.required],
+            street_address: [loadedData?.street_address || '', Validators.required],
+            city_address: [loadedData?.city_address || '', Validators.required],
+            state_address: [loadedData?.state_address || '', Validators.required],
+            state_code_address: [loadedData?.state_code_address || '', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)]], 
+            postal_code_address: [loadedData?.postal_code_address || '', Validators.required],
+            latitude_address: [loadedData?.latitude_address || null, Validators.required],
+            longitude_address: [loadedData?.longitude_address || null, Validators.required],
+            country_address: [loadedData?.country_address || '', Validators.required],
+            ip_user: [loadedData?.ip_user || '', Validators.required],
+            mac_address_user: [loadedData?.mac_address_user || '', Validators.required],
         });
 
         // Suscribirse a los cambios del formulario para actualizar el servicio.

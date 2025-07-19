@@ -34,9 +34,9 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
                 <option value="Other">Otra</option>
                 </select>
                 @if (cryptoWalletForm.get('coin_user')?.invalid && (cryptoWalletForm.get('coin_user')?.dirty || cryptoWalletForm.get('coin_user')?.touched)) {
-                @if (cryptoWalletForm.get('coin_user')?.errors?.['required']) {
-                    <div class="text-tertiary text-sm mt-1 text-paragraph">La criptomoneda es requerida.</div>
-                }
+                    @if (cryptoWalletForm.get('coin_user')?.errors?.['required']) {
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">La criptomoneda es requerida.</div>
+                    }
                 }
             </div>
 
@@ -50,12 +50,12 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
                 placeholder="Ej: 1A1zP1eQp5fGk..."
                 >
                 @if (cryptoWalletForm.get('wallet_address_user')?.invalid && (cryptoWalletForm.get('wallet_address_user')?.dirty || cryptoWalletForm.get('wallet_address_user')?.touched)) {
-                @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['required']) {
-                    <div class="text-tertiary text-sm mt-1 text-paragraph">La dirección de la billetera es requerida.</div>
-                }
-                @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['pattern']) {
-                    <div class="text-tertiary text-sm mt-1 text-paragraph">Formato de dirección de billetera inválido.</div>
-                }
+                    @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['required']) {
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">La dirección de la billetera es requerida.</div>
+                    }
+                    @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['pattern']) {
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">La dirección de la billetera es inválida (ej: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa).</div>
+                    }
                 }
             </div>
             </div>
@@ -71,9 +71,9 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
                 placeholder="Ej: ERC-20, BEP-20, TRC-20..."
                 >
                 @if (cryptoWalletForm.get('network_user')?.invalid && (cryptoWalletForm.get('network_user')?.dirty || cryptoWalletForm.get('network_user')?.touched)) {
-                @if (cryptoWalletForm.get('network_user')?.errors?.['required']) {
-                    <div class="text-tertiary text-sm mt-1 text-paragraph">La red es requerida.</div>
-                }
+                    @if (cryptoWalletForm.get('network_user')?.errors?.['required']) {
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">La red es requerida.</div>
+                    }
                 }
             </div>
             </div>
@@ -112,7 +112,7 @@ export class StepCryptoWalletComponent implements OnInit, OnDestroy {
         this.cryptoWalletForm = this.fb.group({
         coin_user: [loadedData?.coin_user || '', Validators.required],
         // Validación básica para dirección de billetera (puede ser más específica según la moneda/red)
-        wallet_address_user: [loadedData?.wallet_address_user || '', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]{20,90}$/)]], // Longitud y alfanumérico
+        wallet_address_user: [loadedData?.wallet_address_user || '', [Validators.required, Validators.pattern(/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/)]], // Ejemplo para Bitcoin
         network_user: [loadedData?.network_user || '', Validators.required],
         });
 

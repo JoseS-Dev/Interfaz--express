@@ -8,7 +8,7 @@ export interface StepPersonalData {
     birth_date_user: string | null;
     image_user: string | null;
     gender_user: string | null;
-    }
+}
 
 export interface StepAddressData {
     street_address: string | null;
@@ -19,6 +19,8 @@ export interface StepAddressData {
     latitude_address: number | null;
     longitude_address: number | null;
     country_address: string | null;
+    ip_user: string | null;
+    mac_address_user: string | null;
 }
 
 export interface StepMedicalData {

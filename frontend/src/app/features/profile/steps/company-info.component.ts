@@ -83,7 +83,7 @@ L.Icon.Default.mergeOptions({
                 id="company_street_user"
                 type="text"
                 formControlName="company_street_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
                 readonly
                 >
                 @if (companyInfoForm.get('company_street_user')?.invalid && (companyInfoForm.get('company_street_user')?.dirty || companyInfoForm.get('company_street_user')?.touched)) {
@@ -99,7 +99,7 @@ L.Icon.Default.mergeOptions({
                 id="company_city_user"
                 type="text"
                 formControlName="company_city_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
                 readonly
                 >
                 @if (companyInfoForm.get('company_city_user')?.invalid && (companyInfoForm.get('company_city_user')?.dirty || companyInfoForm.get('company_city_user')?.touched)) {
@@ -113,7 +113,7 @@ L.Icon.Default.mergeOptions({
                 id="company_state_user"
                 type="text"
                 formControlName="company_state_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
                 readonly
                 >
                 @if (companyInfoForm.get('company_state_user')?.invalid && (companyInfoForm.get('company_state_user')?.dirty || companyInfoForm.get('company_state_user')?.touched)) {
@@ -147,7 +147,7 @@ L.Icon.Default.mergeOptions({
                 id="company_postal_code_user"
                 type="text"
                 formControlName="company_postal_code_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
                 readonly
                 >
                 @if (companyInfoForm.get('company_postal_code_user')?.invalid && (companyInfoForm.get('company_postal_code_user')?.dirty || companyInfoForm.get('company_postal_code_user')?.touched)) {
@@ -156,44 +156,20 @@ L.Icon.Default.mergeOptions({
             </div>
             </div>
 
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="company_country_user" class="block text-sm font-medium text-quinary text-paragraph">País (Empresa):</label>
-                <input
-                id="company_country_user"
-                type="text"
-                formControlName="company_country_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
-                readonly
-                >
-                @if (companyInfoForm.get('company_country_user')?.invalid && (companyInfoForm.get('company_country_user')?.dirty || companyInfoForm.get('company_country_user')?.touched)) {
-                <div class="text-tertiary text-sm mt-1 text-paragraph">El país de la empresa es requerido.</div>
-                }
-            </div>
-
-            <div>
-                <label for="company_latitude_user" class="block text-sm font-medium text-quinary text-paragraph">Latitud (Empresa):</label>
-                <input
-                id="company_latitude_user"
-                type="number"
-                formControlName="company_latitude_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
-                readonly
-                >
-            </div>
-            </div>
-
             <div class="mb-4">
-            <div>
-                <label for="company_longitude_user" class="block text-sm font-medium text-quinary text-paragraph">Longitud (Empresa):</label>
-                <input
-                id="company_longitude_user"
-                type="number"
-                formControlName="company_longitude_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
-                readonly
-                >
-            </div>
+                <div>
+                    <label for="company_country_user" class="block text-sm font-medium text-quinary text-paragraph">País (Empresa):</label>
+                    <input
+                    id="company_country_user"
+                    type="text"
+                    formControlName="company_country_user"
+                    class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
+                    readonly
+                    >
+                    @if (companyInfoForm.get('company_country_user')?.invalid && (companyInfoForm.get('company_country_user')?.dirty || companyInfoForm.get('company_country_user')?.touched)) {
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El país de la empresa es requerido.</div>
+                    }
+                </div>
             </div>
         </form>
 

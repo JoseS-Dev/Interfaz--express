@@ -184,6 +184,8 @@ export class WizardService {
                         latitude_address: user.latitude_address,
                         longitude_address: user.longitude_address,
                         country_address: user.country_address,
+                        ip_user: user.ip_user,
+                        mac_address_user: user.mac_address_user,
                     },
                     medicalInfo: {
                         blood_group_user: user.blood_group_user,

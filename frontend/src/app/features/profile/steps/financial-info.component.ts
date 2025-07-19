@@ -89,11 +89,7 @@ import { takeUntil } from 'rxjs/operators';
                             <option value="EUR">Euro (EUR)</option>
                             <option value="GBP">Libra Esterlina (GBP)</option>
                             <option value="JPY">Yen Japonés (JPY)</option>
-                            <option value="CAD">Dólar Canadiense (CAD)</option>
-                            <option value="AUD">Dólar Australiano (AUD)</option>
-                            <option value="MXN">Peso Mexicano (MXN)</option>
-                            <option value="VES">Bolívar Soberano (VES)</option>
-                            <option value="Other">Otra</option>
+                            <option value="CNY">Yuan Chino (CNY)</option>
                         </select>
                         @if (financialInfoForm.get('currency_user')?.invalid && (financialInfoForm.get('currency_user')?.dirty || financialInfoForm.get('currency_user')?.touched)) {
                             <div class="text-tertiary text-sm mt-1 text-paragraph">La moneda es requerida.</div>
