@@ -17,11 +17,11 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
         <form [formGroup]="cryptoWalletForm">
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="coin_user" class="block text-sm font-medium text-quinary">Criptomoneda:</label>
+                <label for="coin_user" class="block text-sm font-medium text-quinary text-paragraph">Criptomoneda:</label>
                 <select
                 id="coin_user"
                 formControlName="coin_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 <option value="">Selecciona</option>
                 <option value="BTC">Bitcoin (BTC)</option>
@@ -35,26 +35,26 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
                 </select>
                 @if (cryptoWalletForm.get('coin_user')?.invalid && (cryptoWalletForm.get('coin_user')?.dirty || cryptoWalletForm.get('coin_user')?.touched)) {
                 @if (cryptoWalletForm.get('coin_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">La criptomoneda es requerida.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La criptomoneda es requerida.</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="wallet_address_user" class="block text-sm font-medium text-quinary">Dirección de Billetera:</label>
+                <label for="wallet_address_user" class="block text-sm font-medium text-quinary text-paragraph">Dirección de Billetera:</label>
                 <input
                 id="wallet_address_user"
                 type="text"
                 formControlName="wallet_address_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 placeholder="Ej: 1A1zP1eQp5fGk..."
                 >
                 @if (cryptoWalletForm.get('wallet_address_user')?.invalid && (cryptoWalletForm.get('wallet_address_user')?.dirty || cryptoWalletForm.get('wallet_address_user')?.touched)) {
                 @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">La dirección de la billetera es requerida.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La dirección de la billetera es requerida.</div>
                 }
                 @if (cryptoWalletForm.get('wallet_address_user')?.errors?.['pattern']) {
-                    <div class="text-red-600 text-sm mt-1">Formato de dirección de billetera inválido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">Formato de dirección de billetera inválido.</div>
                 }
                 }
             </div>
@@ -62,17 +62,17 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
 
             <div class="mb-4">
             <div>
-                <label for="network_user" class="block text-sm font-medium text-quinary">Red (Blockchain):</label>
+                <label for="network_user" class="block text-sm font-medium text-quinary text-paragraph">Red (Blockchain):</label>
                 <input
                 id="network_user"
                 type="text"
                 formControlName="network_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 placeholder="Ej: ERC-20, BEP-20, TRC-20..."
                 >
                 @if (cryptoWalletForm.get('network_user')?.invalid && (cryptoWalletForm.get('network_user')?.dirty || cryptoWalletForm.get('network_user')?.touched)) {
                 @if (cryptoWalletForm.get('network_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">La red es requerida.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La red es requerida.</div>
                 }
                 }
             </div>

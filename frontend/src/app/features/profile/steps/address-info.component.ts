@@ -27,93 +27,93 @@ L.Icon.Default.mergeOptions({
             <form [formGroup]="addressInfoForm">
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="street_address" class="block text-sm font-medium text-quinary">Calle y Número:</label>
+                        <label for="street_address" class="block text-sm font-medium text-quinary text-paragraph">Calle y Número:</label>
                         <input
                         id="street_address"
                         type="text"
                         formControlName="street_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                         @if (addressInfoForm.get('street_address')?.invalid && (addressInfoForm.get('street_address')?.dirty || addressInfoForm.get('street_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">La calle y número son requeridos.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">La calle y número son requeridos.</div>
                         }
                     </div>
 
                     <div>
-                        <label for="city_address" class="block text-sm font-medium text-quinary">Ciudad:</label>
+                        <label for="city_address" class="block text-sm font-medium text-quinary text-paragraph">Ciudad:</label>
                         <input
                         id="city_address"
                         type="text"
                         formControlName="city_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                         @if (addressInfoForm.get('city_address')?.invalid && (addressInfoForm.get('city_address')?.dirty || addressInfoForm.get('city_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">La ciudad es requerida.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">La ciudad es requerida.</div>
                         }
                     </div>
                 </div>
 
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="state_address" class="block text-sm font-medium text-quinary">Estado/Provincia:</label>
+                        <label for="state_address" class="block text-sm font-medium text-quinary text-paragraph">Estado/Provincia:</label>
                         <input
                         id="state_address"
                         type="text"
                         formControlName="state_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                         @if (addressInfoForm.get('state_address')?.invalid && (addressInfoForm.get('state_address')?.dirty || addressInfoForm.get('state_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">El estado/provincia es requerido.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">El estado/provincia es requerido.</div>
                         }
                     </div>
 
                     <div>
-                        <label for="postal_code_address" class="block text-sm font-medium text-quinary">Código Postal:</label>
+                        <label for="postal_code_address" class="block text-sm font-medium text-quinary text-paragraph">Código Postal:</label>
                         <input
                         id="postal_code_address"
                         type="text"
                         formControlName="postal_code_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                         @if (addressInfoForm.get('postal_code_address')?.invalid && (addressInfoForm.get('postal_code_address')?.dirty || addressInfoForm.get('postal_code_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">El código postal es requerido.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">El código postal es requerido.</div>
                         }
                     </div>
                 </div>
 
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="country_address" class="block text-sm font-medium text-quinary">País:</label>
+                        <label for="country_address" class="block text-sm font-medium text-quinary text-paragraph">País:</label>
                         <input
                         id="country_address"
                         type="text"
                         formControlName="country_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                         @if (addressInfoForm.get('country_address')?.invalid && (addressInfoForm.get('country_address')?.dirty || addressInfoForm.get('country_address')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">El país es requerido.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">El país es requerido.</div>
                         }
                     </div>
 
                     <div>
-                        <label for="state_code_address" class="block text-sm font-medium text-quinary">Código de Estado:</label>
+                        <label for="state_code_address" class="block text-sm font-medium text-quinary text-paragraph">Código de Estado:</label>
                         <input
                         id="state_code_address"
                         type="text"
                         formControlName="state_code_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         >
                         @if (addressInfoForm.get('state_code_address')?.invalid && (addressInfoForm.get('state_code_address')?.dirty || addressInfoForm.get('state_code_address')?.touched)) {
                             @if (addressInfoForm.get('state_code_address')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">El código de estado es requerido.</div>
                             }
                             @if (addressInfoForm.get('state_code_address')?.errors?.['pattern']) {
-                                <div class="text-red-600 text-sm mt-1">El código de estado debe ser de 2 letras mayúsculas (ej: CA, NY).</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">El código de estado debe ser de 2 letras mayúsculas (ej: CA, NY).</div>
                             }
                         }
                     </div>
@@ -121,23 +121,23 @@ L.Icon.Default.mergeOptions({
 
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="latitude_address" class="block text-sm font-medium text-quinary">Latitud:</label>
+                        <label for="latitude_address" class="block text-sm font-medium text-quinary text-paragraph">Latitud:</label>
                         <input
                         id="latitude_address"
                         type="number"
                         formControlName="latitude_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                     </div>
 
                     <div>
-                        <label for="longitude_address" class="block text-sm font-medium text-quinary">Longitud:</label>
+                        <label for="longitude_address" class="block text-sm font-medium text-quinary text-paragraph">Longitud:</label>
                         <input
                         id="longitude_address"
                         type="number"
                         formControlName="longitude_address"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary bg-quinary/5"
                         readonly
                         >
                     </div>
@@ -145,7 +145,7 @@ L.Icon.Default.mergeOptions({
             </form>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-quinary">Selecciona tu ubicación en el mapa:</label>
+                <label class="block text-sm font-medium text-quinary text-paragraph">Selecciona tu ubicación en el mapa:</label>
                 <div style="height: 300px; width: 100%; border-radius: 0.375rem; overflow: hidden;">
                     <div
                         leaflet

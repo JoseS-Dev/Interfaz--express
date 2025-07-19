@@ -19,31 +19,31 @@ import { WizardService } from '../../../core/services/wizard.service';
         <form [formGroup]="professionalInfoForm">
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="university_user" class="block text-sm font-medium text-quinary">Universidad:</label>
+                <label for="university_user" class="block text-sm font-medium text-quinary text-paragraph">Universidad:</label>
                 <input
                 id="university_user"
                 type="text"
                 formControlName="university_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (professionalInfoForm.get('university_user')?.invalid && (professionalInfoForm.get('university_user')?.dirty || professionalInfoForm.get('university_user')?.touched)) {
                 @if (professionalInfoForm.get('university_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">La universidad es requerida.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La universidad es requerida.</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="ein_user" class="block text-sm font-medium text-quinary">EIN (Employer Identification Number):</label>
+                <label for="ein_user" class="block text-sm font-medium text-quinary text-paragraph">EIN (Employer Identification Number):</label>
                 <input
                 id="ein_user"
                 type="text"
                 formControlName="ein_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (professionalInfoForm.get('ein_user')?.invalid && (professionalInfoForm.get('ein_user')?.dirty || professionalInfoForm.get('ein_user')?.touched)) {
                 @if (professionalInfoForm.get('ein_user')?.errors?.['pattern']) {
-                    <div class="text-red-600 text-sm mt-1">Formato EIN inválido (ej: XX-XXXXXXX).</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">Formato EIN inválido (ej: XX-XXXXXXX).</div>
                 }
                 }
             </div>
@@ -51,32 +51,32 @@ import { WizardService } from '../../../core/services/wizard.service';
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="ssn_user" class="block text-sm font-medium text-quinary">SSN (Social Security Number):</label>
+                <label for="ssn_user" class="block text-sm font-medium text-quinary text-paragraph">SSN (Social Security Number):</label>
                 <input
                 id="ssn_user"
                 type="text"
                 formControlName="ssn_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (professionalInfoForm.get('ssn_user')?.invalid && (professionalInfoForm.get('ssn_user')?.dirty || professionalInfoForm.get('ssn_user')?.touched)) {
                 @if (professionalInfoForm.get('ssn_user')?.errors?.['pattern']) {
-                    <div class="text-red-600 text-sm mt-1">Formato SSN inválido (ej: XXX-XX-XXXX).</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">Formato SSN inválido (ej: XXX-XX-XXXX).</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="role_user" class="block text-sm font-medium text-quinary">Rol:</label>
+                <label for="role_user" class="block text-sm font-medium text-quinary text-paragraph">Rol:</label>
                 <input
                 id="role_user"
                 type="text"
                 formControlName="role_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-quinary/5"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-quinary/5"
                 readonly
                 >
                 @if (professionalInfoForm.get('role_user')?.invalid && (professionalInfoForm.get('role_user')?.dirty || professionalInfoForm.get('role_user')?.touched)) {
                 @if (professionalInfoForm.get('role_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">El rol es requerido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El rol es requerido.</div>
                 }
                 }
             </div>
