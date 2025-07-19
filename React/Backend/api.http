@@ -278,7 +278,7 @@ GET http://localhost:3500/Images/Format/jpeg
 GET http://localhost:3500/Images/Size/270982
 
 ### Eliminar una imagen
-DELETE http://localhost:3500/Images/delete/11
+DELETE http://localhost:3500/Images/delete/12
 
 ### Actualizar una imagen
 PATCH http://localhost:3500/Images/update/12
@@ -290,3 +290,46 @@ Content-Type: application/json
     "size_image": 2048,
     "dimension_image": "800x600"
 }
+
+### Crear un video
+POST http://localhost:3500/Videos/create
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="url_video"; filename="video.mp4"
+Content-Type: video/mp4
+
+< ../videos/video.mp4
+--CustomBoundary--
+
+### Crear las pistas de un video
+POST http://localhost:3500/create/Videos/track/2
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="url_audio_main"; filename="audio.mp3"
+Content-Type: audio/mp3
+
+< ../audios/audio.mp3
+--CustomBoundary
+Content-Disposition: form-data; name="url_audio_secondary"; filename="audio2.mp3"
+Content-Type: audio/mp3
+
+< ../audios/audio2.mp3
+--CustomBoundary--
+
+### Crear los subtitulos de un video
+POST http://localhost:3500/Videos/create/subtitles/2
+Content-Type: multipart/form-data; boundary=CustomBoundary
+
+--CustomBoundary
+Content-Disposition: form-data; name="subtitle_main_video"; filename="subtitles.srt"
+Content-Type: text/srt
+
+< ../subtitles/subtitles.srt
+--CustomBoundary
+Content-Disposition: form-data; name="subtitle_secondary_video"; filename="subtitles2.srt"
+Content-Type: text/srt
+
+< ../subtitles/subtitles2.srt
+--CustomBoundary--

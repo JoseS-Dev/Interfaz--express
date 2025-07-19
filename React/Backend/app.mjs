@@ -20,6 +20,9 @@ app.use(cookieParser());
 
 app.use('/font',express.static('uploads/fonts'));
 app.use('/imagen', express.static('uploads/images'));
+app.use('/video', express.static('uploads/videos'));
+app.use('/audio', express.static('uploads/audios'));
+app.use('/subtitle', express.static('uploads/subtitles'));
 
 
 app.use('/Users', RoutesUsers);

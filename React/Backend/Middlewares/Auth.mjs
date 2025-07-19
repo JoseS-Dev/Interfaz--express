@@ -15,8 +15,6 @@ export function Auth(user){
 }
 
 export const authMiddleware = (req, res, next) => {
-    console.log(process.env.DB_JWT_SECRET);
-    console.log(process.env.DB_JWT_EXPIRATION);
     const token = req.cookies.token;
     if(!token){
         return res.status(401).json({ message: 'No token provided' });

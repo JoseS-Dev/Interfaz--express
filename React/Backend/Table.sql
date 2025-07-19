@@ -147,12 +147,36 @@ CREATE TABLE videos(
     name_video VARCHAR(255) NOT NULL,
     format_video VARCHAR(50) NOT NULL,
     duration_video INT NOT NULL,
-    audio_track_main_video VARCHAR(255) NOT NULL,
-    audio_track_secondary_video VARCHAR(255) NOT NULL,
-    subtitle_main_video VARCHAR(255) NOT NULL,
-    subtitle_secondary_video VARCHAR(255) NOT NULL,
     url_video LONGTEXT NOT NULL,
     is_selected BOOLEAN NOT NULL DEFAULT FALSE,
     size_video BIGINT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES user_register(id_user)
+);
+
+CREATE TABLE audios(
+    id_audio INT PRIMARY KEY AUTO_INCREMENT,
+    id_video INT,
+    name_audio_main VARCHAR(255) NOT NULL,
+    name_audio_secondary VARCHAR(255) NOT NULL,
+    format_audio_main VARCHAR(50) NOT NULL,
+    format_audio_secondary VARCHAR(50) NOT NULL,
+    duration_audio_main INT NOT NULL,
+    duration_audio_secondary INT NOT NULL,
+    size_audio_main BIGINT NOT NULL,
+    size_audio_secondary BIGINT NOT NULL,
+    url_audio_main LONGTEXT NOT NULL,
+    url_audio_secondary LONGTEXT NOT NULL,
+    FOREIGN KEY (id_video) REFERENCES videos(id_video),
+)
+
+CREATE TABLE subtitles(
+    id_subtitle INT PRIMARY KEY AUTO_INCREMENT,
+    id_video INT,
+    subtitle_main_video LONGTEXT NOT NULL,
+    subtitle_secondary_video LONGTEXT NOT NULL,
+    format_subtitle_main VARCHAR(50) NOT NULL,
+    format_subtitle_secondary VARCHAR(50) NOT NULL,
+    size_subtitle_main BIGINT NOT NULL,
+    size_subtitle_secondary BIGINT NOT NULL,
+    FOREIGN KEY (id_video) REFERENCES videos(id_video)
 );
