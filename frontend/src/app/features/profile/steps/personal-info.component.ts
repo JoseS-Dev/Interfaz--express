@@ -4,27 +4,29 @@ import { WizardService } from '../../../core/services/wizard.service';
 import { StepPersonalData } from '../../../shared/interfaces/wizard.interface';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'step-personal-info',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, CommonModule],
     template: `
         <div class="flex flex-col gap-4 py-4">
             <h2 class="text-2xl text-subtitle font-bold text-quinary">Información Personal</h2>
             <form [formGroup]="personalInfoForm">
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="name_user" class="block text-sm font-medium text-quinary">Nombre:</label>
+                        <label for="name_user" class="block text-sm font-medium text-quinary text-paragraph">Nombre:</label>
                         <input
                             id="name_user"
                             type="text"
                             formControlName="name_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('name_user')?.invalid && (personalInfoForm.get('name_user')?.dirty || personalInfoForm.get('name_user')?.touched)) {
                             @if (personalInfoForm.get('name_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El nombre es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El nombre es requerido.</div>
                             }
                         }
                     </div>
@@ -35,11 +37,11 @@ import { takeUntil } from 'rxjs/operators';
                             id="maiden_name_user"
                             type="text"
                             formControlName="maiden_name_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('maiden_name_user')?.invalid && (personalInfoForm.get('maiden_name_user')?.dirty || personalInfoForm.get('maiden_name_user')?.touched)) {
                             @if (personalInfoForm.get('maiden_name_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El apellido de soltera es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El apellido de soltera es requerido.</div>
                             }
                         }
                     </div>
@@ -52,14 +54,14 @@ import { takeUntil } from 'rxjs/operators';
                             id="email_user"
                             type="email"
                             formControlName="email_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('email_user')?.invalid && (personalInfoForm.get('email_user')?.dirty || personalInfoForm.get('email_user')?.touched)) {
                             @if (personalInfoForm.get('email_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El email es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El email es requerido.</div>
                             }
                             @if (personalInfoForm.get('email_user')?.errors?.['email']) {
-                                <div class="text-red-600 text-sm mt-1">Por favor, introduce un email válido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">Por favor, introduce un email válido.</div>
                             }
                         }
                     </div>
@@ -70,11 +72,11 @@ import { takeUntil } from 'rxjs/operators';
                             id="username"
                             type="text"
                             formControlName="username"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('username')?.invalid && (personalInfoForm.get('username')?.dirty || personalInfoForm.get('username')?.touched)) {
                             @if (personalInfoForm.get('username')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El nombre de usuario es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El nombre de usuario es requerido.</div>
                             }
                         }
                     </div>
@@ -87,11 +89,11 @@ import { takeUntil } from 'rxjs/operators';
                             id="age_user"
                             type="number"
                             formControlName="age_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('age_user')?.invalid && (personalInfoForm.get('age_user')?.dirty || personalInfoForm.get('age_user')?.touched)) {
                             @if (personalInfoForm.get('age_user')?.errors?.['min'] || personalInfoForm.get('age_user')?.errors?.['max']) {
-                                <div class="text-red-600 text-sm mt-1">La edad debe ser entre 0 y 120.</div>
+                                <div class="text-tertiary text-paragraph mt-1">La edad debe ser entre 0 y 120.</div>
                             }
                         }
                     </div>
@@ -102,14 +104,14 @@ import { takeUntil } from 'rxjs/operators';
                             id="phone_user"
                             type="text"
                             formControlName="phone_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                         @if (personalInfoForm.get('phone_user')?.invalid && (personalInfoForm.get('phone_user')?.dirty || personalInfoForm.get('phone_user')?.touched)) {
                             @if (personalInfoForm.get('phone_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El número de teléfono es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El número de teléfono es requerido.</div>
                             }
                             @if (personalInfoForm.get('phone_user')?.errors?.['pattern']) {
-                                <div class="text-red-600 text-sm mt-1">El número de teléfono solo puede contener dígitos (7-15) y opcionalmente un '+' al inicio.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El número de teléfono solo puede contener dígitos (7-15) y opcionalmente un '+' al inicio.</div>
                             }
                         }
                     </div>
@@ -122,11 +124,12 @@ import { takeUntil } from 'rxjs/operators';
                             id="birth_date_user"
                             type="date"
                             formControlName="birth_date_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
+                            max="{{ today | date:'yyyy-MM-dd' }}"
                         >
                         @if (personalInfoForm.get('birth_date_user')?.invalid && (personalInfoForm.get('birth_date_user')?.dirty || personalInfoForm.get('birth_date_user')?.touched)) {
                             @if (personalInfoForm.get('birth_date_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">La fecha de nacimiento es requerida.</div>
+                                <div class="text-tertiary text-paragraph mt-1">La fecha de nacimiento es requerida.</div>
                             }
                         }
                     </div>
@@ -136,7 +139,7 @@ import { takeUntil } from 'rxjs/operators';
                         <select
                             id="gender_user"
                             formControlName="gender_user"
-                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         >
                             <option value="">Seleccione un género</option>
                             <option value="Masculino">Masculino</option>
@@ -145,7 +148,7 @@ import { takeUntil } from 'rxjs/operators';
                         </select>
                         @if (personalInfoForm.get('gender_user')?.invalid && (personalInfoForm.get('gender_user')?.dirty || personalInfoForm.get('gender_user')?.touched)) {
                             @if (personalInfoForm.get('gender_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El género es requerido.</div>
+                                <div class="text-tertiary text-paragraph mt-1">El género es requerido.</div>
                             }
                         }
                     </div>
@@ -157,15 +160,15 @@ import { takeUntil } from 'rxjs/operators';
                         id="image_user"
                         type="file"
                         (change)="onFileSelected($event)"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:border-secondary"
                         accept="image/*"
                     >
                     @if (personalInfoForm.get('image_user')?.invalid && (personalInfoForm.get('image_user')?.dirty || personalInfoForm.get('image_user')?.touched)) {
                         @if (personalInfoForm.get('image_user')?.errors?.['fileType']) {
-                            <div class="text-red-600 text-sm mt-1">Por favor, selecciona un archivo de imagen (jpg, jpeg, png, gif, svg).</div>
+                            <div class="text-tertiary text-paragraph mt-1">Por favor, selecciona un archivo de imagen (jpg, jpeg, png, gif, svg).</div>
                         }
                         @if (personalInfoForm.get('image_user')?.errors?.['fileSize']) {
-                            <div class="text-red-600 text-sm mt-1">El archivo es demasiado grande (máximo 5MB).</div>
+                            <div class="text-tertiary text-paragraph mt-1">El archivo es demasiado grande (máximo 5MB).</div>
                         }
                     }
                 </div>
@@ -177,6 +180,7 @@ export class StepPersonalInfoComponent implements OnInit, OnDestroy {
     personalInfoForm!: FormGroup;
     private destroy$ = new Subject<void>();
     private selectedFile: File | null = null;
+    today: string = new Date().toISOString().split('T')[0];
     imageUrl: string | null = null; // Para mostrar la imagen seleccionada
 
     constructor(private fb: FormBuilder, private wizardService: WizardService) {

@@ -55,7 +55,7 @@ export class WizardService {
         case 2: return this._medicalInfoValid(); 
         case 3: return this._professionalInfoValid();
         case 4: return this._companyInfoValid();
-        case 5: return this._financialInfoValid();
+        case 5: return true /* this._financialInfoValid() */;
         case 6: return this._cryptoWalletInfoValid();
         default: return false; // Por si el índice está fuera de rango
         }
@@ -68,7 +68,7 @@ export class WizardService {
             this._medicalInfoValid() &&
             this._professionalInfoValid() &&
             this._companyInfoValid() &&
-            this._financialInfoValid() &&
+            /* this._financialInfoValid() */ true &&
             this._cryptoWalletInfoValid(); 
     });
 

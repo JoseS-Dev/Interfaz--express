@@ -18,7 +18,7 @@ import { LoaderService } from '../../core/services/loader.service';
   selector: 'home',
   imports: [ImageCarouselComponent, BannerComponent, ContactFormComponent, ServicesComponent, FooterComponent, NavbarComponent, Tangram3dComponent],
   template: `
-    @if (isLoading && !loaderIsHidden()){
+    @if (showTangram && !loaderIsHidden()){
       <tangram3d></tangram3d>
     } @else {
       <navbar />
@@ -31,23 +31,37 @@ import { LoaderService } from '../../core/services/loader.service';
   `,
 })
 export class HomeComponent {
-
+  showTangram = true;
   isLoading = true;
+  isLoadColors = true;
+  tangramKey = 0;
   loaderIsHidden: Signal<boolean>;
   constructor(
     private readonly typographyService: TypographyService,
     private readonly colorsService: ColorsService,
     private readonly loaderService: LoaderService
   ) {
+    
     this.loaderIsHidden = this.loaderService.isHidden;
-
+    this.colorsService.getSelected().subscribe({
+      next: (data) => {
+        if (data) this.loadColors(data);
+        this.isLoadColors = false;
+        this.reloadTangram();
+        this.loadTangram3d();
+      },
+      error: (err) => {
+        console.error('Error al obtener los colores seleccionados', err)
+      },
+    });
+    
     console.log(this.loaderIsHidden())
     if (!this.loaderIsHidden()) {
       console.log(this.loaderIsHidden())
       this.loadTangram3d();
     }
 
-    this.loadTangram3d();
+
     this.typographyService.getSelectedTypography().subscribe({
       next: (data) => {
         this.loadTypography(data)
@@ -59,19 +73,21 @@ export class HomeComponent {
       }
     });
 
-    this.colorsService.getSelected().subscribe({
-      next: (data) => {
-        if (data) this.loadColors(data);
-      },
-      error: (err) => {
-        console.error('Error al obtener los colores seleccionados', err)
-      },
-    })
   }
 
+  reloadTangram() {
+    
+    this.showTangram = false;
+
+    
+    setTimeout(() => {
+      this.showTangram = true;
+    });
+  }
   loadTangram3d() {
     setTimeout(() => {
       this.isLoading = false;
+      this.showTangram = false;
     }, 24000);
   }
 

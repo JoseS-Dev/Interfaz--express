@@ -16,11 +16,11 @@ import { StepMedicalData } from '../../../shared/interfaces/wizard.interface';
         <form [formGroup]="medicalInfoForm">
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="blood_group_user" class="block text-sm font-medium text-quinary">Grupo Sanguíneo:</label>
+                <label for="blood_group_user" class="block text-sm font-medium text-quinary text-paragraph">Grupo Sanguíneo:</label>
                 <select
                 id="blood_group_user"
                 formControlName="blood_group_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary focus:ring-secondary"
                 >
                 <option value="">Selecciona</option>
                 <option value="A+">A+</option>
@@ -33,24 +33,24 @@ import { StepMedicalData } from '../../../shared/interfaces/wizard.interface';
                 <option value="O-">O-</option>
                 </select>
                 @if (medicalInfoForm.get('blood_group_user')?.invalid && (medicalInfoForm.get('blood_group_user')?.dirty || medicalInfoForm.get('blood_group_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El grupo sanguíneo es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El grupo sanguíneo es requerido.</div>
                 }
             </div>
 
             <div>
-                <label for="height_user" class="block text-sm font-medium text-quinary">Estatura (cm):</label>
+                <label for="height_user" class="block text-sm font-medium text-quinary text-paragraph">Estatura (cm):</label>
                 <input
                 id="height_user"
                 type="number"
                 formControlName="height_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary focus:ring-secondary"
                 >
                 @if (medicalInfoForm.get('height_user')?.invalid && (medicalInfoForm.get('height_user')?.dirty || medicalInfoForm.get('height_user')?.touched)) {
                 @if (medicalInfoForm.get('height_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">La estatura es requerida.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La estatura es requerida.</div>
                 }
                 @if (medicalInfoForm.get('height_user')?.errors?.['min'] || medicalInfoForm.get('height_user')?.errors?.['max']) {
-                    <div class="text-red-600 text-sm mt-1">La estatura debe ser entre 50 y 300 cm.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">La estatura debe ser entre 50 y 300 cm.</div>
                 }
                 }
             </div>
@@ -58,48 +58,48 @@ import { StepMedicalData } from '../../../shared/interfaces/wizard.interface';
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="weight_user" class="block text-sm font-medium text-quinary">Peso (kg):</label>
+                <label for="weight_user" class="block text-sm font-medium text-quinary text-paragraph">Peso (kg):</label>
                 <input
                 id="weight_user"
                 type="number"
                 formControlName="weight_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary focus:ring-secondary"
                 >
                 @if (medicalInfoForm.get('weight_user')?.invalid && (medicalInfoForm.get('weight_user')?.dirty || medicalInfoForm.get('weight_user')?.touched)) {
                 @if (medicalInfoForm.get('weight_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">El peso es requerido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El peso es requerido.</div>
                 }
                 @if (medicalInfoForm.get('weight_user')?.errors?.['min'] || medicalInfoForm.get('weight_user')?.errors?.['max']) {
-                    <div class="text-red-600 text-sm mt-1">El peso debe ser entre 1 y 500 kg.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El peso debe ser entre 1 y 500 kg.</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="eye_color_user" class="block text-sm font-medium text-quinary">Color de Ojos:</label>
+                <label for="eye_color_user" class="block text-sm font-medium text-quinary text-paragraph">Color de Ojos:</label>
                 <input
                 id="eye_color_user"
                 type="text"
                 formControlName="eye_color_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary focus:ring-secondary"
                 >
                 @if (medicalInfoForm.get('eye_color_user')?.invalid && (medicalInfoForm.get('eye_color_user')?.dirty || medicalInfoForm.get('eye_color_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El color de ojos es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El color de ojos es requerido.</div>
                 }
             </div>
             </div>
 
             <div class="mb-4">
             <div>
-                <label for="hair_user" class="block text-sm font-medium text-quinary">Color de Cabello:</label>
+                <label for="hair_user" class="block text-sm font-medium text-quinary text-paragraph">Color de Cabello:</label>
                 <input
                 id="hair_user"
                 type="text"
                 formControlName="hair_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary focus:ring-secondary"
                 >
                 @if (medicalInfoForm.get('hair_user')?.invalid && (medicalInfoForm.get('hair_user')?.dirty || medicalInfoForm.get('hair_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El color de cabello es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El color de cabello es requerido.</div>
                 }
             </div>
             </div>

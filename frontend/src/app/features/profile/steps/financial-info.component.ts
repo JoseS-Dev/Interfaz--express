@@ -18,11 +18,11 @@ import { takeUntil } from 'rxjs/operators';
             <form [formGroup]="financialInfoForm">
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="card_type_user" class="block text-sm font-medium text-quinary">Tipo de Tarjeta:</label>
+                        <label for="card_type_user" class="block text-sm font-medium text-quinary text-paragraph">Tipo de Tarjeta:</label>
                         <select
                         id="card_type_user"
                         formControlName="card_type_user" 
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                         >
                             <option value="">Selecciona</option>
                             <option value="Visa">Visa</option>
@@ -30,25 +30,25 @@ import { takeUntil } from 'rxjs/operators';
                             <option value="American Express">American Express</option>
                         </select>
                         @if (financialInfoForm.get('card_type_user')?.invalid && (financialInfoForm.get('card_type_user')?.dirty || financialInfoForm.get('card_type_user')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">El tipo de tarjeta es requerido.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">El tipo de tarjeta es requerido.</div>
                         }
                     </div>
 
                     <div>
-                        <label for="card_number_user" class="block text-sm font-medium text-quinary">Número de Tarjeta:</label>
+                        <label for="card_number_user" class="block text-sm font-medium text-quinary text-paragraph">Número de Tarjeta:</label>
                         <input
                         id="card_number_user"
                         type="text"
                         formControlName="card_number_user"
                         placeholder="XXXX XXXX XXXX XXXX"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                         >
                         @if (financialInfoForm.get('card_number_user')?.invalid && (financialInfoForm.get('card_number_user')?.dirty || financialInfoForm.get('card_number_user')?.touched)) {
                             @if (financialInfoForm.get('card_number_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">El número de tarjeta es requerido.</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">El número de tarjeta es requerido.</div>
                             }
                             @if (financialInfoForm.get('card_number_user')?.errors?.['pattern']) {
-                                <div class="text-red-600 text-sm mt-1">Formato de número de tarjeta inválido (16 dígitos).</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">Formato de número de tarjeta inválido (16 dígitos).</div>
                             }
                         }
                     </div>
@@ -56,20 +56,20 @@ import { takeUntil } from 'rxjs/operators';
 
                 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="card_expire_user" class="block text-sm font-medium text-quinary">Fecha de Expiración (MM/AA):</label>
+                        <label for="card_expire_user" class="block text-sm font-medium text-quinary text-paragraph">Fecha de Expiración (MM/AA):</label>
                         <input
                         id="card_expire_user"
                         type="text"
                         formControlName="card_expire_user"
                         placeholder="MM/AA"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                         >
                         @if (financialInfoForm.get('card_expire_user')?.invalid && (financialInfoForm.get('card_expire_user')?.dirty || financialInfoForm.get('card_expire_user')?.touched)) {
                             @if (financialInfoForm.get('card_expire_user')?.errors?.['required']) {
-                                <div class="text-red-600 text-sm mt-1">La fecha de expiración es requerida.</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">La fecha de expiración es requerida.</div>
                             }
                             @if (financialInfoForm.get('card_expire_user')?.errors?.['pattern']) {
-                                <div class="text-red-600 text-sm mt-1">Formato de fecha inválido (MM/AA).</div>
+                                <div class="text-tertiary text-sm mt-1 text-paragraph">Formato de fecha inválido (MM/AA).</div>
                             }
                             @if (financialInfoForm.get('card_expire_user')?.errors?.['cardExpired']) {
                                 <div class="text-red-600 text-sm mt-1">La tarjeta ha expirado.</div>
@@ -78,11 +78,11 @@ import { takeUntil } from 'rxjs/operators';
                     </div>
 
                     <div>
-                        <label for="currency_user" class="block text-sm font-medium text-quinary">Moneda:</label>
+                        <label for="currency_user" class="block text-sm font-medium text-quinary text-paragraph">Moneda:</label>
                         <select
                         id="currency_user"
                         formControlName="currency_user"
-                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                         >
                             <option value="">Selecciona</option>
                             <option value="USD">Dólar Estadounidense (USD)</option>
@@ -96,27 +96,27 @@ import { takeUntil } from 'rxjs/operators';
                             <option value="Other">Otra</option>
                         </select>
                         @if (financialInfoForm.get('currency_user')?.invalid && (financialInfoForm.get('currency_user')?.dirty || financialInfoForm.get('currency_user')?.touched)) {
-                            <div class="text-red-600 text-sm mt-1">La moneda es requerida.</div>
+                            <div class="text-tertiary text-sm mt-1 text-paragraph">La moneda es requerida.</div>
                         }
                     </div>
                 </div>
 
                 <div class="mb-4">
                 <div>
-                    <label for="iban_user" class="block text-sm font-medium text-quinary">IBAN:</label>
+                    <label for="iban_user" class="block text-sm font-medium text-quinary text-paragraph">IBAN:</label>
                     <input
                     id="iban_user"
                     type="text"
                     formControlName="iban_user"
                     placeholder="Ej: ES91 2100 0418 4502 0005 1332"
-                    class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                     >
                     @if (financialInfoForm.get('iban_user')?.invalid && (financialInfoForm.get('iban_user')?.dirty || financialInfoForm.get('iban_user')?.touched)) {
                     @if (financialInfoForm.get('iban_user')?.errors?.['required']) {
-                        <div class="text-red-600 text-sm mt-1">El IBAN es requerido.</div>
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">El IBAN es requerido.</div>
                     }
                     @if (financialInfoForm.get('iban_user')?.errors?.['pattern']) {
-                        <div class="text-red-600 text-sm mt-1">Formato de IBAN inválido.</div>
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">Formato de IBAN inválido.</div>
                     }
                     }
                 </div>

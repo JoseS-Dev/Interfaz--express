@@ -31,31 +31,31 @@ L.Icon.Default.mergeOptions({
         <form [formGroup]="companyInfoForm">
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="department_company_user" class="block text-sm font-medium text-quinary">Departamento:</label>
+                <label for="department_company_user" class="block text-sm font-medium text-quinary text-paragraph">Departamento:</label>
                 <input
                 id="department_company_user"
                 type="text"
                 formControlName="department_company_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (companyInfoForm.get('department_company_user')?.invalid && (companyInfoForm.get('department_company_user')?.dirty || companyInfoForm.get('department_company_user')?.touched)) {
                 @if (companyInfoForm.get('department_company_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">El departamento es requerido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El departamento es requerido.</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="company_name_user" class="block text-sm font-medium text-quinary">Nombre de la Empresa:</label>
+                <label for="company_name_user" class="block text-sm font-medium text-quinary text-paragraph">Nombre de la Empresa:</label>
                 <input
                 id="company_name_user"
                 type="text"
                 formControlName="company_name_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (companyInfoForm.get('company_name_user')?.invalid && (companyInfoForm.get('company_name_user')?.dirty || companyInfoForm.get('company_name_user')?.touched)) {
                 @if (companyInfoForm.get('company_name_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">El nombre de la empresa es requerido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El nombre de la empresa es requerido.</div>
                 }
                 }
             </div>
@@ -63,121 +63,121 @@ L.Icon.Default.mergeOptions({
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="company_title_user" class="block text-sm font-medium text-quinary">Título/Cargo:</label>
+                <label for="company_title_user" class="block text-sm font-medium text-quinary text-paragraph">Título/Cargo:</label>
                 <input
                 id="company_title_user"
                 type="text"
                 formControlName="company_title_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (companyInfoForm.get('company_title_user')?.invalid && (companyInfoForm.get('company_title_user')?.dirty || companyInfoForm.get('company_title_user')?.touched)) {
                 @if (companyInfoForm.get('company_title_user')?.errors?.['required']) {
-                    <div class="text-red-600 text-sm mt-1">El título/cargo es requerido.</div>
+                    <div class="text-tertiary text-sm mt-1 text-paragraph">El título/cargo es requerido.</div>
                 }
                 }
             </div>
 
             <div>
-                <label for="company_street_user" class="block text-sm font-medium text-quinary">Calle y Número (Empresa):</label>
+                <label for="company_street_user" class="block text-sm font-medium text-quinary text-paragraph">Calle y Número (Empresa):</label>
                 <input
                 id="company_street_user"
                 type="text"
                 formControlName="company_street_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
                 @if (companyInfoForm.get('company_street_user')?.invalid && (companyInfoForm.get('company_street_user')?.dirty || companyInfoForm.get('company_street_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">La calle y número de la empresa son requeridos.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">La calle y número de la empresa son requeridos.</div>
                 }
             </div>
             </div>
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="company_city_user" class="block text-sm font-medium text-quinary">Ciudad (Empresa):</label>
+                <label for="company_city_user" class="block text-sm font-medium text-quinary text-paragraph">Ciudad (Empresa):</label>
                 <input
                 id="company_city_user"
                 type="text"
                 formControlName="company_city_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
                 @if (companyInfoForm.get('company_city_user')?.invalid && (companyInfoForm.get('company_city_user')?.dirty || companyInfoForm.get('company_city_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">La ciudad de la empresa es requerida.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">La ciudad de la empresa es requerida.</div>
                 }
             </div>
 
             <div>
-                <label for="company_state_user" class="block text-sm font-medium text-quinary">Estado/Provincia (Empresa):</label>
+                <label for="company_state_user" class="block text-sm font-medium text-quinary text-paragraph">Estado/Provincia (Empresa):</label>
                 <input
                 id="company_state_user"
                 type="text"
                 formControlName="company_state_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
                 @if (companyInfoForm.get('company_state_user')?.invalid && (companyInfoForm.get('company_state_user')?.dirty || companyInfoForm.get('company_state_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El estado/provincia de la empresa es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El estado/provincia de la empresa es requerido.</div>
                 }
             </div>
             </div>
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="company_state_code_user" class="block text-sm font-medium text-quinary">Código de Estado (Empresa):</label>
+                <label for="company_state_code_user" class="block text-sm font-medium text-quinary text-paragraph">Código de Estado (Empresa):</label>
                 <input
                 id="company_state_code_user"
                 type="text"
                 formControlName="company_state_code_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary"
                 >
                 @if (companyInfoForm.get('company_state_code_user')?.invalid && (companyInfoForm.get('company_state_code_user')?.dirty || companyInfoForm.get('company_state_code_user')?.touched)) {
                     @if (companyInfoForm.get('company_state_code_user')?.errors?.['required']) {
-                        <div class="text-red-600 text-sm mt-1">El código de estado es requerido.</div>
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">El código de estado es requerido.</div>
                     }
                     @if (companyInfoForm.get('company_state_code_user')?.errors?.['pattern']) {
-                        <div class="text-red-600 text-sm mt-1">El código de estado debe ser de 2 letras mayúsculas (ej: CA, NY).</div>
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">El código de estado debe ser de 2 letras mayúsculas (ej: CA, NY).</div>
                     }
                 }
             </div>
 
             <div>
-                <label for="company_postal_code_user" class="block text-sm font-medium text-quinary">Código Postal (Empresa):</label>
+                <label for="company_postal_code_user" class="block text-sm font-medium text-quinary text-paragraph">Código Postal (Empresa):</label>
                 <input
                 id="company_postal_code_user"
                 type="text"
                 formControlName="company_postal_code_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
                 @if (companyInfoForm.get('company_postal_code_user')?.invalid && (companyInfoForm.get('company_postal_code_user')?.dirty || companyInfoForm.get('company_postal_code_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El código postal de la empresa es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El código postal de la empresa es requerido.</div>
                 }
             </div>
             </div>
 
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label for="company_country_user" class="block text-sm font-medium text-quinary">País (Empresa):</label>
+                <label for="company_country_user" class="block text-sm font-medium text-quinary text-paragraph">País (Empresa):</label>
                 <input
                 id="company_country_user"
                 type="text"
                 formControlName="company_country_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
                 @if (companyInfoForm.get('company_country_user')?.invalid && (companyInfoForm.get('company_country_user')?.dirty || companyInfoForm.get('company_country_user')?.touched)) {
-                <div class="text-red-600 text-sm mt-1">El país de la empresa es requerido.</div>
+                <div class="text-tertiary text-sm mt-1 text-paragraph">El país de la empresa es requerido.</div>
                 }
             </div>
 
             <div>
-                <label for="company_latitude_user" class="block text-sm font-medium text-quinary">Latitud (Empresa):</label>
+                <label for="company_latitude_user" class="block text-sm font-medium text-quinary text-paragraph">Latitud (Empresa):</label>
                 <input
                 id="company_latitude_user"
                 type="number"
                 formControlName="company_latitude_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
             </div>
@@ -185,12 +185,12 @@ L.Icon.Default.mergeOptions({
 
             <div class="mb-4">
             <div>
-                <label for="company_longitude_user" class="block text-sm font-medium text-quinary">Longitud (Empresa):</label>
+                <label for="company_longitude_user" class="block text-sm font-medium text-quinary text-paragraph">Longitud (Empresa):</label>
                 <input
                 id="company_longitude_user"
                 type="number"
                 formControlName="company_longitude_user"
-                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100"
+                class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary "
                 readonly
                 >
             </div>
@@ -198,7 +198,7 @@ L.Icon.Default.mergeOptions({
         </form>
 
         <div class="mb-4">
-            <label class="block text-sm font-medium text-quinary">Selecciona la ubicación de la empresa en el mapa:</label>
+            <label class="block text-sm font-medium text-quinary text-paragraph">Selecciona la ubicación de la empresa en el mapa:</label>
             <div style="height: 300px; width: 100%; border-radius: 0.375rem; overflow: hidden;">
             <div
                 leaflet
