@@ -21,6 +21,7 @@ export interface StepAddressData {
     country_address: string | null;
     ip_user: string | null;
     mac_address_user: string | null;
+    user_agent_user: string | null;
 }
 
 export interface StepMedicalData {

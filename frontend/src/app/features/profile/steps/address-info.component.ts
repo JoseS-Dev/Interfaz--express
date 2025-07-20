@@ -146,6 +146,19 @@ L.Icon.Default.mergeOptions({
                         }
                     </div>
                 </div>
+
+                <div class="mb-4">
+                    <label for="user_agent_user" class="block text-sm font-medium text-quinary text-paragraph">User Agent del Usuario:</label>
+                    <input
+                        id="user_agent_user"
+                        type="text"
+                        formControlName="user_agent_user"
+                        class="mt-1 block w-full px-3 py-2 border border-quinary/20 rounded-md shadow-sm focus:outline-none  focus:border-secondary"
+                    >
+                    @if (addressInfoForm.get('user_agent_user')?.invalid && (addressInfoForm.get('user_agent_user')?.dirty || addressInfoForm.get('user_agent_user')?.touched)) {
+                        <div class="text-tertiary text-sm mt-1 text-paragraph">El user agent del usuario es requerido.</div>
+                    }
+                </div>
             </form>
 
             <div class="mb-4">
@@ -237,6 +250,7 @@ export class StepAddressComponent implements OnInit, OnDestroy {
             country_address: [loadedData?.country_address || '', Validators.required],
             ip_user: [loadedData?.ip_user || '', Validators.required],
             mac_address_user: [loadedData?.mac_address_user || '', Validators.required],
+            user_agent_user: [loadedData?.user_agent_user || '', Validators.required],
         });
 
         // Suscribirse a los cambios del formulario para actualizar el servicio.

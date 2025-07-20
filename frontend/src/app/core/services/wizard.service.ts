@@ -186,6 +186,7 @@ export class WizardService {
                         country_address: user.country_address,
                         ip_user: user.ip_user,
                         mac_address_user: user.mac_address_user,
+                        user_agent_user: user.user_agent_user,
                     },
                     medicalInfo: {
                         blood_group_user: user.blood_group_user,

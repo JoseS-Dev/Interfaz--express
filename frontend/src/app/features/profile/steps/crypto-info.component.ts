@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common'; // Para directivas como @if
     imports: [ReactiveFormsModule, CommonModule],
     template: `
         <div class="flex flex-col gap-4 py-4">
-        <h2 class="text-2xl text-subtitle font-bold text-quinary">Información de Cripto Billetera (Opcional)</h2>
+        <h2 class="text-2xl text-subtitle font-bold text-quinary">Información de Cripto Billetera</h2>
 
         <form [formGroup]="cryptoWalletForm">
             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
