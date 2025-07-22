@@ -141,7 +141,6 @@ export class WizardComponent implements OnInit {
     this.wizardService.submitWizard().subscribe({
       next: (response) => {
         console.log('Wizard data submitted successfully:', response);
-        alert('Perfil actualizado/creado con éxito!');
         this.wizardService.resetWizard();
         this.router.navigate(['']);
         Swal.fire({

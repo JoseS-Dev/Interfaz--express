@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { AuthService } from "../../core/services/auth.service";
 import { AsyncPipe } from "@angular/common";
 import { RouterLink, RouterOutlet } from "@angular/router";
+import Swal from "sweetalert2";
 
 interface NavbarOption {
     label: string;
@@ -141,7 +142,12 @@ export class NavbarComponent {
 
     logout() {
         this.authService.logout();
-        location.reload();
+        Swal.fire({
+            title: 'Sesión cerrada',
+            text: 'Has cerrado sesión correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        });
     }
   
     toggleMobileMenu() {
