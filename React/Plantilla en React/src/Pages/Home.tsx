@@ -8,6 +8,7 @@ import LoginModal from "../components/LoginModal";
 import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import { axiosInstance } from "../context/axiosInstances";
+import GalleryVideos from "../components/GalleryVideos";
 
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
       <Hero />
       <Services />
       <Gallery />
+      <GalleryVideos />
       <Contact />
       <Footer />
     </div>
