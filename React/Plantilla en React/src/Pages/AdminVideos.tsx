@@ -1,20 +1,20 @@
 import Header from "../components/Admin/Header";
 
-const AdminImages = () => {
+const AdminVideos = () => {
   return (
     <div className="w-full min-h-screen flex flex-col">
       <Header />
       <div className="flex-1 flex p-4 flex-wrap">
         <div className="flex flex-col items-center gap-6 p-2 px-4 min-w-0 grow-30 basis-0">
           <h2 className="w-full text-xl font-bold border-b-2 text-center">
-            Selecciona una Imagen
+            Selecciona un Video
           </h2>
           <div className="w-full gap-3 flex flex-col">
             <label>
-              <span className="block font-500 text-lg mb-1">Cargar Imagen</span>
+              <span className="block font-500 text-lg mb-1">Cargar Video</span>
               <input
                 type="file"
-                accept="image/*"
+                accept="video/*"
                 className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg w-full"
                 onChange={(e) => {
                   console.log(e.target.files);
@@ -26,7 +26,7 @@ const AdminImages = () => {
               <input
                 type="text"
                 className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg w-full"
-                placeholder="Formato de la imagen"
+                placeholder="Nombre del video"
                 onChange={(e) => {
                   console.log(e.target.value);
                 }}
@@ -37,19 +37,19 @@ const AdminImages = () => {
               <input
                 type="text"
                 className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg w-full"
-                placeholder="Formato de la imagen"
+                placeholder="Formato del video"
                 onChange={(e) => {
                   console.log(e.target.value);
                 }}
               />
             </label>
             <label>
-              <span className="block font-500 text-lg mb-1">Dimensiones</span>
+              <span className="block font-500 text-lg mb-1">Duracion</span>
               <div className="flex gap-2">
                 <input
                   type="number"
                   className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1"
-                  placeholder="Alto en px"
+                  placeholder="Minutos"
                   onChange={(e) => {
                     console.log(e.target.value);
                   }}
@@ -57,7 +57,30 @@ const AdminImages = () => {
                 <input
                   type="number"
                   className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1"
-                  placeholder="Ancho en px"
+                  placeholder="Segundos"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                  }}
+                />
+              </div>
+            </label>
+            <label>
+              <span className="block font-500 text-lg mb-1">Pistas de audio</span>
+              <div className="flex gap-2">
+                <input
+                  type="file"
+                  accept=".utt"
+                  className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1"
+                  placeholder="Subtitulo 1"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                  }}
+                />
+                <input
+                  type="file"
+                  accept=".utt"
+                  className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1"
+                  placeholder="Subtitulo 2"
                   onChange={(e) => {
                     console.log(e.target.value);
                   }}
@@ -96,29 +119,32 @@ const AdminImages = () => {
             Vista Previa
           </h2>
           <div className="">
-            <img
-              src="https://i.ytimg.com/vi/_mPDAQm58i8/maxresdefault.jpg"
+            <video
+              src="https://cdn.pixabay.com/video/2025/06/24/287510_large.mp4"
               className="max-w-full h-auto object-cover"
+              muted
+              controls
+              autoPlay
             />
           </div>
         </div>
         <div className="flex flex-col lg:border-l-2 gap-6 p-2 px-4 min-w-0 grow-40 basis-[100%] lg:basis-0 mt-6 lg:mt-0">
             <h2 className="w-full text-xl font-bold border-b-2 text-center">
-                Registro de Imágenes
+                Registro de Videos
             </h2>
             <div className="text-center">
                 <div className="flex border-b-2 border-blue-800 my-2 py-2 gap-2 rounded-md bg-[#BFCEDF]" aria-label="row">
                     <div className="grow-1" aria-label="id">1</div>
-                    <div className="grow-1" aria-label="name">imagen1</div>
-                    <div className="grow-1" aria-label="format">jpg</div>
-                    <div className="grow-1" aria-label="dimensions">1920x1080</div>
+                    <div className="grow-1" aria-label="name">video1</div>
+                    <div className="grow-1" aria-label="format">mp4</div>
+                    <div className="grow-1" aria-label="duration">5:00</div>
                     <div className="grow-1" aria-label="size">500 KB</div>
                 </div>
                 <div className="flex border-b-2 border-blue-800 my-2 py-2 gap-2 rounded-md" aria-label="row">
                     <div className="grow-1" aria-label="id">2</div>
-                    <div className="grow-1" aria-label="name">imagen2</div>
-                    <div className="grow-1" aria-label="format">jpg</div>
-                    <div className="grow-1" aria-label="dimensions">1920x1080</div>
+                    <div className="grow-1" aria-label="name">video2</div>
+                    <div className="grow-1" aria-label="format">mp4</div>
+                    <div className="grow-1" aria-label="duration">5:00</div>
                     <div className="grow-1" aria-label="size">500 KB</div>
                 </div>
             </div>
@@ -127,4 +153,4 @@ const AdminImages = () => {
     </div>
   );
 };
-export default AdminImages;
+export default AdminVideos;

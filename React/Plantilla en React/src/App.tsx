@@ -12,6 +12,7 @@ import Settings from "./Pages/Settings";
 import { axiosInstance } from "./context/axiosInstances";
 import { useEffect } from "react";
 import AdminImages from "./Pages/AdminImages";
+import AdminVideos from "./Pages/AdminVideos";
 
 const loadFont = (nameFont: string) => {
   return new Promise((resolve) => {
@@ -116,7 +117,7 @@ function App() {
           <Route path="/admin/fonts" element={<AdminFonts />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/images" element={<AdminImages />} />
-          <Route path="/admin/videos" element={<Admin />} />
+          <Route path="/admin/videos" element={<AdminVideos />} />
         </Route>
         <Route element={<PrivateRouteUser />}>
           <Route path="/settings" element={<Settings />} />
