@@ -13,9 +13,9 @@ const SectionButtons = () => {
                 </p>
             </article>
         </section>
-        <section className="w-full lg:w-3/4 flex flex-col items-center justify-center bg-white py-8">
-            <article className="w-full flex flex-col md:flex-row flex-wrap items-center justify-around gap-8">
-                <Link to={'/admin/colors'} className="border-2 border-black max-w-lg md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+        <section className="w-full lg:w-3/4 flex flex-col items-center justify-center bg-white p-8">
+            <article id="grilla" className="w-full grid grid-cols-2 grid-rows-3 gap-y-4 gap-x-16">
+                <Link to={'/admin/colors'} className="border-2 border-black w-full h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 text-center" id='colors'>
                     Cambiar Colores
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ const SectionButtons = () => {
                         <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
                     </svg>
                 </Link>
-                <Link to={'/admin/fonts'} className="border-2 border-black max-w-lg w-full md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+                <Link to={'/admin/fonts'} className="border-2 border-black  w-full h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 text-center" id="fonts">
                     Cambiar Tipografía
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ const SectionButtons = () => {
                         <path d="M11 18h2" />
                     </svg>
                 </Link>
-                <Link to={'/admin/users'} className="border-2 border-black max-w-lg w-full md:w-[26rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200">
+                <Link to={'/admin/users'} className="border-2 border-black  w-full  h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 text-center" id="users">
                     Usuarios
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +78,14 @@ const SectionButtons = () => {
                         <circle cx="12" cy="7" r="4"/>
                         <path d="M2 21v-2a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v2"/>
                     </svg>
+                </Link>
+                <Link to={'/admin/images'} className="border-2 border-black  w-full h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 text-center" id="images">
+                    Cambiar Imagenes
+                    <svg xmlns="http://www.w3.org/2000/svg" height="56px" viewBox="0 -960 960 960" width="56px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
+                </Link>
+                <Link to={'/admin/videos'} className="border-2 border-black w-full h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 text-center" id="videos">
+                    Cambiar Videos
+                    <svg xmlns="http://www.w3.org/2000/svg" height="56px" viewBox="0 -960 960 960" width="56px" fill="currentColor"><path d="m480-420 240-160-240-160v320Zm28 220h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z"/></svg>
                 </Link>
             </article>
         </section>

@@ -82,7 +82,7 @@ Content-Type: application/json
 }
 
 ### Crear usuario
-POST http://localhost:3500/Users/register
+POST http://localhost:8000/Users/register
 Content-Type: application/json
 
 {
@@ -92,6 +92,16 @@ Content-Type: application/json
     "role_user": "admin"
 }
 
+### Crear usuario
+POST http://localhost:8000/Users/register
+Content-Type: application/json
+
+{
+    "email_user": "cerapio@gmail.com",
+    "password_user": "cerapio123",
+    "username": "cerapio",
+    "role_user": "admin"
+}
 
 ### Cerrar sesion
 POST http://localhost:3500/Users/logout

@@ -44,3 +44,25 @@ html {
 .h-9\/10{
   height: 91.5%;
 }
+
+#grilla {
+    grid-template-areas: "colors tipography" "users images" "videos videos";
+}
+
+#colors {
+    grid-area: colors;
+}
+
+#fonts {
+    grid-area: tipography;
+}
+
+#users {
+    grid-area: users;
+}
+#images {
+    grid-area: images;
+}
+#videos {
+    grid-area: videos;
+}
