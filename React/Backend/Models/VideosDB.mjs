@@ -136,4 +136,23 @@ export class ModelsVideos{
             };
         }
     }
+
+    // Eliminar un video con sus audios y subtitulos
+    static async deleteVideo({id_video}){
+        if(!id_video) return {message: "El ID del video es requerido"};
+        // Se verifica si el video existe
+        const [existingVideo] = await connection.query(`SELECT * FROM videos WHERE id_video = ?`, [id_video]);
+        if(existingVideo.length > 0){
+            console.log("Si existe el video, se procederá a eliminarlo");
+            // Se eliminan los audios asociados al video
+            await connection.query(`DELETE FROM audios WHERE id_video = ?`, [id_video]);
+            // Se eliminan los subtítulos asociados al video
+            await connection.query(`DELETE FROM subtitles WHERE id_video = ?`, [id_video]);
+            // Se elimina el video
+            const [deletedVideo] = await connection.query(`DELETE FROM videos WHERE id_video = ?`, [id_video]);
+            if(deletedVideo.affectedRows === 0) return null;
+            console.log("Video eliminado correctamente");
+            return {message: "Video eliminado correctamente"};
+        }
+    }
 }
