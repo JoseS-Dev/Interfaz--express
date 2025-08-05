@@ -53,7 +53,7 @@ export const SchemaAudio = zod.object({
         required_error: 'El formato del audio principal es requerido',
         invalid_type_error: 'El formato del audio principal debe ser una cadena de texto'
     }).refine(value => {
-        const validTypes = ['mp3', 'wav']
+        const validTypes = ['mp3', 'wav', 'm4a', 'x-m4a']
         return validTypes.includes(value.split('.').pop().toLowerCase())
     }),
     
@@ -61,7 +61,7 @@ export const SchemaAudio = zod.object({
         required_error: 'El formato del audio secundario es requerido',
         invalid_type_error: 'El formato del audio secundario debe ser una cadena de texto'
     }).refine(value => {
-        const validTypes = ['mp3', 'wav']
+        const validTypes = ['mp3', 'wav', 'm4a', 'x-m4a']
         return validTypes.includes(value.split('.').pop().toLowerCase())
     }),
     

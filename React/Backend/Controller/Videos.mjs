@@ -1,5 +1,18 @@
 import { validateVideoData, validateVideoUpdateData, validateAudioData, validateSubtitleData } from "../Validations/SchemaVideos.mjs";
 import { parseFile } from 'music-metadata'
+import ffmpeg from 'fluent-ffmpeg';
+import ffprobeStatic from 'ffprobe-static';
+
+ffmpeg.setFfprobePath(ffprobeStatic.path);
+
+const getDurationInSeconds = (filePath) =>
+  new Promise((resolve, reject) => {
+    ffmpeg.ffprobe(filePath, (err, metadata) => {
+      if (err) return reject(err);
+      resolve(metadata.format.duration);
+    });
+  });
+
 
 export class ControllerVideos{
     constructor({ModelsVideos}){
@@ -94,7 +107,12 @@ export class ControllerVideos{
             return res.status(400).json({ message: 'El video es requerido' });
         }
         const metadata = await parseFile(req.file.path);
-        const duration_video = metadata.format.duration || 0; // Duración en segundos
+        // En tu controlador:
+        const duration_video = await getDurationInSeconds(req.file.path);
+        console.log('Duración del video:', duration_video);
+        if (!duration_video || duration_video <= 0) {
+            return res.status(400).json({ message: 'No se pudo obtener la duración del video con ffprobe' });
+        }
         console.log('Archivo recibido:', req.file);
         const videoData = {
             name_video: req.file.originalname,
@@ -107,6 +125,7 @@ export class ControllerVideos{
         const result = validateVideoData(videoData);
         try{
             if(!result.success){
+                console.error('Errores de validación:', result.error.errors);
                 return res.status(400).json({
                     message: 'Datos del video inválidos',
                     errors: result.error.errors
@@ -227,4 +246,140 @@ export class ControllerVideos{
             });
         }
     }
+
+    updateVideoAssets = async (req, res) => {
+        const { id_video } = req.params;
+
+        if (!id_video) return res.status(400).json({ message: 'El ID del video es requerido' });
+
+        try {
+            await connection.beginTransaction();
+
+            // ---------- VIDEO ----------
+            if (req.file) {  // middleware multer para video usa .single('url_video')
+            const metadata = await parseFile(req.file.path);
+            const videoData = {
+                name_video: req.file.originalname,
+                format_video: req.file.mimetype.split('/')[1],
+                duration_video: metadata.format.duration || 0,
+                size_video: req.file.size,
+                url_video: req.file.path,
+            };
+
+            const validationVideo = validateVideoUpdateData(videoData);
+            if (!validationVideo.success) {
+                await connection.rollback();
+                return res.status(400).json({ message: 'Datos del video inválidos', errors: validationVideo.error.errors });
+            }
+
+            await this.ModelsVideos.updateVideo(id_video, validationVideo.data);
+            }
+
+            // ---------- AUDIOS ----------
+            const audioData = {};
+            if (req.files?.url_audio_main) {
+            const audioMain = req.files.url_audio_main[0];
+            const metaMain = await parseFile(audioMain.path);
+            Object.assign(audioData, {
+                name_audio_main: audioMain.originalname,
+                format_audio_main: audioMain.mimetype.split('/')[1],
+                duration_audio_main: metaMain.format.duration || 0,
+                size_audio_main: audioMain.size,
+                url_audio_main: audioMain.path,
+            });
+            }
+            if (req.files?.url_audio_secondary) {
+            const audioSecondary = req.files.url_audio_secondary[0];
+            const metaSecondary = await parseFile(audioSecondary.path);
+            Object.assign(audioData, {
+                name_audio_secondary: audioSecondary.originalname,
+                format_audio_secondary: audioSecondary.mimetype.split('/')[1],
+                duration_audio_secondary: metaSecondary.format.duration || 0,
+                size_audio_secondary: audioSecondary.size,
+                url_audio_secondary: audioSecondary.path,
+            });
+            }
+            if (Object.keys(audioData).length > 0) {
+            const partialAudioSchema = SchemaAudio.partial(); // esquema parcial para actualizar solo campos recibidos
+            const validationAudio = partialAudioSchema.safeParse(audioData);
+            if (!validationAudio.success) {
+                await connection.rollback();
+                return res.status(400).json({ message: 'Datos de audio inválidos', errors: validationAudio.error.errors });
+            }
+            await this.ModelsVideos.updateAudio(id_video, validationAudio.data);
+            }
+
+            // ---------- SUBTÍTULOS ----------
+            const subtitleData = {};
+            if (req.files?.subtitle_main_video) {
+            const subtitleMain = req.files.subtitle_main_video[0];
+            Object.assign(subtitleData, {
+                subtitle_main_video: subtitleMain.path,
+                format_subtitle_main: subtitleMain.mimetype.split('/')[1],
+                size_subtitle_main: subtitleMain.size,
+            });
+            }
+            if (req.files?.subtitle_secondary_video) {
+            const subtitleSecondary = req.files.subtitle_secondary_video[0];
+            Object.assign(subtitleData, {
+                subtitle_secondary_video: subtitleSecondary.path,
+                format_subtitle_secondary: subtitleSecondary.mimetype.split('/')[1],
+                size_subtitle_secondary: subtitleSecondary.size,
+            });
+            }
+            if (Object.keys(subtitleData).length > 0) {
+            const partialSubtitleSchema = SchemaSubtitles.partial();
+            const validationSubtitle = partialSubtitleSchema.safeParse(subtitleData);
+            if (!validationSubtitle.success) {
+                await connection.rollback();
+                return res.status(400).json({ message: 'Datos de subtítulos inválidos', errors: validationSubtitle.error.errors });
+            }
+            await this.ModelsVideos.updateSubtitle(id_video, validationSubtitle.data);
+            }
+
+            await connection.commit();
+            return res.status(200).json({ message: 'Actualización parcial completada correctamente' });
+        } catch (error) {
+            await connection.rollback();
+            console.error('Error actualizando video y sus audios/subtítulos:', error);
+            return res.status(500).json({ message: 'Error en la actualización', error: error.message });
+        }
+    }
+
+    // Select/Deselect video
+    updateVideoSelection = async (req, res) => {
+        const { id_video, is_selected } = req.body;
+
+        if (typeof id_video === 'undefined' || typeof is_selected === 'undefined') {
+            return res.status(400).json({ message: 'El id_video y is_selected son requeridos' });
+        }
+
+        try {
+            const result = await this.ModelsVideos.updateVideoSelection({ id_video, is_selected });
+            if (result.message.includes('No se encontró')) {
+            return res.status(404).json(result);
+            }
+            return res.json(result);
+        } catch (error) {
+            console.error('Error actualizando selección:', error);
+            return res.status(500).json({ message: 'Error actualizando selección', error: error.message });
+        }
+    };
+
+    deleteVideo = async (req, res) => {
+        const { id_video } = req.params;
+
+        if (!id_video) return res.status(400).json({ message: 'El ID del video es requerido' });
+
+        try {
+            const result = await this.ModelsVideos.deleteVideo({ id_video: Number(id_video) });
+            if (!result) {
+            return res.status(404).json({ message: 'No se encontró el video para eliminar' });
+            }
+            return res.json({ message: 'Video eliminado correctamente' });
+        } catch (error) {
+            console.error('Error eliminando video:', error);
+            return res.status(500).json({ message: 'Error eliminando video', error: error.message });
+        }
+    };
 }

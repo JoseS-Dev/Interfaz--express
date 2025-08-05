@@ -27,3 +27,11 @@ RoutesVideos.post('/create', authMiddleware , uploadVideos , controllervideo.cre
 RoutesVideos.post('/create/track/:id_video', uploadAudios, controllervideo.createAudio);
 // Crear los subtitulos para un video
 RoutesVideos.post('/create/subtitles/:id_video', uploadSubtitles, controllervideo.createSubtitle)
+
+// PATCH para actualización parcial múltiple de video, audios y subtítulos
+RoutesVideos.patch('/update/:id_video', authMiddleware, uploadVideos, uploadAudios, uploadSubtitles, controllervideo.updateVideoAssets);
+// PATCH para selección/deselección video
+router.patch('/select', authMiddleware, controllervideo.updateVideoSelection);
+
+// DELETE para eliminar video completo
+router.delete('/:id_video', authMiddleware, controllervideo.deleteVideo);

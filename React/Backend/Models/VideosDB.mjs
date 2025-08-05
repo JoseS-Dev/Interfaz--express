@@ -155,4 +155,115 @@ export class ModelsVideos{
             return {message: "Video eliminado correctamente"};
         }
     }
+
+    // Actualización parcial de un video
+    static async updateVideo(id_video, videoData) {
+        if (!id_video) return { message: 'El ID del video es requerido' };
+        if (!videoData || Object.keys(videoData).length === 0) return { message: 'No hay campos para actualizar' };
+
+        // Dinámicamente armar el SET
+        const fields = [];
+        const values = [];
+        for (const [key, value] of Object.entries(videoData)) {
+        fields.push(`${key} = ?`);
+        values.push(value);
+        }
+        values.push(id_video);
+
+        const [result] = await connection.query(
+        `UPDATE videos SET ${fields.join(', ')} WHERE id_video = ?`,
+        values
+        );
+        if (result.affectedRows === 0) return { message: 'No se pudo actualizar el video' };
+        return { message: 'Video actualizado correctamente' };
+    }
+
+    // Actualización parcial de audio principal y/o secundario
+    static async updateAudio(id_video, audioData) {
+        if (!id_video) return { message: 'El ID del video es requerido' };
+        if (!audioData || Object.keys(audioData).length === 0) return { message: 'No hay campos para actualizar' };
+
+        // Dinámicamente armar el SET
+        const fields = [];
+        const values = [];
+        for (const [key, value] of Object.entries(audioData)) {
+        fields.push(`${key} = ?`);
+        values.push(value);
+        }
+        values.push(id_video);
+
+        const [result] = await connection.query(
+        `UPDATE audios SET ${fields.join(', ')} WHERE id_video = ?`,
+        values
+        );
+        if (result.affectedRows === 0) {
+        // Si no existe, podrías insertar (opcional)
+        return { message: 'No se pudo actualizar el audio. ¿Existe registro para este video?' };
+        }
+        return { message: 'Audio actualizado correctamente' };
+    }
+
+    // Actualización parcial de subtítulos principal y/o secundario
+    static async updateSubtitle(id_video, subtitleData) {
+        if (!id_video) return { message: 'El ID del video es requerido' };
+        if (!subtitleData || Object.keys(subtitleData).length === 0) return { message: 'No hay campos para actualizar' };
+
+        // Dinámicamente armar el SET
+        const fields = [];
+        const values = [];
+        for (const [key, value] of Object.entries(subtitleData)) {
+        fields.push(`${key} = ?`);
+        values.push(value);
+        }
+        values.push(id_video);
+
+        const [result] = await connection.query(
+        `UPDATE subtitles SET ${fields.join(', ')} WHERE id_video = ?`,
+        values
+        );
+        if (result.affectedRows === 0) {
+        // Si no existe, podrías insertar (opcional)
+        return { message: 'No se pudo actualizar el subtítulo. ¿Existe registro para este video?' };
+        }
+        return { message: 'Subtítulos actualizados correctamente' };
+    }
+
+    // ¿Quieres un método global para actualizar todo en bloque? Puedes hacer uno "orquestador":
+    static async updateVideoAll(id_video, videoData, audioData, subtitleData) {
+        if (!id_video) return { message: 'El ID del video es requerido' };
+        try {
+        await connection.beginTransaction();
+
+        if (videoData && Object.keys(videoData).length) {
+            await ModelsVideos.updateVideo(id_video, videoData);
+        }
+        if (audioData && Object.keys(audioData).length) {
+            await ModelsVideos.updateAudio(id_video, audioData);
+        }
+        if (subtitleData && Object.keys(subtitleData).length) {
+            await ModelsVideos.updateSubtitle(id_video, subtitleData);
+        }
+
+        await connection.commit();
+        return { message: 'Actualización completada' };
+        } catch (error) {
+        await connection.rollback();
+        return { message: 'Error en la actualización', error: error.message };
+        }
+    }
+
+    // Actualizar selección de video
+    static async updateVideoSelection({ id_video, is_selected }) {
+        if (!id_video) return { message: 'El ID del video es requerido' };
+        if (is_selected !== 0 && is_selected !== 1) return { message: 'El is_selected debe ser 0 o 1' };
+
+        const [result] = await connection.query(
+            `UPDATE videos SET is_selected = ? WHERE id_video = ?`,
+            [is_selected, id_video]
+        );
+
+        if (result.affectedRows === 0) return { message: 'No se encontró el video para actualizar' };
+        return { message: 'is_selected actualizado correctamente' };
+    }
+
 }

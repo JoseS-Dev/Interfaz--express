@@ -303,6 +303,7 @@ Content-Type: application/json
 
 ### Crear un video
 POST http://localhost:3500/Videos/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb3NlYXNhbnRhbmEwNUBnbWFpbC5jb20iLCJpYXQiOjE3NTQyNjk0OTcsImV4cCI6MTc1NDI3MzA5N30.m-aTClNadgcs1EDAB3HQ7acV1JbolysEiMOWvuS3OLs
 Content-Type: multipart/form-data; boundary=CustomBoundary
 
 --CustomBoundary
@@ -314,6 +315,7 @@ Content-Type: video/mp4
 
 ### Crear las pistas de un video
 POST http://localhost:3500/create/Videos/track/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb3NlYXNhbnRhbmEwNUBnbWFpbC5jb20iLCJpYXQiOjE3NTQyNjk0OTcsImV4cCI6MTc1NDI3MzA5N30.m-aTClNadgcs1EDAB3HQ7acV1JbolysEiMOWvuS3OLs
 Content-Type: multipart/form-data; boundary=CustomBoundary
 
 --CustomBoundary
@@ -330,6 +332,7 @@ Content-Type: audio/mp3
 
 ### Crear los subtitulos de un video
 POST http://localhost:3500/Videos/create/subtitles/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb3NlYXNhbnRhbmEwNUBnbWFpbC5jb20iLCJpYXQiOjE3NTQyNjk0OTcsImV4cCI6MTc1NDI3MzA5N30.m-aTClNadgcs1EDAB3HQ7acV1JbolysEiMOWvuS3OLs
 Content-Type: multipart/form-data; boundary=CustomBoundary
 
 --CustomBoundary

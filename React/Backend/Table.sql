@@ -166,8 +166,8 @@ CREATE TABLE audios(
     size_audio_secondary BIGINT NOT NULL,
     url_audio_main LONGTEXT NOT NULL,
     url_audio_secondary LONGTEXT NOT NULL,
-    FOREIGN KEY (id_video) REFERENCES videos(id_video),
-)
+    FOREIGN KEY (id_video) REFERENCES videos(id_video)
+);
 
 CREATE TABLE subtitles(
     id_subtitle INT PRIMARY KEY AUTO_INCREMENT,
