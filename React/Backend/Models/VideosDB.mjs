@@ -1,6 +1,9 @@
 import {connection} from './db/Connection.mjs';
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export class ModelsVideos{
+
     // Obtener todos los videos
     static async getAllVideos() {
         const [result] = await connection.query(
@@ -138,21 +141,71 @@ export class ModelsVideos{
     }
 
     // Eliminar un video con sus audios y subtitulos
-    static async deleteVideo({id_video}){
-        if(!id_video) return {message: "El ID del video es requerido"};
-        // Se verifica si el video existe
-        const [existingVideo] = await connection.query(`SELECT * FROM videos WHERE id_video = ?`, [id_video]);
-        if(existingVideo.length > 0){
-            console.log("Si existe el video, se procederá a eliminarlo");
-            // Se eliminan los audios asociados al video
+    static async deleteVideo({ id_video }) {
+        if (!id_video) {
+            return { error: "El ID del video es requerido", status: 400 };
+        }
+
+        const basePath = path.resolve('./uploads'); 
+        const videosPath = path.join(basePath, 'videos');
+        const audiosPath = path.join(basePath, 'audios');
+        const subtitlesPath = path.join(basePath, 'subtitles');
+
+        try {
+            const [videoRows] = await connection.query(`SELECT name_video FROM videos WHERE id_video = ?`, [id_video]);
+
+            if (videoRows.length === 0) {
+                console.log(`No se encontró el video con ID: ${id_video}`);
+                return { message: "El video no existe", status: 404 };
+            }
+
+            const [audioRows] = await connection.query(`SELECT name_audio_main, name_audio_secondary FROM audios WHERE id_video = ?`, [id_video]);
+
+            const [subtitleRows] = await connection.query(`SELECT subtitle_main_video, subtitle_secondary_video FROM subtitles WHERE id_video = ?`, [id_video]);
+
+
+            const deleteFile = async (filePath, fileName) => {
+                console.log({filePath, fileName})
+                if (!fileName) return; // Si no hay nombre de archivo, no hace nada
+                try {
+                    await fs.unlink(path.join(filePath, fileName));
+                    console.log(`Archivo eliminado: ${fileName}`);
+                } catch (err) {
+                    if (err.code !== 'ENOENT') {
+                        console.error(`Error al eliminar el archivo ${fileName}:`, err.message);
+                    } else {
+                        console.log(err)
+                        console.log(`El archivo ${fileName} no fue encontrado en el servidor, se continúa con el proceso.`);
+                    }
+                }
+            };
+
+            await deleteFile(videosPath, videoRows[0].name_video);
+
+            for (const audio of audioRows) {
+                await deleteFile(audiosPath, audio.name_audio_main);
+                await deleteFile(audiosPath, audio.name_audio_secondary);
+            }
+
+            for (const subtitle of subtitleRows) {
+                await deleteFile(subtitlesPath, subtitle.subtitle_main_video);
+                await deleteFile(subtitlesPath, subtitle.subtitle_secondary_video);
+            }
+
             await connection.query(`DELETE FROM audios WHERE id_video = ?`, [id_video]);
-            // Se eliminan los subtítulos asociados al video
             await connection.query(`DELETE FROM subtitles WHERE id_video = ?`, [id_video]);
-            // Se elimina el video
-            const [deletedVideo] = await connection.query(`DELETE FROM videos WHERE id_video = ?`, [id_video]);
-            if(deletedVideo.affectedRows === 0) return null;
-            console.log("Video eliminado correctamente");
-            return {message: "Video eliminado correctamente"};
+            const [deletedVideoResult] = await connection.query(`DELETE FROM videos WHERE id_video = ?`, [id_video]);
+
+            if (deletedVideoResult.affectedRows === 0) {
+                return { message: "El video fue encontrado pero no pudo ser eliminado de la base de datos.", status: 500 };
+            }
+
+            console.log("Video y archivos asociados eliminados correctamente.");
+            return { message: "Video y archivos asociados eliminados correctamente.", status: 200 };
+
+        } catch (dbError) {
+            console.error("Error en el proceso de eliminación del video:", dbError);
+            return { error: "Ocurrió un error en el servidor al intentar eliminar el video.", status: 500 };
         }
     }
 

@@ -212,8 +212,8 @@ export class ControllerVideos{
 
         // Datos a pasar a db
         const subtitleData = {
-            subtitle_main_video: subtitles_main.path,
-            subtitle_secondary_video: subtitles_secondary.path,
+            subtitle_main_video: subtitles_main.originalname,
+            subtitle_secondary_video: subtitles_secondary.originalname,
             format_subtitle_main: subtitles_main.mimetype.split('/')[1],
             format_subtitle_secondary: subtitles_secondary.mimetype.split('/')[1],
             size_subtitle_main: subtitles_main.size,

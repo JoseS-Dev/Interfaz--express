@@ -98,8 +98,8 @@ export const SchemaAudio = zod.object({
 
 // Esquema de los datos del subtitulo
 export const SchemaSubtitles = zod.object({
-    subtitle_main_video: zod.string().url(),
-    subtitle_secondary_video: zod.string().url(),
+    subtitle_main_video: zod.string(),
+    subtitle_secondary_video: zod.string(),
     format_subtitle_main: zod.string().refine(value => {
         const validTypes = ['vtt', 'srt']
         return validTypes.includes(value.split('.').pop().toLowerCase())

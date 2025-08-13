@@ -3,7 +3,6 @@ import { axiosInstance } from '../context/axiosInstances';
 
 type VideoType = {
   id_video: number;
-  name_video: string;
   format_video: string;
   duration_video?: number;
   size_video?: number;
@@ -17,7 +16,6 @@ type FormVideosProps = {
 
 export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps) => {
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [nameVideo, setNameVideo] = useState<string>('');
   const [formatVideo, setFormatVideo] = useState<string>('');
   const [durationMinutes, setDurationMinutes] = useState<string>('');
   const [durationSeconds, setDurationSeconds] = useState<string>('');
@@ -32,7 +30,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
   // Carga datos cuando cambia videoEdit
   useEffect(() => {
     if (videoEdit) {
-      setNameVideo(videoEdit.name_video || '');
       setFormatVideo(videoEdit.format_video || '');
       if (videoEdit.duration_video) {
         const m = Math.floor(videoEdit.duration_video / 60);
@@ -56,7 +53,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
       setSubtitleSecondaryFile(null);
     } else {
       // Limpiar formulario
-      setNameVideo('');
       setFormatVideo('');
       setDurationMinutes('');
       setDurationSeconds('');
@@ -73,7 +69,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
     const file = e.target.files && e.target.files[0];
     setVideoFile(file || null);
   };
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => setNameVideo(e.target.value);
   const handleFormatChange = (e: ChangeEvent<HTMLInputElement>) => setFormatVideo(e.target.value);
   const handleDurationMinutesChange = (e: ChangeEvent<HTMLInputElement>) => setDurationMinutes(e.target.value);
   const handleDurationSecondsChange = (e: ChangeEvent<HTMLInputElement>) => setDurationSeconds(e.target.value);
@@ -86,12 +81,8 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (modoCrear && (!videoFile || !nameVideo)) {
-      alert('El video y nombre son obligatorios');
-      return;
-    }
-    if (!nameVideo) {
-      alert('El nombre es obligatorio');
+    if (modoCrear && (!videoFile)) {
+      alert('El video son obligatorios');
       return;
     }
 
@@ -100,7 +91,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
         // CREAR VIDEO
         const videoFormData = new FormData();
         videoFormData.append('url_video', videoFile as File);
-        videoFormData.append('name_video', nameVideo);
 
         const videoRes = await axiosInstance.post('/videos/create', videoFormData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -137,9 +127,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
         if (!videoEdit) return;
 
         const formData = new FormData();
-        console.log('Actualizando video:', nameVideo);
-        formData.append('name_video', nameVideo);
-        console.log('Actualizando video:', nameVideo);
         console.log('Actualizando video:', formData);
         if (formatVideo) formData.append('format_video', formatVideo);
         // No envíes duración ni tamaño pues usualmente se extraen de archivo
@@ -172,10 +159,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
         <label>
           <span className="block mb-1 text-lg font-500">Cargar Video</span>
           <input type="file" accept="video/*" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg w-full" onChange={handleVideoChange} />
-        </label>
-        <label>
-          <span className="block mb-1 text-lg font-500">Nombre</span>
-          <input type="text" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg w-full" placeholder="Nombre del video" onChange={handleNameChange} value={nameVideo} />
         </label>
         <label>
           <span className="block mb-1 text-lg font-500">Pistas de audio</span>
