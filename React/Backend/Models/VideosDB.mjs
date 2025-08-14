@@ -261,6 +261,7 @@ export class ModelsVideos{
         if (!id_video) return { message: 'El ID del video es requerido' };
         if (!subtitleData || Object.keys(subtitleData).length === 0) return { message: 'No hay campos para actualizar' };
 
+        console.log({subtitleData})
         // Dinámicamente armar el SET
         const fields = [];
         const values = [];
@@ -281,30 +282,6 @@ export class ModelsVideos{
         return { message: 'Subtítulos actualizados correctamente' };
     }
 
-    // ¿Quieres un método global para actualizar todo en bloque? Puedes hacer uno "orquestador":
-    static async updateVideoAll(id_video, videoData, audioData, subtitleData) {
-        if (!id_video) return { message: 'El ID del video es requerido' };
-        try {
-        await connection.beginTransaction();
-
-        if (videoData && Object.keys(videoData).length) {
-            await ModelsVideos.updateVideo(id_video, videoData);
-        }
-        if (audioData && Object.keys(audioData).length) {
-            await ModelsVideos.updateAudio(id_video, audioData);
-        }
-        if (subtitleData && Object.keys(subtitleData).length) {
-            await ModelsVideos.updateSubtitle(id_video, subtitleData);
-        }
-
-        await connection.commit();
-        return { message: 'Actualización completada' };
-        } catch (error) {
-        await connection.rollback();
-        return { message: 'Error en la actualización', error: error.message };
-        }
-    }
-
     // Actualizar selección de video
     static async updateVideoSelection({ id_video, is_selected }) {
         if (!id_video) return { message: 'El ID del video es requerido' };
@@ -319,4 +296,21 @@ export class ModelsVideos{
         return { message: 'is_selected actualizado correctamente' };
     }
 
+    // Función auxiliar
+    static async getAssetPathsById({ id_video }) {
+        if (!id_video) return null;
+
+        const [videoRows] = await connection.query(`SELECT name_video FROM videos WHERE id_video = ?`, [id_video]);
+        const [audioRows] = await connection.query(`SELECT name_audio_main, name_audio_secondary FROM audios WHERE id_video = ?`, [id_video]);
+        const [subtitleRows] = await connection.query(`SELECT subtitle_main_video, subtitle_secondary_video FROM subtitles WHERE id_video = ?`, [id_video]);
+
+        const names = {
+            video: videoRows.length > 0 ? videoRows[0].name_video : null,
+            audioMain: audioRows.length > 0 ? audioRows[0].name_audio_main : null,
+            audioSecondary: audioRows.length > 0 ? audioRows[0].name_audio_secondary : null,
+            subtitleMain: subtitleRows.length > 0 ? subtitleRows[0].subtitle_main_video : null,
+            subtitleSecondary: subtitleRows.length > 0 ? subtitleRows[0].subtitle_secondary_video : null,
+        };
+        return names;
+    }
 }

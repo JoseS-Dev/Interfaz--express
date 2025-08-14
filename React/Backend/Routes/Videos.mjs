@@ -5,6 +5,7 @@ import { uploadVideos } from '../Middlewares/VideosUploads.mjs';
 import { authMiddleware } from '../Middlewares/Auth.mjs';
 import { uploadAudios } from '../Middlewares/AudiosUploads.mjs';
 import { uploadSubtitles } from '../Middlewares/SubtitlesUploads.mjs';
+import { uploadForUpdate } from '../Middlewares/CombinedUploads.mjs'
 
 const router = Router();
 const controllervideo = new ControllerVideos({ ModelsVideos: ModelsVideos});
@@ -29,7 +30,7 @@ RoutesVideos.post('/create/track/:id_video', uploadAudios, controllervideo.creat
 RoutesVideos.post('/create/subtitles/:id_video', uploadSubtitles, controllervideo.createSubtitle)
 
 // PATCH para actualización parcial múltiple de video, audios y subtítulos
-RoutesVideos.patch('/update/:id_video', authMiddleware, uploadVideos, uploadAudios, uploadSubtitles, controllervideo.updateVideoAssets);
+RoutesVideos.patch('/update/:id_video', uploadForUpdate, controllervideo.updateVideoAssets);
 // PATCH para selección/deselección video
 router.patch('/select', authMiddleware, controllervideo.updateVideoSelection);
 

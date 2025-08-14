@@ -128,8 +128,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
 
         const formData = new FormData();
         console.log('Actualizando video:', formData);
-        if (formatVideo) formData.append('format_video', formatVideo);
-        // No envíes duración ni tamaño pues usualmente se extraen de archivo
 
         if (videoFile) formData.append('url_video', videoFile);
         if (audioMainFile) formData.append('url_audio_main', audioMainFile);
