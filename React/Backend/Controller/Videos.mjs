@@ -264,7 +264,6 @@ export class ControllerVideos{
                 await fs.unlink(filePath);
                 console.log(`✅ Archivo antiguo eliminado: ${filePath}`);
             } catch (err) {
-                // Si el error es 'ENOENT', el archivo no existía, lo cual está bien.
                 if (err.code !== 'ENOENT') {
                     console.error(`❌ Error al eliminar el archivo ${filePath}:`, err.message);
                 }

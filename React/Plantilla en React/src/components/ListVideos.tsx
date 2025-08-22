@@ -4,12 +4,12 @@ import { axiosInstance } from "../context/axiosInstances";
 import { confirmAction, successAlert } from "../utils/swalHelper";
 
 interface Video {
-    id_video: number;
-    name_video: string;
-    format_video: string;
-    duration_video: number; // en segundos
-    size_video: number; // bytes
-    is_selected: number; // 1 o 0 para seleccionado
+  id_video: number;
+  name_video: string;
+  format_video: string;
+  duration_video: number; // en segundos
+  size_video: number; // bytes
+  is_selected: number; // 1 o 0 para seleccionado
 }
 
 export const ListVideos = ({ videos, onEditClick }) => {
@@ -51,9 +51,8 @@ export const ListVideos = ({ videos, onEditClick }) => {
 
       successAlert({
         title: newSelected === 1 ? "Video seleccionado" : "Video deseleccionado",
-        text: `El video con ID ${id_video} ha sido ${
-          newSelected === 1 ? "seleccionado" : "deseleccionado"
-        }.`,
+        text: `El video con ID ${id_video} ha sido ${newSelected === 1 ? "seleccionado" : "deseleccionado"
+          }.`,
         position: "center",
       });
     } catch (error) {

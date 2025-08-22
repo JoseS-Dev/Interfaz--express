@@ -1,88 +1,135 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { axiosInstance } from '../context/axiosInstances';
+import { PreviewData, VideoType } from '../types/video';
 
-type VideoType = {
-  id_video: number;
-  format_video: string;
-  duration_video?: number;
-  size_video?: number;
+type PreviewVideoMetadata = {
+  fileName?: string;
+  fileFormat?: string;
+  duration?: string;
+  size?: string;
 };
 
 type FormVideosProps = {
   modoCrear: boolean;
   videoEdit: VideoType | null;
   onSuccess: () => void;
+  onPreviewChange: (previewData: PreviewData) => void;
 };
 
-export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps) => {
+export const FormVideos = ({ modoCrear, videoEdit, onSuccess, onPreviewChange }: FormVideosProps) => {
   const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [formatVideo, setFormatVideo] = useState<string>('');
-  const [durationMinutes, setDurationMinutes] = useState<string>('');
-  const [durationSeconds, setDurationSeconds] = useState<string>('');
-  const [sizeFile, setSizeFile] = useState<string>('');
-
   const [audioMainFile, setAudioMainFile] = useState<File | null>(null);
   const [audioSecondaryFile, setAudioSecondaryFile] = useState<File | null>(null);
-
   const [subtitleMainFile, setSubtitleMainFile] = useState<File | null>(null);
   const [subtitleSecondaryFile, setSubtitleSecondaryFile] = useState<File | null>(null);
+  const [localPreview, setLocalPreview] = useState<PreviewData>({
+    videoUrl: null,
+    primarySubtitleUrl: null,
+    secondarySubtitleUrl: null,
+    primaryAudioUrl: null,
+    secondaryAudioUrl: null,
+    videoMetadata: null,
+  });
 
-  // Carga datos cuando cambia videoEdit
+  // Efecto para rellenar el formulario o limpiarlo al cambiar el modo
   useEffect(() => {
-    if (videoEdit) {
-      setFormatVideo(videoEdit.format_video || '');
-      if (videoEdit.duration_video) {
-        const m = Math.floor(videoEdit.duration_video / 60);
-        const s = Math.floor(videoEdit.duration_video % 60);
-        setDurationMinutes(m.toString());
-        setDurationSeconds(s.toString());
-      } else {
-        setDurationMinutes('');
-        setDurationSeconds('');
-      }
-      if (videoEdit.size_video) {
-        setSizeFile(Math.round(videoEdit.size_video / 1024).toString());
-      } else {
-        setSizeFile('');
-      }
-      // Resetea archivos, pues upload es solo si usuario carga nuevos
-      setVideoFile(null);
-      setAudioMainFile(null);
-      setAudioSecondaryFile(null);
-      setSubtitleMainFile(null);
-      setSubtitleSecondaryFile(null);
+    if (!modoCrear && videoEdit) {
+      console.log("[FormVideos] ✏️ Rellenando formulario con datos de video a editar:", videoEdit);
+      const newPreviewData: PreviewData = {
+        videoUrl: videoEdit.url_video,
+        primarySubtitleUrl: videoEdit.url_primary_subtitle,
+        secondarySubtitleUrl: videoEdit.url_secondary_subtitle,
+        primaryAudioUrl: videoEdit.url_primary_audio,
+        secondaryAudioUrl: videoEdit.url_secondary_audio,
+        videoMetadata: {
+          fileName: videoEdit.file_name,
+          fileFormat: videoEdit.file_format,
+          duration: videoEdit.duration,
+          size: videoEdit.size,
+        },
+      };
+      setLocalPreview(newPreviewData);
+      onPreviewChange(newPreviewData);
+      // No rellenamos los inputs de tipo file, ya que no se puede por seguridad
     } else {
-      // Limpiar formulario
-      setFormatVideo('');
-      setDurationMinutes('');
-      setDurationSeconds('');
-      setSizeFile('');
+      console.log("[FormVideos] ✨ Limpiando formulario para modo creación.");
+      const cleanPreviewData = {
+        videoUrl: null,
+        primarySubtitleUrl: null,
+        secondarySubtitleUrl: null,
+        primaryAudioUrl: null,
+        secondaryAudioUrl: null,
+        videoMetadata: null,
+      };
+      setLocalPreview(cleanPreviewData);
+      onPreviewChange(cleanPreviewData);
+      // Limpiar también los estados de los archivos
       setVideoFile(null);
       setAudioMainFile(null);
       setAudioSecondaryFile(null);
       setSubtitleMainFile(null);
       setSubtitleSecondaryFile(null);
     }
-  }, [videoEdit]);
+  }, [videoEdit, modoCrear]);
 
-  const handleVideoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    setVideoFile(file || null);
+  // --- Funciones de manejo de archivos ---
+
+  // Función genérica para manejar cambios en archivos que no son de video principal
+  const handleOtherFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    fileSetter: (file: File | null) => void,
+    previewKey: keyof PreviewData
+  ) => {
+    const file = e.target.files?.[0] || null;
+    fileSetter(file);
+    const localUrl = file ? URL.createObjectURL(file) : null;
+
+    setLocalPreview(prev => {
+      const newState = { ...prev, [previewKey]: localUrl };
+      onPreviewChange(newState);
+      return newState;
+    });
   };
-  const handleFormatChange = (e: ChangeEvent<HTMLInputElement>) => setFormatVideo(e.target.value);
-  const handleDurationMinutesChange = (e: ChangeEvent<HTMLInputElement>) => setDurationMinutes(e.target.value);
-  const handleDurationSecondsChange = (e: ChangeEvent<HTMLInputElement>) => setDurationSeconds(e.target.value);
-  const handleSizeChange = (e: ChangeEvent<HTMLInputElement>) => setSizeFile(e.target.value);
-  const handleAudioMainChange = (e: ChangeEvent<HTMLInputElement>) => setAudioMainFile(e.target.files ? e.target.files[0] : null);
-  const handleAudioSecondaryChange = (e: ChangeEvent<HTMLInputElement>) => setAudioSecondaryFile(e.target.files ? e.target.files[0] : null);
-  const handleSubtitleMainChange = (e: ChangeEvent<HTMLInputElement>) => setSubtitleMainFile(e.target.files ? e.target.files[0] : null);
-  const handleSubtitleSecondaryChange = (e: ChangeEvent<HTMLInputElement>) => setSubtitleSecondaryFile(e.target.files ? e.target.files[0] : null);
+
+  // Función específica para el archivo de video (incluye metadatos)
+  const handleVideoChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setVideoFile(file);
+
+    if (file) {
+      const localUrl = URL.createObjectURL(file);
+      const metadata: PreviewVideoMetadata = {
+        fileName: file.name,
+        fileFormat: file.type,
+        size: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+        // Duración no se puede obtener de forma síncrona, se puede omitir o implementar un método asíncrono
+      };
+      setLocalPreview(prev => {
+        const newState = { ...prev, videoUrl: localUrl, videoMetadata: metadata };
+        onPreviewChange(newState);
+        return newState;
+      });
+    } else {
+      setLocalPreview(prev => {
+        const newState = { ...prev, videoUrl: null, videoMetadata: null };
+        onPreviewChange(newState);
+        return newState;
+      });
+    }
+  };
+
+  // Funciones que llaman a la función genérica
+  const handleAudioMainChange = (e: ChangeEvent<HTMLInputElement>) => handleOtherFileChange(e, setAudioMainFile, 'primaryAudioUrl');
+  const handleAudioSecondaryChange = (e: ChangeEvent<HTMLInputElement>) => handleOtherFileChange(e, setAudioSecondaryFile, 'secondaryAudioUrl');
+  const handleSubtitleMainChange = (e: ChangeEvent<HTMLInputElement>) => handleOtherFileChange(e, setSubtitleMainFile, 'primarySubtitleUrl');
+  const handleSubtitleSecondaryChange = (e: ChangeEvent<HTMLInputElement>) => handleOtherFileChange(e, setSubtitleSecondaryFile, 'secondarySubtitleUrl');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    console.log("[FormVideos] 📤 Enviando formulario...");
 
-    if (modoCrear && (!videoFile)) {
-      alert('El video son obligatorios');
+    if (modoCrear && !videoFile) {
+      alert('El video es obligatorio.');
       return;
     }
 
@@ -91,6 +138,12 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
         // CREAR VIDEO
         const videoFormData = new FormData();
         videoFormData.append('url_video', videoFile as File);
+
+        if (videoFile) {
+          videoFormData.append('file_name', videoFile.name);
+          videoFormData.append('file_format', videoFile.type);
+          videoFormData.append('size', videoFile.size.toString());
+        }
 
         const videoRes = await axiosInstance.post('/videos/create', videoFormData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -103,7 +156,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
           const audioFormData = new FormData();
           if (audioMainFile) audioFormData.append('url_audio_main', audioMainFile);
           if (audioSecondaryFile) audioFormData.append('url_audio_secondary', audioSecondaryFile);
-
           await axiosInstance.post(`/videos/create/track/${id_video}`, audioFormData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
@@ -113,7 +165,6 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
           const subtitleFormData = new FormData();
           if (subtitleMainFile) subtitleFormData.append('subtitle_main_video', subtitleMainFile);
           if (subtitleSecondaryFile) subtitleFormData.append('subtitle_secondary_video', subtitleSecondaryFile);
-
           await axiosInstance.post(`/videos/create/subtitles/${id_video}`, subtitleFormData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
@@ -126,16 +177,18 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess }: FormVideosProps)
         // ACTUALIZAR VIDEO (parcialmente)
         if (!videoEdit) return;
 
-        const formData = new FormData();
-        console.log('Actualizando video:', formData);
+        const updateFormData = new FormData();
 
-        if (videoFile) formData.append('url_video', videoFile);
-        if (audioMainFile) formData.append('url_audio_main', audioMainFile);
-        if (audioSecondaryFile) formData.append('url_audio_secondary', audioSecondaryFile);
-        if (subtitleMainFile) formData.append('subtitle_main_video', subtitleMainFile);
-        if (subtitleSecondaryFile) formData.append('subtitle_secondary_video', subtitleSecondaryFile);
+        // Solo añadimos los archivos si el usuario ha seleccionado uno nuevo
+        if (videoFile) updateFormData.append('url_video', videoFile);
+        if (audioMainFile) updateFormData.append('url_audio_main', audioMainFile);
+        if (audioSecondaryFile) updateFormData.append('url_audio_secondary', audioSecondaryFile);
+        if (subtitleMainFile) updateFormData.append('subtitle_main_video', subtitleMainFile);
+        if (subtitleSecondaryFile) updateFormData.append('subtitle_secondary_video', subtitleSecondaryFile);
 
-        await axiosInstance.patch(`/videos/update/${videoEdit.id_video}`, formData, {
+        // Opcional: si permites editar metadatos que no son de los archivos, agrégalos aquí
+
+        await axiosInstance.patch(`/videos/update/${videoEdit.id}`, updateFormData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
