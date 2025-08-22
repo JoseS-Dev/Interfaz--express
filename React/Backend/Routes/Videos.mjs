@@ -14,6 +14,8 @@ export const RoutesVideos = router;
 // GET
 // Obtener todos los videos
 RoutesVideos.get('/', controllervideo.getAllVideos);
+// Obtener todos los videos seleccionados
+RoutesVideos.get('/selected', controllervideo.getAllSelectedVideos);
 // Obtener un video por su ID
 RoutesVideos.get('/:id_video', controllervideo.getVideosByID);
 // Obtener un video por su formato

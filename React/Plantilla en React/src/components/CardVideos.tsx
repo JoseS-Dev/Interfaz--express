@@ -113,8 +113,7 @@ export const CardVideos = ({ previewData }: CardVideosProps) => {
 
   return (
     <>
-      <div className="flex flex-col min-w-0 gap-6 p-2 px-4 border-l-2 grow-30 basis-0">
-        <h2 className="w-full text-xl font-bold text-center border-b-2">Vista Previa</h2>
+      <div className="flex flex-col min-w-0 gap-6 p-2 px-4 grow-30 basis-0">
         <div className="w-full h-auto cursor-pointer" onClick={openModal}>
           {videoUrl ? (
             <>

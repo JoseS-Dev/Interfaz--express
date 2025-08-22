@@ -398,4 +398,20 @@ export class ControllerVideos{
             return res.status(500).json({ message: 'Error eliminando video', error: error.message });
         }
     };
+    
+    getAllSelectedVideos = async (req, res) => {
+        try {
+            const videos = await this.ModelsVideos.getAllSelectedVideos();
+            return res.status(200).json({
+                message: 'Lista de videos seleccionados obtenida correctamente',
+                data: videos
+            });
+        } catch (error) {
+            console.error('Error al obtener los videos seleccionados:', error);
+            return res.status(500).json({
+                message: 'Error al obtener los videos seleccionados',
+                error: error.message
+            });
+        }
+    }
 }

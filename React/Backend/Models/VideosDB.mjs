@@ -296,6 +296,20 @@ export class ModelsVideos{
         return { message: 'is_selected actualizado correctamente' };
     }
 
+    // Obtener todos los videos seleccionados, junto con sus audios y subtítulos
+    static async getAllSelectedVideos() {
+        const [result] = await connection.query(
+            `SELECT a.*, b.*, c.*
+            FROM videos a
+            LEFT JOIN audios b ON a.id_video = b.id_video
+            LEFT JOIN subtitles c ON a.id_video = c.id_video
+            WHERE a.is_selected = 1
+            ORDER BY a.id_video DESC`
+        );
+        if (result.length === 0) return { message: 'No hay videos seleccionados disponibles' };
+        return result;
+    }
+
     // Función auxiliar
     static async getAssetPathsById({ id_video }) {
         if (!id_video) return null;
