@@ -59,6 +59,7 @@ export const FormImages = () => {
         localStorage.setItem("lastImageCreated", JSON.stringify(result.data || result.data.data));
         window.location.reload();
         if(fileRef.current) fileRef.current.value = "";
+        setImageFile(null);
       }
     }
     catch(error){
@@ -87,20 +88,43 @@ export const FormImages = () => {
       formData.append('dimension_image', imageFile.dimensions);
       formData.append('size_image', imageFile.size.toString());
       formData.append('format_image', imageFile.format);
-      const result = await axiosInstance.patch(`/Images/update/${id_image}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      if(result){
-        await swal.fire({
-          title: "Exito",
-          text: "Imagen actualizada correctamente",
-          icon: "success",
+      const result = await swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, actualizar',
+        cancelButtonText: 'Cancelar'
+      })
+
+      if(result.isConfirmed){
+        const res = await axiosInstance.put(`/Images/update/${id_image}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if(res){
+          await swal.fire({
+            title: "Exito",
+            text: "Imagen actualizada correctamente",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          localStorage.setItem("lastImageCreated", JSON.stringify(res.data || res.data.data));
+          window.location.reload();
+          if(fileRef.current) fileRef.current.value = "";
+          setImageFile(null);
+        }
+      }
+      else{
+        swal.fire({
+          title: "Cancelado",
+          text: "La image no fu actaulizada pero puedes agregar una nueva",
+          icon: "info",
           timer: 2000,
           showConfirmButton: false,
         });
-        localStorage.setItem("lastImageCreated", JSON.stringify(result.data || result.data.data));
-        window.location.reload();
-        if(fileRef.current) fileRef.current.value = "";
       }
     }
     catch(error){
@@ -116,7 +140,7 @@ export const FormImages = () => {
   }
   
   return (
-    <div className="flex flex-col items-center gap-6 p-2 px-4 min-w-0 grow-30 basis-0">
+    <div className="flex flex-col items-center gap-6 p-2 px-4 w-3/10 h-full border-r-2 border-gray-300">
       <h2 className="w-full text-xl font-bold border-b-2 text-center">
         Selecciona una Imagen
       </h2>
