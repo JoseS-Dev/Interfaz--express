@@ -141,7 +141,7 @@ const LoginModal = () => {
   return (
     <div
       id="loginModal"
-      className="hidden fixed inset-0 bg-quinary/75 z-50 flex items-center justify-center font-primary"
+      className=" fixed inset-0 bg-quinary/75 z-50 flex items-center justify-center font-primary"
       onClick={handleModalClick}
     >
       <div className="bg-quaternary p-8 rounded-lg shadow-lg w-11/12 max-w-md">

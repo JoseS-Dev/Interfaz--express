@@ -132,7 +132,18 @@ export class ControllerImages {
     // Actualizar una imagen
     updateImage = async (req, res) => {
         const {id_image} = req.params;
-        const result = validateImageUpdateData(req.body);
+        if(!req.file){
+            return res.status(400).json({message: "No se ha subido ninguna imagen"});
+        }
+        const dimensions = await sharp(req.file.path).metadata();
+        const imageData = {
+            name_image: req.file.originalname,
+            format_image: req.file.mimetype.split('/')[1],
+            size_image: req.file.size / 1024, // Convertir a MB
+            dimension_image: `${dimensions.width}x${dimensions.height}`,
+            url_image: req.file.path
+        }
+        const result = validateImageUpdateData(imageData);
         try{
             if(!result.success){
                 return res.status(400).json({message: result.error.message});

@@ -28,6 +28,7 @@ const Navbar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         logout();
+        localStorage.removeItem('lastImageCreated');
       }
     });
   };

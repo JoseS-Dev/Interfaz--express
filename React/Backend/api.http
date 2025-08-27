@@ -82,7 +82,7 @@ Content-Type: application/json
 }
 
 ### Crear usuario
-POST http://localhost:8000/Users/register
+POST http://localhost:3500/Users/register
 Content-Type: application/json
 
 {

@@ -1,4 +1,5 @@
 export const ListImages = () => {
+    
     return (
         <div className="flex flex-col lg:border-l-2 gap-6 p-2 px-4 min-w-0 grow-40 basis-[100%] lg:basis-0 mt-6 lg:mt-0">
             <h2 className="w-full text-xl font-bold border-b-2 text-center">

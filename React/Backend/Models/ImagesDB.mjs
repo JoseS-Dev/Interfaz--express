@@ -74,19 +74,26 @@ export class ModelsImages {
     // Actualizar una imagen
     static async updateImage({id_image, image}){
         if(!id_image || !image) return {message: "El ID de la imagen y la imagen son requeridos"};
-        const {name_image, format_image, size_image, dimension_image} = image;
+        const {name_image, format_image, size_image, dimension_image, url_image} = image;
         // Se verifica si la image existe
         const [ExistingImage] = await connection.query('SELECT * FROM images WHERE id_image = ?', [id_image]);
         if(ExistingImage.length === 0) return {message: "No se encontró la imagen con el ID proporcionado"};
 
         // Se actualiza la imagen
         const [result] = await connection.query(
-            `UPDATE images SET name_image = ?, format_image = ?, size_image = ?, dimension_image = ? WHERE id_image = ?`,
-            [name_image, format_image, size_image, dimension_image, id_image]
+            `UPDATE images SET name_image = ?, format_image = ?, size_image = ?, dimension_image = ?, url_image = ? WHERE id_image = ?`,
+            [name_image, format_image, size_image, dimension_image, url_image ,id_image]
         )
         if(result.affectedRows === 0) return {message: "No se pudo actualizar la imagen"};
         console.log("Imagen actualizada correctamente");
-        return result;
+        return {
+            id_image,
+            name_image,
+            format_image,
+            size_image,
+            dimension_image,
+            url_image
+        };
     }
 
     // Eliminar una imagen por su ID
