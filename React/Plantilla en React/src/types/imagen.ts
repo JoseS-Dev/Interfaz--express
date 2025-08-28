@@ -5,7 +5,7 @@ export interface ImageData{
     size_image: number;
     dimension_image: string;
     url_image: string;
-    is_selected: boolean;
+    is_selected: number;
 }
 
 export interface PreviewImage{

@@ -111,30 +111,25 @@ export class ModelsImages {
     }
 
     // Seleccionar una imagen por su ID
-    static async selectImage({id_image}){
-        if(!id_image) return {message: "El ID de la imagen es requerido"}
-        // Deseleccionar todas las imagenes
-        await connection.query(
-            `UPDATE images SET is_selected = false`
-        );
-        // Seleccionar la imagen indicada
-        const [result] = await connection.query(
-            `UPDATE images SET is_selected = true WHERE id_image = ?`,
-            [id_image]
-        );
-        if(result.affectedRows > 0){
-            console.log(`Imagen con ID ${id_image} seleccionada correctamente`);
-            // Obtener la imagen seleccionada
-            const [rows] = await connection.query(
-                `SELECT * FROM images WHERE id_image = ?`,
-                [id_image]
-            );
-            return rows[0];
-        } 
-        else {
-            console.log(`No se encontró la imagen con ID ${id_image}`);
-            return null;
-        }
+    static async selectImage({id_image, is_selected}){
+        if(!id_image) return {message: "El ID de la image o el booleno no fue propocionado"};
+        if(is_selected === undefined || is_selected === null) return {message: "is_selecte debe ser 0 o 1"};
+        // Se selecciona la image
+        const [selectedImage] = await connection.query(
+            `UPDATE images SET is_selected = ? WHERE id_image = ?`,
+            [is_selected, id_image]
+        )
+        if(selectedImage.length === 0) return {message: "Hubo un error a la hora de seleccionar la imagen"}
+        console.log("is_selected ha sido cambiado exitosamente");
+        return {message: "is_selected ha sido cambiado exitosamente"} 
     };
-  
+    
+    // Obtener todas las imagenes seleccionadas
+    static async getAllSelected(){
+        const [AllSelected] = await connection.query(
+            `SELECT * FROM images WHERE is_selected = 1`
+        );
+        if(AllSelected.length === 0) return {message: 'No hay imagenes seleccionadas'};
+        return AllSelected;
+    }
 }

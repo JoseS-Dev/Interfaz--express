@@ -164,9 +164,9 @@ export class ControllerImages {
 
     // Seleccionar una imagen
     selectImage = async (req, res) => {
-        const {id_image} = req.params;
+        const {id_image, is_selected} = req.body
         try{
-            const selectedImage = await this.ModelsImages.selectImage({id_image});
+            const selectedImage = await this.ModelsImages.selectImage({id_image, is_selected});
             if(selectedImage){
                 return res.status(200).json({
                     message: "Imagen seleccionada correctamente",
@@ -180,6 +180,23 @@ export class ControllerImages {
         catch(error){
             console.error("Error al seleccionar la imagen:", error);
             return res.status(500).json({message: "Error al seleccionar la imagen"});
+        }
+    }
+
+    // Obtener todas las imagenes seleccionadas
+    getAllSelected = async (req, res) => {
+        try{
+            const AllSelected = await this.ModelsImages.getAllSelected();
+            if(AllSelected){
+                return res.status(200).json({
+                    message: "Image seleccionadas obtenidas correctamente",
+                    data: AllSelected
+                })
+            }
+        }
+        catch(error){
+            console.error("Error al obtener las imagenes seleccionadas", error);
+            return res.status(500).json({message: "Error al obtener las imagenes seleccionadas"});
         }
     }
 }

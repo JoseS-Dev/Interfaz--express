@@ -81,7 +81,8 @@ export const FormImages = () => {
       swal.fire("Error", "Por favor selecciona una imagen", "error");
       return;
     }
-    const id_image = JSON.parse(localStorage.getItem("lastImageCreated") || '{}').data.id_image;
+    const id_image = JSON.parse(localStorage.getItem("lastImageCreated") || '{}').data.id_image
+    || JSON.parse(localStorage.getItem("lastImageCreated") || '{}').id_image;
     try{
       const formData = new FormData();
       formData.append('url_image', imageFile.file);
@@ -100,7 +101,7 @@ export const FormImages = () => {
       })
 
       if(result.isConfirmed){
-        const res = await axiosInstance.put(`/Images/update/${id_image}`, formData, {
+        const res = await axiosInstance.patch(`/Images/update/${id_image}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         if(res){

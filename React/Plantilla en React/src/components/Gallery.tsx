@@ -1,69 +1,32 @@
-
 import React, { useState, useEffect } from 'react';
+import { axiosInstance } from '../context/axiosInstances';
+import type { ImageData } from '../types/imagen';
 
 const Gallery = () => {
+  const [images, setImages] = useState<ImageData[]>([]);
   const [currentSlideDesktop, setCurrentSlideDesktop] = useState(0);
   const [currentSlideMobile, setCurrentSlideMobile] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
   const totalSlidesDesktop = 3;
   const totalSlidesMobile = 9;
+  const filename = `${import.meta.env.VITE_BACKEND_URL}/imagen`;
 
-  const images = [
-    {
-      src: "/src/assets/img/img4.avif",
-      title: "Recepción Moderna",
-      description: "Área de bienvenida cómoda y acogedora",
-      alt: "Recepción moderna"
-    },
-    {
-      src: "/src/assets/img/img5.avif",
-      title: "Sala de Espera",
-      description: "Espacios cómodos para nuestros pacientes",
-      alt: "Sala de espera"
-    },
-    {
-      src: "/src/assets/img/img6.avif",
-      title: "Consultorio Médico",
-      description: "Equipamiento médico de última generación",
-      alt: "Consultorio médico"
-    },
-    {
-      src: "/src/assets/img/img7.jpeg",
-      title: "Laboratorio",
-      description: "Análisis clínicos con tecnología avanzada",
-      alt: "Laboratorio"
-    },
-    {
-      src: "/src/assets/img/img8.avif",
-      title: "Sala de Rehabilitación",
-      description: "Terapia física y rehabilitación integral",
-      alt: "Sala de rehabilitación"
-    },
-    {
-      src: "/src/assets/img/img9.avif",
-      title: "Área de Nutrición",
-      description: "Consultas nutricionales personalizadas",
-      alt: "Área de nutrición"
-    },
-    {
-      src: "/src/assets/img/img10.avif",
-      title: "Quirófano",
-      description: "Cirugías con los más altos estándares",
-      alt: "Quirófano"
-    },
-    {
-      src: "/src/assets/img/img11.avif",
-      title: "Farmacia",
-      description: "Medicamentos y productos de salud",
-      alt: "Farmacia"
-    },
-    {
-      src: "/src/assets/img/img12.avif",
-      title: "Jardín Terapéutico",
-      description: "Espacios verdes para la recuperación",
-      alt: "Jardín terapéutico"
-    }
-  ];
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axiosInstance.get('/Images/Selected/all');
+        setImages(response.data.data || response.data);
+      } catch (error) {
+        console.error('Error al obtener las imágenes:', error);
+      }
+    };
 
+    fetchImages();
+  }, []);
+
+  // Funciones para el carrusel (igual que antes)
   const nextSlideDesktop = () => {
     setCurrentSlideDesktop((prev) => (prev + 1) % totalSlidesDesktop);
   };
@@ -84,7 +47,6 @@ const Gallery = () => {
     setCurrentSlideMobile((prev) => (prev - 1 + totalSlidesMobile) % totalSlidesMobile);
   };
 
-  // Auto-play
   useEffect(() => {
     const intervalDesktop = setInterval(nextSlideDesktop, 6000);
     const intervalMobile = setInterval(nextSlideMobile, 4000);
@@ -93,17 +55,20 @@ const Gallery = () => {
       clearInterval(intervalDesktop);
       clearInterval(intervalMobile);
     };
-  }, []);
+  }, [totalSlidesDesktop, totalSlidesMobile]);
 
   const renderDesktopSlide = (slideIndex: number) => {
     const startIndex = slideIndex * 3;
     return (
       <div className="w-full flex-shrink-0 grid grid-cols-3 gap-4" key={slideIndex}>
         {images.slice(startIndex, startIndex + 3).map((image, index) => (
-          <div key={index} className="aspect-w-16 aspect-h-12">
+          <div 
+            key={index} 
+            className="aspect-w-16 aspect-h-12 cursor-pointer"
+          >
             <img 
-              src={image.src} 
-              alt={image.alt} 
+              src={`${filename}/${image.url_image.split('\\').pop()}`} 
+              alt={image.name_image} 
               className="w-full h-64 object-cover rounded-lg"
             />
           </div>
@@ -167,10 +132,13 @@ const Gallery = () => {
               style={{ transform: `translateX(-${currentSlideMobile * 100}%)` }}
             >
               {images.map((image, index) => (
-                <div key={index} className="w-full flex-shrink-0">
+                <div 
+                  key={index} 
+                  className="w-full flex-shrink-0 cursor-pointer"
+                >
                   <img 
-                    src={image.src.replace('w=600&h=400', 'w=800&h=600')} 
-                    alt={image.alt} 
+                    src={`${filename}/${image.url_image.split('\\').pop()}`} 
+                    alt={image.name_image} 
                     className="w-full h-64 sm:h-80 object-cover rounded-lg"
                   />
                 </div>
@@ -191,6 +159,7 @@ const Gallery = () => {
           </button>
         </div>
       </div>
+
     </section>
   );
 };

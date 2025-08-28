@@ -346,3 +346,12 @@ Content-Type: text/srt
 
 < ../subtitles/subtitles2.srt
 --CustomBoundary--
+
+### Seleccionar o deseleccionar una imagen
+PATCH http://localhost:3500/Images/select
+Content-Type: application/json
+
+{
+    "id_image": 13,
+    "is_selected": 0
+}

@@ -16,6 +16,8 @@ RoutesImages.get('/:id_image', controllerImages.getImageByID);
 RoutesImages.get('/format/:format_image', controllerImages.getImageByFormat);
 // Obtener una imagen por su tamaño
 RoutesImages.get('/size/:size_image', controllerImages.getImageBySize);
+// Obtener todas las imagenes seleccionadas
+RoutesImages.get('/Selected/all', controllerImages.getAllSelected);
 
 // POST
 // Crear una nueva imagen
@@ -25,7 +27,7 @@ RoutesImages.post('/create', authMiddleware, uploadImages, controllerImages.crea
 // Actualizar una imagen por su ID
 RoutesImages.patch('/update/:id_image', uploadImages ,controllerImages.updateImage);
 // Seleccionar una imagen por su ID
-RoutesImages.patch('/select/:id_image', authMiddleware, controllerImages.selectImage);
+RoutesImages.patch('/select', authMiddleware, controllerImages.selectImage);
 
 // DELETE
 // Eliminar una imagen por su ID
