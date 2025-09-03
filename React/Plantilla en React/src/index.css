@@ -66,3 +66,20 @@ html {
 #videos {
     grid-area: videos;
 }
+
+/* Animación para el diálogo */
+@keyframes openModal {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.dialog {
+    color: #eee;
+    animation: openModal 0.3s ease-in-out; /* Aplica la animación */
+}

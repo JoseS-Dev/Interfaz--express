@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { axiosInstance } from '../context/axiosInstances';
 import type { ImageData } from '../types/imagen';
+import { ModalFunction } from './ModalImage';
 
 const Gallery = () => {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -25,6 +26,18 @@ const Gallery = () => {
 
     fetchImages();
   }, []);
+
+  // Function para seleccionar la imagen , para mostrar la información de ella
+  const selectImage = (image: ImageData) => {
+    setSelectedImage(image);
+    setModalOpen(true);
+  }
+
+  // Function para cerrar la ventana modal
+  const closeModal = () => {
+    setSelectedImage(null);
+    setModalOpen(false);
+  }
 
   // Funciones para el carrusel (igual que antes)
   const nextSlideDesktop = () => {
@@ -65,6 +78,7 @@ const Gallery = () => {
           <div 
             key={index} 
             className="aspect-w-16 aspect-h-12 cursor-pointer"
+            onClick={() => selectImage(image)}
           >
             <img 
               src={`${filename}/${image.url_image.split('\\').pop()}`} 
@@ -78,7 +92,7 @@ const Gallery = () => {
   };
 
   return (
-    <section id="galeria" className="py-16 bg-primary font-primary">
+    <section id="galeria" className="py-16 bg-primary font-primary relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl text-subtitle md:text-title font-bold text-center text-secondary mb-12 font-secondary">Nuestras Instalaciones</h2>
         
@@ -159,7 +173,9 @@ const Gallery = () => {
           </button>
         </div>
       </div>
-
+      {modalOpen && (
+        <ModalFunction selectedImage={selectedImage} closeModal={closeModal} />
+      )}
     </section>
   );
 };
