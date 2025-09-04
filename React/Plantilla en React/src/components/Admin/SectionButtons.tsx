@@ -83,9 +83,25 @@ const SectionButtons = () => {
                         Cambiar Imagenes
                         <svg xmlns="http://www.w3.org/2000/svg" height="56px" viewBox="0 -960 960 960" width="56px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z" /></svg>
                     </Link>
-                    <Link to={'/admin/videos'} className="flex flex-col items-center justify-center w-full h-64 gap-4 text-3xl font-bold text-center text-white transition-colors duration-200 bg-blue-600 border-2 border-black cursor-pointer rounded-2xl hover:bg-gray-200 hover:text-black hover:border-blue-700" id="videos">
+
+                    <Link to={'/admin/videos'} className="flex flex-col items-center justify-center w-full h-64 gap-4 text-3xl font-bold text-center text-white transition-colors duration-200 bg-blue-600 border-2 border-black cursor-pointer rounded-2xl hover:bg-gray-200 hover:text-black hover:border-blue-700" id="">
                         Cambiar Videos
                         <svg xmlns="http://www.w3.org/2000/svg" height="56px" viewBox="0 -960 960 960" width="56px" fill="currentColor"><path d="m480-420 240-160-240-160v320Zm28 220h224q-7 26-24 42t-44 20L228-85q-33 5-59.5-15.5T138-154L85-591q-4-33 16-59t53-30l46-6v80l-36 5 54 437 290-36Zm-148-80q-33 0-56.5-23.5T280-360v-440q0-33 23.5-56.5T360-880h440q33 0 56.5 23.5T880-800v440q0 33-23.5 56.5T800-280H360Zm0-80h440v-440H360v440Zm220-220ZM218-164Z" /></svg>
+                    </Link>
+
+                    <Link to={'/admin/loader'} className="flex flex-col items-center justify-center w-full h-64 gap-4 text-3xl font-bold text-center text-white transition-colors duration-200 bg-blue-600 border-2 border-black cursor-pointer rounded-2xl hover:bg-gray-200 hover:text-black hover:border-blue-700" id="loader">
+                        Administrar Loader
+                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#eee" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-loader">
+                            <line x1="12" y1="2" x2="12" y2="6" />
+                            <line x1="12" y1="18" x2="12" y2="22" />
+                            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76" />
+                            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07" />
+                            <line x1="2" y1="12" x2="6" y2="12" />
+                            <line x1="18" y1="12" x2="22" y2="12" />
+                            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24" />
+                            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93" />
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="currentColor" opacity="0.1" />
+                        </svg>
                     </Link>
                 </article>
             </section>
