@@ -7,11 +7,25 @@ import type { PreviewImage } from "../types/imagen";
 
 export const FormImages = () => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const[imageFile, setImageFile] = useState<PreviewImage | null>(null);
+  const [imageFile, setImageFile] = useState<PreviewImage | null>(null);
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const image = await openEditor({ src: file });
+      const image = await openEditor({
+        src: file,
+        cropOptions: {
+          aspect: 16 / 12,
+        },
+        language: "es",
+        modules: ["crop"],
+        initCrop: {
+          unit: "%",
+          width: 80,
+          height: 60,
+          x: 0,
+          y: 0,
+        }
+      });
       const editImage = image.editedImage;
       const blob = await editImage?.getBlob();
       if (!blob) return;
@@ -35,11 +49,11 @@ export const FormImages = () => {
   // Funcion para manejar el submit del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(!imageFile){
+    if (!imageFile) {
       swal.fire("Error", "Por favor selecciona una imagen", "error");
       return;
     }
-    try{
+    try {
       const formData = new FormData();
       formData.append('url_image', imageFile.file);
       formData.append('dimension_image', imageFile.dimensions);
@@ -48,7 +62,7 @@ export const FormImages = () => {
       const result = await axiosInstance.post("/Images/create", formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
-      if(result){
+      if (result) {
         await swal.fire({
           title: "Exito",
           text: "Imagen creada correctamente",
@@ -58,13 +72,13 @@ export const FormImages = () => {
         });
         localStorage.setItem("lastImageCreated", JSON.stringify(result.data || result.data.data));
         window.location.reload();
-        if(fileRef.current) fileRef.current.value = "";
+        if (fileRef.current) fileRef.current.value = "";
         setImageFile(null);
       }
     }
-    catch(error){
+    catch (error) {
       console.error(error);
-      if(error instanceof Error){
+      if (error instanceof Error) {
         swal.fire({
           title: "Error",
           text: error.message,
@@ -77,13 +91,13 @@ export const FormImages = () => {
   // Función para actualizar una imagen en cuestión
   const handleSubmitUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(!imageFile){
+    if (!imageFile) {
       swal.fire("Error", "Por favor selecciona una imagen", "error");
       return;
     }
     const id_image = JSON.parse(localStorage.getItem("lastImageCreated") || '{}').data.id_image
-    || JSON.parse(localStorage.getItem("lastImageCreated") || '{}').id_image;
-    try{
+      || JSON.parse(localStorage.getItem("lastImageCreated") || '{}').id_image;
+    try {
       const formData = new FormData();
       formData.append('url_image', imageFile.file);
       formData.append('dimension_image', imageFile.dimensions);
@@ -100,11 +114,11 @@ export const FormImages = () => {
         cancelButtonText: 'Cancelar'
       })
 
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         const res = await axiosInstance.patch(`/Images/update/${id_image}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
-        if(res){
+        if (res) {
           await swal.fire({
             title: "Exito",
             text: "Imagen actualizada correctamente",
@@ -114,11 +128,11 @@ export const FormImages = () => {
           });
           localStorage.setItem("lastImageCreated", JSON.stringify(res.data || res.data.data));
           window.location.reload();
-          if(fileRef.current) fileRef.current.value = "";
+          if (fileRef.current) fileRef.current.value = "";
           setImageFile(null);
         }
       }
-      else{
+      else {
         swal.fire({
           title: "Cancelado",
           text: "La image no fu actaulizada pero puedes agregar una nueva",
@@ -128,9 +142,9 @@ export const FormImages = () => {
         });
       }
     }
-    catch(error){
+    catch (error) {
       console.error(error);
-      if(error instanceof Error){
+      if (error instanceof Error) {
         swal.fire({
           title: "Error",
           text: error.message,
@@ -139,15 +153,15 @@ export const FormImages = () => {
       }
     }
   }
-  
+
   return (
-    <div className="flex flex-col items-center gap-6 p-2 px-4 w-3/10 h-full border-r-2 border-gray-300">
-      <h2 className="w-full text-xl font-bold border-b-2 text-center">
+    <div className="flex flex-col items-center h-full gap-6 p-2 px-4 border-r-2 border-gray-300 w-3/10">
+      <h2 className="w-full text-xl font-bold text-center border-b-2">
         Selecciona una Imagen
       </h2>
-      <div className="w-full gap-3 flex flex-col">
+      <div className="flex flex-col w-full gap-3">
         <label>
-          <span className="block font-500 text-lg mb-1">Cargar Imagen</span>
+          <span className="block mb-1 text-lg font-500">Cargar Imagen</span>
           <input
             type="file"
             accept="image/*"
@@ -157,7 +171,7 @@ export const FormImages = () => {
           />
         </label>
       </div>
-      <div className="w-full flex justify-between">
+      <div className="flex justify-between w-full">
         <button
           onClick={handleSubmit}
           type="submit"
