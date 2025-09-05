@@ -127,8 +127,8 @@ const GalleryVideos = () => {
     return (
       <>
         {/* Carrusel Desktop (3 en 3) */}
-        <div className="relative hidden lg:block">
-          <div className="overflow-hidden">
+        <div className="hidden lg:block relative">
+          <div className="relative">
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlideDesktop * 100}%)` }}
