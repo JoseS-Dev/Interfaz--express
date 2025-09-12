@@ -2,6 +2,7 @@
 import Banner from '@/components/Banner.vue';
 import Services from '@/components/Services.vue';
 import Carrusel from '@/components/Carrusel.vue';
+import GalleryVideos from '@/components/GalleryVideos.vue';
 import ContactForm from '@/components/ContactForm.vue';
 import Navbar from '@/components/Navbar.vue';
 import LoginModal from '@/components/LoginModal.vue';
@@ -10,8 +11,11 @@ import Footer from '@/components/Footer.vue';
 import { useAuthStore } from '@/store/AuthStore';
 import { onMounted } from 'vue';
 import getNameFont from '@/utilities/getNameFont';
+import { useLoaderStore } from '@/store/LoaderStore';
+import Tamgram from '@/components/Loader/Tamgram.vue';
 
 const authStore = useAuthStore();
+const loaderStore = useLoaderStore();
 const loadFont = (nameFont, font) => {
     return new Promise((resolve) => {
         // Sanear el nombre: eliminar extensión y caracteres no permitidos
@@ -43,6 +47,9 @@ const loadFont = (nameFont, font) => {
 };
 
 onMounted(async() => {
+    // Mostrar loader solo en Home durante 5s
+    loaderStore.showLoader();
+    setTimeout(() => loaderStore.hideLoader(), 5000);
     try {
 
         /* Obtener colores */
@@ -85,11 +92,13 @@ onMounted(async() => {
 </script>
 
 <template>
+    <Tamgram v-if="loaderStore.isVisible" />
     <Navbar />
     <LoginModal v-if="!authStore.isAuthenticated"/>
     <Banner />
     <Services />
     <Carrusel />
+    <GalleryVideos />
     <ContactForm />
     <Footer />
 </template>

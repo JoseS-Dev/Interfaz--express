@@ -10,13 +10,21 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
+    "axios": "^1.7.7",
+    "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^2.4.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.4",
     "pinia": "^3.0.2",
     "sweetalert2": "^11.22.0",
     "tailwindcss": "^4.1.8",
+    "xlsx": "^0.18.5",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "three": "^0.168.0"
   },
   "devDependencies": {
+    "@types/three": "^0.167.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "vite": "^6.2.4",
     "vite-plugin-vue-devtools": "^7.7.2"

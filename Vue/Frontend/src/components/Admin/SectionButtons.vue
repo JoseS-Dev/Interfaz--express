@@ -1,33 +1,31 @@
 <template>
-  <main
-    class="flex flex-col lg:flex-row w-full h-176 bg-white"
-  >
+  <main class="flex flex-col w-full h-full min-h-screen bg-white lg:flex-row">
     <section
-      class="border-b-2 lg:border-b-0 lg:border-r-2 border-blue-600 w-full lg:w-1/4 flex flex-col items-center justify-center px-5 bg-gray-100 py-8"
+      class="flex flex-col items-center justify-center w-full px-5 py-8 bg-gray-100 border-b-2 border-blue-600 lg:border-b-0 lg:border-r-2 lg:w-1/4"
     >
-      <article class="text-center flex flex-col gap-2 tracking-widese">
+      <article class="flex flex-col text-center tracking-widese">
         <h1 class="text-2xl font-bold">Panel Administrativo</h1>
-        <p class="text-md font-semibold">
+        <p class="font-semibold text-md">
           En esta parte administrativa podrás modificar los colores y la
           tipografía de la plantilla
         </p>
       </article>
     </section>
     <section
-      class="w-full lg:w-3/4 flex flex-col items-center justify-center bg-white py-8"
+      class="flex flex-col items-center justify-center w-full py-8 bg-white lg:w-3/4"
     >
-      <article
-        class="w-full flex flex-col md:flex-row items-center justify-around gap-8"
+      <div
+        class="grid w-full max-w-6xl grid-cols-1 gap-6 mx-auto sm:grid-cols-2 xl:grid-cols-3"
       >
         <button
           @click="$router.push('/admin/colors')"
-          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
         >
           Cambiar Colores
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="56"
-            height="56"
+            width="48"
+            height="48"
             viewBox="0 0 24 24"
             fill="currentColor"
             stroke="#eee"
@@ -47,13 +45,13 @@
         </button>
         <button
           @click="$router.push('/admin/fonts')"
-          class="border-2 border-black max-w-lg w-full md:w-[28rem] h-64 rounded-2xl text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
         >
           Cambiar Tipografía
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="56"
-            height="56"
+            width="48"
+            height="48"
             viewBox="0 0 24 24"
             fill="currentColor"
             stroke="#eee"
@@ -71,7 +69,56 @@
             <path d="M11 18h2" />
           </svg>
         </button>
-      </article>
+        <button
+          @click="$router.push('/admin/images')"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
+        >
+          Administrar Imágenes
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+        </button>
+        <button
+          @click="$router.push('/admin/videos')"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
+        >
+          Administrar Videos
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </button>
+        <button
+          @click="$router.push('/admin/loader')"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
+        >
+          Loader
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader">
+            <path d="M12 2v4"/>
+            <path d="M12 18v4"/>
+            <path d="M4.93 4.93l2.83 2.83"/>
+            <path d="M16.24 16.24l2.83 2.83"/>
+            <path d="M2 12h4"/>
+            <path d="M18 12h4"/>
+            <path d="M4.93 19.07l2.83-2.83"/>
+            <path d="M16.24 7.76l2.83-2.83"/>
+          </svg>
+        </button>
+        <button
+          @click="$router.push('/admin/users')"
+          class="border-2 border-black rounded-2xl text-2xl md:text-3xl font-bold bg-blue-600 text-white cursor-pointer flex flex-col justify-center items-center gap-4 hover:bg-gray-200 hover:text-black hover:border-blue-700 transition-colors duration-200 min-h-[10rem] p-6"
+        >
+          Usuarios
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" stroke="#eee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </button>
+      </div>
     </section>
   </main>
 </template>

@@ -68,10 +68,10 @@ const onLogout = async () => {
 
 <template>
   <nav
-    class="bg-quaternary shadow-sm sticky top-0 z-50 scroll-smooth font-primary"
+    class="sticky top-0 z-50 shadow-sm bg-quaternary scroll-smooth font-primary"
   >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <h1
             class="text-xl font-bold text-secondary font-secondary text-subtitle"
@@ -84,51 +84,51 @@ const onLogout = async () => {
           <button
             @click="onClickMobileBtn"
             id="mobile-menu-button"
-            class="text-quinary hover:text-secondary focus:outline-none cursor-pointer"
+            class="cursor-pointer text-quinary hover:text-secondary focus:outline-none"
           >
-            <i class="fas fa-bars text-xl text-subtitle"></i>
+            <i class="text-xl fas fa-bars text-subtitle"></i>
           </button>
         </div>
         <!-- Desktop menu -->
         <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-4">
+          <div class="flex items-baseline ml-10 space-x-4">
             <a
               href="#inicio"
-              class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium scroll-smooth text-paragraph"
+              class="px-3 py-2 text-sm font-medium text-quinary hover:text-secondary scroll-smooth text-paragraph"
               >Inicio</a
             >
             <a
               href="#servicios"
-              class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph"
+              class="px-3 py-2 text-sm font-medium text-quinary hover:text-secondary text-paragraph"
               >Servicios</a
             >
             <a
               href="#galeria"
-              class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph"
+              class="px-3 py-2 text-sm font-medium text-quinary hover:text-secondary text-paragraph"
               >Galería</a
             >
             <a
               href="#contacto"
-              class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph"
+              class="px-3 py-2 text-sm font-medium text-quinary hover:text-secondary text-paragraph"
               >Contacto</a
             >
             <button
               v-if="!authStore.isAuthenticated"
               @click="onToggleLogin"
-              class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph"
+              class="px-4 py-2 text-sm font-medium rounded-md cursor-pointer bg-secondary hover:bg-secondary/75 text-quaternary text-paragraph"
             >
               Login
             </button>
             <RouterLink
               v-else
               to="/admin"
-              class="text-quinary hover:text-secondary px-3 py-2 text-sm font-medium text-paragraph"
+              class="px-3 py-2 text-sm font-medium text-quinary hover:text-secondary text-paragraph"
               >Settings</RouterLink
             >
             <button
               v-if="authStore.isAuthenticated"
               @click="onLogout"
-              class="bg-secondary hover:bg-secondary/75 text-quaternary px-4 py-2 rounded-md text-sm font-medium cursor-pointer text-paragraph"
+              class="px-4 py-2 text-sm font-medium rounded-md cursor-pointer bg-secondary hover:bg-secondary/75 text-quaternary text-paragraph"
             >
               Logout
             </button>
@@ -142,44 +142,44 @@ const onLogout = async () => {
         <a
           @click="onClickLinkMobile"
           href="#inicio"
-          class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
+          class="block px-3 py-2 text-base font-medium text-quinary hover:text-secondary text-paragraph"
           >Inicio</a
         >
         <a
           @click="onClickLinkMobile"
           href="#servicios"
-          class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
+          class="block px-3 py-2 text-base font-medium text-quinary hover:text-secondary text-paragraph"
           >Servicios</a
         >
         <a
           @click="onClickLinkMobile"
           href="#galeria"
-          class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
+          class="block px-3 py-2 text-base font-medium text-quinary hover:text-secondary text-paragraph"
           >Galería</a
         >
         <a
           @click="onClickLinkMobile"
           href="#contacto"
-          class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
+          class="block px-3 py-2 text-base font-medium text-quinary hover:text-secondary text-paragraph"
           >Contacto</a
         >
         <button
           v-if="!authStore.isAuthenticated"
           @click="onToggleLogin"
-          class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph"
+          class="w-full px-3 py-2 text-base font-medium text-left rounded-md cursor-pointer bg-secondary text-quaternary hover:bg-secondary/75 text-paragraph"
         >
           Login
         </button>
         <RouterLink
           v-else
           to="/admin"
-          class="block text-quinary hover:text-secondary px-3 py-2 text-base font-medium text-paragraph"
+          class="block px-3 py-2 text-base font-medium text-quinary hover:text-secondary text-paragraph"
           >Settings</RouterLink
         >
         <button
           v-if="authStore.isAuthenticated"
           @click="onLogout"
-          class="w-full text-left bg-secondary text-quaternary px-3 py-2 rounded-md text-base font-medium hover:bg-secondary/75 cursor-pointer text-paragraph"
+          class="w-full px-3 py-2 text-base font-medium text-left rounded-md cursor-pointer bg-secondary text-quaternary hover:bg-secondary/75 text-paragraph"
         >
           Logout
         </button>
