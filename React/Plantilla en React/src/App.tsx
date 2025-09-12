@@ -99,7 +99,7 @@ const loadStyles = async () => {
     );
 
     console.log("Fuentes Cargadas Correctamente");
-  } catch (err) {
+  } catch (err: any) {
     const error = err.message;
     console.error("Error al cargar los estilos seleccionados:", error);
   }

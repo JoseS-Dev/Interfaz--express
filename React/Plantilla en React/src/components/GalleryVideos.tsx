@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CardVideos } from './CardVideos'; // Asegúrate de que la ruta sea correcta
 import { PreviewData } from '../types/video'; // Asegúrate de que la ruta y el tipo existan
+import { axiosInstance } from '../context/axiosInstances';
 
 // --- Tipos para la respuesta de la API (sin cambios) ---
 interface ApiVideoData {
@@ -36,6 +37,7 @@ const GalleryVideos = () => {
   const [videos, setVideos] = useState<PreviewData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [subtitleColor, setSubtitleColor] = useState('#FFFFFF');
 
   // --- Estado para la lógica del carrusel ---
   const [currentSlideDesktop, setCurrentSlideDesktop] = useState(0);
@@ -44,6 +46,19 @@ const GalleryVideos = () => {
   // Los totales ahora se calculan dinámicamente
   const totalSlidesMobile = videos.length;
   const totalSlidesDesktop = Math.ceil(videos.length / 3);
+
+  const loadSubtitleColor = async () => {
+      try{
+        const res = await axiosInstance.get("/Colors/selected");
+        const selectedColor = res.data.data;
+        if(selectedColor && selectedColor.ternary_color){
+          setSubtitleColor(`#${selectedColor.ternary_color}`);
+        }
+      }
+      catch(error){
+        console.error("Error cargando el color de los subtitulos:", error);
+      }
+    }
 
   // --- Lógica de obtención de datos ---
   useEffect(() => {
@@ -71,6 +86,7 @@ const GalleryVideos = () => {
             }
           }));
           setVideos(transformedData);
+          loadSubtitleColor();
         } else {
           setVideos([]);
         }
@@ -113,7 +129,7 @@ const GalleryVideos = () => {
       <div className="grid flex-shrink-0 w-full grid-cols-3 gap-4" key={slideIndex}>
         {itemsForSlide.map((videoData, index) => (
           // Usamos CardVideos en lugar del <video> simple
-          <CardVideos key={`${slideIndex}-${index}`} previewData={videoData} />
+          <CardVideos key={`${slideIndex}-${index}`} previewData={videoData} subtitleColor={subtitleColor} />
         ))}
       </div>
     );
@@ -158,7 +174,7 @@ const GalleryVideos = () => {
             <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSlideMobile * 100}%)` }}>
               {videos.map((videoData, index) => (
                 <div key={index} className="flex-shrink-0 w-full">
-                  <CardVideos previewData={videoData} />
+                  <CardVideos previewData={videoData} subtitleColor={subtitleColor} />
                 </div>
               ))}
             </div>

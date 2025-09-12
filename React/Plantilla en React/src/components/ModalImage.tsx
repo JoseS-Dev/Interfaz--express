@@ -4,11 +4,11 @@ export function ModalFunction({selectedImage, closeModal}: {selectedImage: Image
   if (!selectedImage) return null;
   const filename = `${import.meta.env.VITE_BACKEND_URL}/imagen`;
   return (
-    <dialog open className='z-10 border-2 border-black w-1/4 h-full bg-gray-400 absolute top-3/10 left-170 p-4 rounded-2xl dialog'>
+    <dialog open className='z-10 border-2 border-black w-3/10 h-full bg-gray-400 absolute top-3/10 left-165 p-4 rounded-2xl dialog'>
         <div className="w-full h-full flex flex-col items-center p- gap-1.5">
             <h3 className="text-2xl text-white tracking-normal w-full border-b-2 border-white">Detalles de la Imagen</h3>
-            <div className="w-full h-1/2">
-                <img src={`${filename}/${selectedImage?.url_image.split('\\').pop()}`} alt={selectedImage?.name_image} className="w-full h-full bg-cover bg-center rounded-2xl" />
+            <div className="w-full h-1/2 flex items-center justify-center">
+                <img src={`${filename}/${selectedImage?.url_image.split('\\').pop()}`} alt={selectedImage?.name_image} className="max-w-full max-h-full object-cover rounded-2xl" />
             </div>
             <div className="w-full h-1/4 border-b-2 border-white flex">
                 <div className="w-1/2 h-full flex flex-col p-2 justify-around border-r-2 border-white">

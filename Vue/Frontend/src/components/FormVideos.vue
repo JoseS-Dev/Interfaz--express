@@ -177,8 +177,8 @@ const handleSubmit = async (e) => {
       <label>
         <span class="block mb-1 text-lg font-500">Pistas de audio</span>
         <div class="flex gap-2">
-          <input type="file" accept=".mp3,.wav,.m4a" class="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Principal" @change="(e) => handleOtherFileChange(e, audioMainFile, 'primaryAudioUrl')" />
-          <input type="file" accept=".mp3,.wav,.m4a" class="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Secundario" @change="(e) => handleOtherFileChange(e, audioSecondaryFile, 'secondaryAudioUrl')" />
+          <input type="file" accept=".mp3,.wav,.m4a,.webm" class="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Principal" @change="(e) => handleOtherFileChange(e, audioMainFile, 'primaryAudioUrl')" />
+          <input type="file" accept=".mp3,.wav,.m4a,.webm" class="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Secundario" @change="(e) => handleOtherFileChange(e, audioSecondaryFile, 'secondaryAudioUrl')" />
         </div>
       </label>
 

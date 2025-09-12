@@ -8,7 +8,7 @@
             <div v-if="videos.length > 0">
                 <!-- Carrusel Desktop -->
                 <div class="hidden lg:block relative">
-                    <div class="overflow-hidden rounded-lg shadow-lg">
+                    <div class="rounded-lg shadow-lg">
                         <div class="flex transition-transform duration-500 ease-in-out" :style="{ transform: `translateX(-${currentSlideDesktop * 100}%)` }">
                             <div v-for="(slide, slideIndex) in desktopSlides" :key="slideIndex" class="w-full flex-shrink-0 grid grid-cols-3 gap-4">
                                 <CardVideos v-for="(video, videoIndex) in slide" :key="videoIndex" :previewData="video" />
@@ -31,7 +31,7 @@
                     <div class="absolute z-10 top-4 right-4 bg-quinary/50 text-quaternary px-3 py-1 rounded-full text-sm text-paragraph">
                         <span>{{ currentSlideMobile + 1 }} / {{ videos.length }}</span>
                     </div>
-                    <div class="overflow-hidden rounded-lg shadow-lg">
+                    <div class=" rounded-lg shadow-lg">
                         <div class="flex transition-transform duration-500 ease-in-out" :style="{ transform: `translateX(-${currentSlideMobile * 100}%)` }">
                             <div v-for="(video, index) in videos" :key="index" class="w-full flex-shrink-0">
                                 <CardVideos :previewData="video" />

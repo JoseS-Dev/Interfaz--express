@@ -9,6 +9,7 @@ export const SectionsVideo = () => {
   const [videos, setVideos] = useState<VideoType[]>([]);
   const [videoEdit, setVideoEdit] = useState<VideoType | null>(null);
   const [modoCrear, setModoCrear] = useState(true);
+  const[subtitleColor, setSubtitleColor] = useState('#FFFFFF');
 
   const [videoPreview, setVideoPreview] = useState<PreviewData>({
     videoUrl: null,
@@ -27,9 +28,22 @@ export const SectionsVideo = () => {
       console.error("Error cargando videos:", error);
     }
   };
+  const loadSubtitleColor = async () => {
+    try{
+      const res = await axiosInstance.get("/Colors/selected");
+      const selectedColor = res.data.data;
+      if(selectedColor && selectedColor.ternary_color){
+        setSubtitleColor(`#${selectedColor.ternary_color}`);
+      }
+    }
+    catch(error){
+      console.error("Error cargando el color de los subtitulos:", error);
+    }
+  }
 
   useEffect(() => {
     loadVideos();
+    loadSubtitleColor();
   }, []);
 
   const handleEditVideo = (video: VideoType) => {
@@ -80,6 +94,7 @@ export const SectionsVideo = () => {
       />
       <CardVideos
         previewData={videoPreview}
+        subtitleColor={subtitleColor}
       />
       <ListVideos
         videos={videos}

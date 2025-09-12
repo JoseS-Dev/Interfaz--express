@@ -5,7 +5,7 @@ interface CardVideosProps {
   previewData: PreviewData;
 }
 
-export const CardVideos = ({ previewData }: CardVideosProps) => {
+export const CardVideos = ({previewData, subtitleColor} : {previewData: PreviewData, subtitleColor: string}) => {
   const {
     videoUrl,
     primaryAudioUrl,
@@ -16,7 +16,6 @@ export const CardVideos = ({ previewData }: CardVideosProps) => {
   } = previewData;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   // --- Referencias para la VISTA PREVIA ---
   const previewVideoRef = useRef<HTMLVideoElement>(null);
   const previewPrimaryAudioRef = useRef<HTMLAudioElement>(null);
@@ -113,6 +112,13 @@ export const CardVideos = ({ previewData }: CardVideosProps) => {
 
   return (
     <>
+      <style>
+        {`
+          Video::cue {
+            color: ${subtitleColor};
+          }
+        `}
+      </style>
       <div className="flex flex-col min-w-0 gap-6 p-2 px-4 grow-30 basis-0">
         <div className="w-full h-auto cursor-pointer" onClick={openModal}>
           {videoUrl ? (
