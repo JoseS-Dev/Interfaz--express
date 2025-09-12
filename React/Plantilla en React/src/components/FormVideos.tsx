@@ -214,8 +214,8 @@ export const FormVideos = ({ modoCrear, videoEdit, onSuccess, onPreviewChange }:
         <label>
           <span className="block mb-1 text-lg font-500">Pistas de audio</span>
           <div className="flex gap-2">
-            <input type="file" accept=".mp3,.wav,.m4a" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Principal" onChange={handleAudioMainChange} />
-            <input type="file" accept=".mp3,.wav,.m4a" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Secundario" onChange={handleAudioSecondaryChange} />
+            <input type="file" accept=".mp3,.wav,.m4a,.webm" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Principal" onChange={handleAudioMainChange} />
+            <input type="file" accept=".mp3,.wav,.m4a, .webm" className="px-4 py-2 border-2 border-gray-300 bg-[#DFEEFF]/50 rounded-lg min-w-0 flex-1" placeholder="Audio Secundario" onChange={handleAudioSecondaryChange} />
           </div>
         </label>
         <label>

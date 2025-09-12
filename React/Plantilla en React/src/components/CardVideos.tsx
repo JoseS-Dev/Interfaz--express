@@ -146,7 +146,7 @@ export const CardVideos = ({ previewData }: CardVideosProps) => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={closeModal}>
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={closeModal}>
           <div className="relative flex flex-col w-11/12 max-w-4xl p-4 bg-white rounded-lg shadow-xl md:p-6" onClick={(e) => e.stopPropagation()}>
             <svg onClick={closeModal} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="absolute text-3xl text-gray-700 transition-colors duration-200 cursor-pointer lucide lucide-circle-x top-2 right-2 hover:text-red-500"><circle cx="12" cy="12" r="10" /><path d="m15 9-6 6" /><path d="m9 9 6 6" /></svg>
             <h3 className="mb-4 text-2xl font-bold text-center border-b-2 border-gray-200 md:mb-6">Reproductor de Video</h3>
